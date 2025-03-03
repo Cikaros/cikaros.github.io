@@ -1,0 +1,1034 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="控制台由一个输入缓冲区和一个或多个屏幕缓冲区组成。 输入缓冲区包含输入记录的队列，其中每个队列都包含有关输入事件的信息。输入队列始终包含按键和键释放事件。 它还可能包含鼠标事件 (指针移动、按钮按下和释放) 和事件，用户操作在此期间影响活动屏幕缓冲区的大小。屏幕缓冲区是一个在控制台窗口中输出的二维字符和颜色数据数组。 任意数量的进程都可以共享控制台。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows Console API">
+<meta property="og:url" content="https://blog.cikaros.top/doc/66ed7485.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="控制台由一个输入缓冲区和一个或多个屏幕缓冲区组成。 输入缓冲区包含输入记录的队列，其中每个队列都包含有关输入事件的信息。输入队列始终包含按键和键释放事件。 它还可能包含鼠标事件 (指针移动、按钮按下和释放) 和事件，用户操作在此期间影响活动屏幕缓冲区的大小。屏幕缓冲区是一个在控制台窗口中输出的二维字符和颜色数据数组。 任意数量的进程都可以共享控制台。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-20T19:17:17.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.629Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="OS">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="Console">
+<meta property="article:tag" content="API">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Windows Console API - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Windows Console API"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-21 03:17" pubdate>
+          2022年8月21日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Windows Console API</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>控制台由一个输入缓冲区和一个或多个屏幕缓冲区组成。 输入缓冲区包含输入记录的队列，其中每个队列都包含有关输入事件的信息。<br>输入队列始终包含按键和键释放事件。 它还可能包含鼠标事件 (指针移动、按钮按下和释放) 和事件，用户操作在此期间影响活动屏幕缓冲区的大小。<br>屏幕缓冲区是一个在控制台窗口中输出的二维字符和颜色数据数组。 任意数量的进程都可以共享控制台。</p>
+<span id="more"></span>
+
+<h2 id="对Console的理解"><a href="#对Console的理解" class="headerlink" title="对Console的理解"></a>对Console的理解</h2><p>官方一般都是长篇大论，这里记录一下我对Console的理解：</p>
+<p>Console主要包括两个部分：</p>
+<ul>
+<li>InputBufferArea</li>
+<li>OutputBufferArea</li>
+</ul>
+<p>所以对Console而言，其内部就是多个封装好的内存空间需求按照一定的规则使用而已。针对Console的函数主要包括以下几个：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolewindow">GetConsoleWindow</a> 获取与调用进程关联的控制台使用的窗口句柄。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getstdhandle">GetStdHandle</a> 获取标准输入、标准输出或标准错误设备的句柄。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setstdhandle">SetStdHandle</a> 设置标准输入、标准输出或标准错误设备的句柄。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/allocconsole">AllocConsole</a> 申请新的终端</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolecp">GetConsoleCP</a> 获取控制台使用的输入代码页。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolecp">SetConsoleCP</a> 设置与调用进程关联的控制台使用的输入代码页。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsoledisplaymode">GetConsoleDisplayMode</a> 获取当前控制台的显示模式</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsoleoriginaltitle">GetConsoleOriginalTitle</a> 获取当前控制台窗口的原始标题。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsoletitle">GetConsoleTitle</a> 获取当前控制台窗口的标题。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsoletitle">SetConsoleTitle</a> 设置当前控制台窗口的标题。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsoleoutputcp">GetConsoleOutputCP</a> 获取与调用进程关联的控制台使用的输出代码页。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsoleoutputcp">SetConsoleOutputCP</a> 设置与调用进程关联的控制台使用的输出代码页。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsoleselectioninfo">GetConsoleSelectionInfo</a> 获取有关当前控制台选择的信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getcurrentconsolefont">GetCurrentConsoleFont</a> 获取有关当前控制台字体的信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getcurrentconsolefontex">GetCurrentConsoleFontEx</a> 获取有关当前控制台字体的扩展信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setcurrentconsolefontex">SetCurrentConsoleFontEx</a> 设置有关当前控制台字体的扩展信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getnumberofconsolemousebuttons">GetNumberOfConsoleMouseButtons</a> 获取当前控制台使用的鼠标上的按钮数。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsoleactivescreenbuffer">SetConsoleActiveScreenBuffer</a> 将指定的屏幕缓冲区设置为当前显示的控制台屏幕缓冲区。</li>
+</ul>
+<p>对Child Console的支持如下：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/createpseudoconsole">CreatePseudoConsole</a> 创建一个子终端</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/closepseudoconsole">ClosePseudoConsole</a> 关闭子终端</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/resizepseudoconsole">ResizePseudoConsole</a> 将伪容器的内部缓冲区大小调整为给定大小。</li>
+</ul>
+<h2 id="BufferArea-缓冲区"><a href="#BufferArea-缓冲区" class="headerlink" title="BufferArea(缓冲区)"></a>BufferArea(缓冲区)</h2><p>缓冲区，也就是内存。数据通过缓冲区传递到各个地方，比如：文件中、屏幕上、打印机打印等。</p>
+<p>当然上述例子中都是输出缓冲区，输入缓冲区所做的就是对数据的一个暂存。以方便我们来读取而已。<br>这里的读取也就是事件处理（键盘事件、鼠标事件等），根据事件类型来实现不同的效果。<br>像在屏幕上输入文字、写入到文件、作为控制信号（比如按<code>ESC</code>退出程序等）等。</p>
+<h3 id="InputBufferArea-输入缓冲区"><a href="#InputBufferArea-输入缓冲区" class="headerlink" title="InputBufferArea(输入缓冲区)"></a>InputBufferArea(输入缓冲区)</h3><p>在Console中输入缓冲区就只有一个，所以针对输入缓冲区的操作而言就很简单，主要包括以下几个函数：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/flushconsoleinputbuffer">FlushConsoleInputBuffer</a> 刷新控制台输入缓冲区。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getnumberofconsoleinputevents">GetNumberOfConsoleInputEvents</a> 获取控制台输入缓冲区中未读的输入记录数。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/peekconsoleinput">PeekConsoleInput</a> 从指定的控制台输入缓冲区读取数据，而无需将其从缓冲区中删除。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/readconsole">ReadConsole</a> 从控制台输入缓冲区读取字符输入，并将其从缓冲区中删除。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/readconsoleinput">ReadConsoleInput</a> 从控制台输入缓冲区读取数据，并将其从缓冲区中删除。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleinput">WriteConsoleInput</a> 将数据直接写入控制台输入缓冲区。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/readconsoleinputex">ReadConsoleInputEx</a> 从控制台输入缓冲区读取数据，并将其从缓冲区中删除，并具有可配置的行为。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolectrlhandler">SetConsoleCtrlHandler</a> 从调用进程的处理程序函数列表中添加或删除应用程序定义的 HandlerRoutine 。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/handlerroutine">HandlerRoutine</a> 与 SetConsoleCtrlHandler 函数一起使用的应用程序定义函数。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolemode">GetConsoleMode</a> 获取主机输入缓冲区的当前输入模式或控制台屏幕缓冲区的当前输出模式。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolemode">SetConsoleMode</a> 设置控制台输入缓冲区的输入模式或控制台屏幕缓冲区的输出模式。</li>
+</ul>
+<h3 id="OutputBufferArea-输出缓冲区"><a href="#OutputBufferArea-输出缓冲区" class="headerlink" title="OutputBufferArea(输出缓冲区)"></a>OutputBufferArea(输出缓冲区)</h3><p>输出缓冲区，我把它成为Console的场景，因为我们可以手动的创建多个输出缓冲区，并给终端更换当前显示的缓冲区，达到一个游戏进入下一关切换场景的效果。输出缓冲区主要包括以下几个函数：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/createconsolescreenbuffer">CreateConsoleScreenBuffer</a> 创建控制台屏幕缓冲区。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/fillconsoleoutputattribute">FillConsoleOutputAttribute</a> 设置指定数量的字符单元格的文本和背景色属性。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/fillconsoleoutputcharacter">FillConsoleOutputCharacter</a> 将字符按指定数量写入输出缓冲区。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolecursorinfo">GetConsoleCursorInfo</a> 获取指定控制台屏幕缓冲区游标的大小和可见性信息</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolecursorinfo">SetConsoleCursorInfo</a> 设置指定控制台屏幕缓冲区的游标的大小和可见性。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolefontsize">GetConsoleFontSize</a> 获取指定控制台屏幕缓冲区使用的字体大小</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolescreenbufferinfo">GetConsoleScreenBufferInfo</a> 获取有关指定控制台屏幕缓冲区的信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolescreenbufferinfoex">GetConsoleScreenBufferInfoEx</a> 获取有关指定控制台屏幕缓冲区的扩展信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolescreenbufferinfoex">SetConsoleScreenBufferInfoEx</a> 设置有关指定控制台屏幕缓冲区的扩展信息。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getlargestconsolewindowsize">GetLargestConsoleWindowSize</a> 获取最大可能控制台窗口的大小。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/scrollconsolescreenbuffer">ScrollConsoleScreenBuffer</a> 在屏幕缓冲区中移动数据块。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolecursorposition">SetConsoleCursorPosition</a> 设置指定控制台屏幕缓冲区中的光标位置。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsoledisplaymode">SetConsoleDisplayMode</a> 设置指定控制台屏幕缓冲区的显示模式。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/getconsolemode">GetConsoleMode</a> 获取主机输入缓冲区的当前输入模式或控制台屏幕缓冲区的当前输出模式。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolemode">SetConsoleMode</a> 设置控制台输入缓冲区的输入模式或控制台屏幕缓冲区的输出模式。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolescreenbuffersize">SetConsoleScreenBufferSize</a> 更改指定控制台屏幕缓冲区的大小。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsoletextattribute">SetConsoleTextAttribute</a> 设置写入控制台屏幕缓冲区的字符的前景 (文本) 和背景色属性。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/setconsolewindowinfo">SetConsoleWindowInfo</a> 设置控制台屏幕缓冲区窗口的当前大小和位置。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/writeconsole">WriteConsole</a> 从当前光标位置开始，将字符串写入控制台屏幕缓冲区。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/readconsoleoutput">ReadConsoleOutput</a> 从控制台屏幕缓冲区中字符单元格的矩形块读取字符和颜色属性数据。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutput">WriteConsoleOutput</a> 将字符和颜色属性数据写入控制台屏幕缓冲区中字符单元格的指定矩形块。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/readconsoleoutputattribute">ReadConsoleOutputAttribute</a> 从控制台屏幕缓冲区的连续单元格复制指定的前景和背景色属性。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutputattribute">WriteConsoleOutputAttribute</a> 将许多前景和背景色属性复制到控制台屏幕缓冲区的连续单元格。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/readconsoleoutputcharacter">ReadConsoleOutputCharacter</a> 从控制台屏幕缓冲区的连续单元格复制多个字符。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutputcharacter">WriteConsoleOutputCharacter</a> 将多个字符复制到控制台屏幕缓冲区的连续单元格。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/OS/Windows/" class="category-chain-item">Windows</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/OS/Windows/kernel-API/" class="category-chain-item">kernel API</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/" class="print-no-link">#OS</a>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/Console/" class="print-no-link">#Console</a>
+      
+        <a href="/tags/API/" class="print-no-link">#API</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Windows Console API</div>
+      <div>https://blog.cikaros.top/doc/66ed7485.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/a3f58b37.html" title="RSA非对称加密原理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RSA非对称加密原理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/fd3c199a.html" title="Dockerfile的使用">
+                        <span class="hidden-mobile">Dockerfile的使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

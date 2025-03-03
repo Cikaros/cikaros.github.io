@@ -1,0 +1,1304 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="注册表是Windows操作系统中的一个重要数据库，用于存储系统和应用程序的设置和配置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 注册表">
+<meta property="og:url" content="https://blog.cikaros.top/doc/5ef1aa76.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="注册表是Windows操作系统中的一个重要数据库，用于存储系统和应用程序的设置和配置。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-14T10:17:17.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.629Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="OS">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="注册表">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Windows 注册表 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Windows 注册表"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-14 18:17" pubdate>
+          2023年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Windows 注册表</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>注册表是Windows操作系统中的一个重要数据库，用于存储系统和应用程序的设置和配置。</p>
+<span id="more"></span>
+<h2 id="注册表项介绍"><a href="#注册表项介绍" class="headerlink" title="注册表项介绍"></a>注册表项介绍</h2><ul>
+<li><code>HKEY_CLASSES_ROOT</code> 存储了文件类型和关联的应用程序信息，一般用于双击时打开何种程序。</li>
+<li><code>HKEY_CURRENT_USER</code> 存储当前用户的个人设置和信息，包括桌面背景、文件夹选项等。</li>
+<li><code>HKEY_LOCAL_MACHINE</code> 存储了计算机的硬件信息和软件配置信息，包括设备驱动程序、系统服务等。</li>
+<li><code>HKEY_USERS</code> 存储了系统中所有用户的设置和配置，包括<code>HKEY_CURRENT_USER</code>的用户信息。</li>
+<li><code>HKEY_CURRENT_CONFIG</code> 存储了当前系统的硬件配置信息，包括处理器、内存、显示器等。</li>
+<li><code>HKEY_DYN_DATA</code> 存储了系统的动态硬件信息，包括正在使用的硬件设备的信息。例如内存、处理器等。</li>
+<li><code>HKEY_PERFORMANCE_DATA</code> 存储了系统性能相关信息，例如CPU使用率、磁盘IO等。</li>
+<li><code>HKEY_PERFORMANCE_DATA</code>：存储系统性能数据，包括系统启动时间、CPU利用率、内存使用情况等。</li>
+<li><code>HKEY_USERS.DEFAULT</code>：存储新用户的默认配置信息。</li>
+</ul>
+<h3 id="常见注册表项"><a href="#常见注册表项" class="headerlink" title="常见注册表项"></a>常见注册表项</h3><ul>
+<li><code>HKEY_CLASSES_ROOT\Directory</code> 存储了Windows资源管理器中文件夹的默认视图和行为。</li>
+<li><code>HKEY_CURRENT_USER\Control Panel\Desktop</code> 存储了桌面相关的配置信息，例如屏幕保护程序、背景图片等。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software</code> 存储了安装在系统中的应用程序的配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\System\CurrentControlSet</code> 存储了系统的当前配置信息，包括驱动程序、系统服务等。</li>
+<li><code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Enum</code> 存储硬件设备的配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services</code> 存储了Windows系统服务的配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment</code> 存储系统环境变量的配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Classes</code> 存储文件类型关联信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Main</code> 存储Internet Explorer浏览器的主要配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion</code> 存储系统的版本信息和用户配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon</code> 存储Windows登录界面的配置信息，例如自动登录、欢迎动画等。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Drivers32</code> 存储了Windows系统的音频驱动程序相关的配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies</code> 存储系统策略的配置信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run</code> 存储Windows启动时需要自动运行的程序信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall</code> 存储已安装程序的卸载信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders</code>：存储Windows资源管理器中各个文件夹的路径信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders</code>：存储当前用户的Windows资源管理器中各个文件夹的路径信息。</li>
+<li><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Internet Settings</code>：存储Internet Explorer浏览器的Internet设置信息。</li>
+</ul>
+<p>以上是一些常见的注册表键，它们的作用和用途非常广泛。虽然修改注册表可能会对系统造成一定的影响，但了解注册表的基本知识还是很有必要的，因为在某些情况下，更改注册表是解决系统问题的有效方法。</p>
+<blockquote>
+<p>为方便整理数据实现了一套Powershell脚本，代码如下：</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-ps1" data-language="ps1"><code class="language-ps1"># Env-Helper.ps1
+# 定义JSON数据的地址
+# JSON: [&#123;&quot;name&quot;:&quot;JAVA_HOME&quot;,&quot;value&quot;:&quot;E:&#x2F;tmp&#x2F;jdk&quot;,&quot;default&quot;:true,&quot;type&quot;:&quot;Machine&quot;&#125;,...]
+# name:环境变量名;value:环境变量值;type:环境变量类型&lt;Machine|User&gt;;default:是否为默认变量
+$jsonUrl &#x3D; &quot;https:&#x2F;&#x2F;example.com&#x2F;env.json&quot;
+
+$currentDirectory &#x3D; $PWD.Path
+
+# 导入JSON数据
+function getJsonData($url) &#123;
+    return Invoke-RestMethod -Uri $url
+&#125;
+
+# 备份环境变量
+function backupEnv($type) &#123;
+    # 定义备份文件名
+    $backupFileName &#x3D; $currentDirectory + &quot;\Env-$type-$(Get-Date -Format &#39;yyyy-MM-dd&#39;).reg&quot;
+    # 备份环境变量
+    switch ($type) &#123;
+        &quot;Machine&quot; &#123; Start-Process -FilePath &quot;reg.exe&quot; -ArgumentList &quot;export HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment &#96;&quot;$backupFileName&#96;&quot; &#x2F;y&quot; -Verb RunAs -Wait &#125;
+        &quot;User&quot; &#123; Start-Process -FilePath &quot;reg.exe&quot; -ArgumentList &quot;export HKCU\Environment &#96;&quot;$backupFileName&#96;&quot; &#x2F;y&quot; -Wait &#125;
+        &quot;All&quot; &#123; backupEnv &quot;Machine&quot;; backupEnv &quot;User&quot; &#125;
+    &#125;
+	
+&#125;
+
+# 重置环境变量
+function resetEnv() &#123;
+    $json &#x3D; getJsonData $jsonUrl;
+
+    # 备份环境变量
+    backupEnv &quot;All&quot;
+
+    # 删除现有环境变量
+    Remove-Item -Path &quot;Env-All-$(Get-Date -Format &#39;yyyy-MM-dd&#39;).reg&quot; -Force -ErrorAction Ignore
+    Remove-Item -Path &quot;Env-Machine-$(Get-Date -Format &#39;yyyy-MM-dd&#39;).reg&quot; -Force -ErrorAction Ignore
+    Remove-Item -Path &quot;Env-User-$(Get-Date -Format &#39;yyyy-MM-dd&#39;).reg&quot; -Force -ErrorAction Ignore
+
+    # 添加默认环境变量
+    foreach ($envVar in $json) &#123;
+        if ($envVar.default) &#123;
+            switch ($envVar.type) &#123;
+                &quot;Machine&quot; &#123; [Environment]::SetEnvironmentVariable($envVar.name, $envVar.value, &quot;Machine&quot;) &#125;
+                &quot;User&quot; &#123; [Environment]::SetEnvironmentVariable($envVar.name, $envVar.value, &quot;User&quot;) &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+# 整理环境变量
+function trimEnv($type) &#123;
+    $json &#x3D; getJsonData $jsonUrl
+
+    # 备份环境变量
+    backupEnv $type
+
+    # 获取现有环境变量
+    switch ($type) &#123;
+        &quot;Machine&quot; &#123; $envVars &#x3D; Get-ItemProperty -Path &quot;Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\&quot;* &#125;
+        &quot;User&quot; &#123; $envVars &#x3D; Get-ItemProperty -Path &quot;Registry::HKEY_CURRENT_USER\Environment\&quot;* &#125;
+        &quot;All&quot; &#123; trimEnv &quot;Machine&quot;; trimEnv &quot;User&quot;; return &#125;
+    &#125;
+    
+    # 整理环境变量
+    foreach ($envVar in $envVars) &#123;
+        foreach ($jsonEnvVar in $json) &#123;
+            if ($jsonEnvVar.default -and $jsonEnvVar.type -eq $type -and $envVar.PSChildName -eq $jsonEnvVar.name) &#123;
+                [Environment]::SetEnvironmentVariable($envVar.PSChildName, $jsonEnvVar.value, $type)
+                break
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+# 列出环境变量
+function listEnv($type, $name, $value) &#123;
+    # 获取现有环境变量
+    switch ($type) &#123;
+        &#39;Machine&#39; &#123;
+            $envVars &#x3D; [Environment]::GetEnvironmentVariables(&#39;Machine&#39;)
+            break
+        &#125;
+        &#39;User&#39; &#123;
+            $envVars &#x3D; [Environment]::GetEnvironmentVariables(&#39;User&#39;)
+            break
+        &#125;
+        default &#123;
+            $envVarsMachine &#x3D; [Environment]::GetEnvironmentVariables(&#39;Machine&#39;)
+            $envVarsUser &#x3D; [Environment]::GetEnvironmentVariables(&#39;User&#39;)
+            $envVars &#x3D; $envVarsMachine.Clone()
+            foreach ($key in $envVarsUser.Keys) &#123;
+                if (-not $envVars.Contains($key)) &#123;
+                    $envVars.Add($key, $envVarsUser[$key])
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    # 根据条件过滤 
+    $envVars.GetEnumerator() | Where-Object &#123;
+        if ($name -and $value) &#123;
+            $_.Key -like &quot;*$name*&quot; -and $_.Value -like &quot;*$value*&quot;
+        &#125; elseif ($name) &#123;
+            $_.Key -like &quot;*$name*&quot;
+        &#125; elseif ($value) &#123;
+            $_.Value -like &quot;*$value*&quot;
+        &#125; else &#123;
+            $true
+        &#125;
+    &#125; | ForEach-Object &#123;
+        Write-Output &quot;$($_.Key)&#x3D;$($_.Value)&quot;
+    &#125;
+&#125;
+
+function addEnv($type, $keyValue) &#123;
+    $path &#x3D; getEnvPath $type
+    $key &#x3D; $keyValue.split(&#39;&#x3D;&#39;)[0]
+    $value &#x3D; $keyValue.split(&#39;&#x3D;&#39;)[1]
+    if (!$key -or !$value) &#123;
+        Write-Host &quot;Invalid parameter. Usage: add &lt;Machine|User&gt; &lt;key&#x3D;value&gt;&quot;
+        return
+    &#125;
+    $existing &#x3D; getEnv $type
+    $existing | Where-Object &#123; $_.name -eq $key &#125; | ForEach-Object &#123;
+        Write-Host &quot;Key &#39;$key&#39; already exists. Please use &#39;set&#39; command to update its value.&quot;
+        return
+    &#125;
+    $env &#x3D; New-Object System.Collections.Specialized.StringDictionary
+    $env.Add($key, $value)
+    if ($type -eq &quot;Machine&quot;) &#123;
+        $env | Export-Clixml -Path $path -Force
+        $machineEnv &#x3D; [System.EnvironmentVariableTarget]::Machine
+        [System.Environment]::SetEnvironmentVariable($key, $value, $machineEnv)
+    &#125; else &#123;
+        $env | Export-Clixml -Path $path -Force
+        $userEnv &#x3D; [System.EnvironmentVariableTarget]::User
+        [System.Environment]::SetEnvironmentVariable($key, $value, $userEnv)
+    &#125;
+    Write-Host &quot;Key &#39;$key&#39; added successfully.&quot;
+&#125;
+
+function delEnv($type, $keyValue) &#123;
+    # 备份环境变量
+    backupEnv $type
+
+    # 获取待删除的环境变量
+    $envsToDelete &#x3D; $keyValue | ForEach-Object &#123;
+        $kv &#x3D; $_ -split &#39;&#x3D;&#39;, 2
+        [PSCustomObject]@&#123;
+            key &#x3D; $kv[0]
+            value &#x3D; $kv[1]
+        &#125;
+    &#125;
+
+    # 遍历待删除的环境变量
+    foreach ($envToDelete in $envsToDelete) &#123;
+        $key &#x3D; $envToDelete.key
+        $value &#x3D; $envToDelete.value
+
+        # 获取环境变量的名称
+        $envName &#x3D; if ($type -eq &#39;Machine&#39;) &#123;
+            &quot;HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\$key&quot;
+        &#125; else &#123;
+            &quot;HKCU:\Environment\$key&quot;
+        &#125;
+
+        # 判断环境变量是否存在
+        if (Test-Path $envName) &#123;
+            # 删除环境变量
+            Remove-ItemProperty $envName -Name $key -Force
+            Write-Host &quot;Deleted environment variable &#39;$key&#39; with value &#39;$value&#39;.&quot;
+        &#125; else &#123;
+            Write-Host &quot;Environment variable &#39;$key&#39; with value &#39;$value&#39; does not exist.&quot;
+        &#125;
+    &#125;
+
+    # 刷新环境变量
+    flushEnv
+&#125;
+
+function defaultEnv($type, $all) &#123;
+    $json &#x3D; getJsonData $jsonUrl
+    # 获取现有环境变量
+    $envs &#x3D; getEnvs $type
+
+    # 备份现有环境变量
+    backupEnvs $type
+
+    # 根据json数据进行处理
+    foreach ($env in $json) &#123;
+        # 如果是指定类型或者是全部类型
+        if ($env.type -eq $type -or $all) &#123;
+            # 如果default为true或者使用-a参数
+            if ($env.default -or $all) &#123;
+                # 如果当前变量已存在，则替换其值
+                if ($envs.ContainsKey($env.name)) &#123;
+                    $envs[$env.name] &#x3D; $env.value
+                &#125;
+                # 否则，新增一个变量
+                else &#123;
+                    $envs.Add($env.name, $env.value)
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    # 保存修改
+    setEnvs $envs
+&#125;
+
+function switchEnv($type, $name) &#123;
+    # 获取现有环境变量
+    $envs &#x3D; getEnvs $type
+
+    # 如果该变量不存在，输出错误信息
+    if (!$envs.ContainsKey($name)) &#123;
+        Write-Error &quot;The environment variable $name does not exist&quot;
+        return
+    &#125;
+
+    # 如果该变量只有一个值，输出错误信息
+    $values &#x3D; $envs[$name] -split &quot;;&quot;
+    if ($values.Length -lt 2) &#123;
+        Write-Error &quot;The environment variable $name only has one value&quot;
+        return
+    &#125;
+
+    # 轮询切换
+    $newValue &#x3D; $values[1..($values.Length - 1)] + $values[0]
+    $envs[$name] &#x3D; $newValue -join &quot;;&quot;
+
+    # 保存修改
+    setEnvs $envs
+&#125;
+
+function flushEnv() &#123;
+    $envVars &#x3D; [System.Environment]::GetEnvironmentVariables()
+    foreach ($key in $envVars.Keys) &#123;
+        [System.Environment]::SetEnvironmentVariable($key, $envVars[$key], [System.EnvironmentVariableTarget]::Process)
+    &#125;
+    Write-Output &quot;Environment variables flushed successfully.&quot;
+&#125;
+
+function Show-Help &#123;
+    Write-Host &quot;Usage: &quot;
+    Write-Host &quot;backup [All|Machine|User]: Backup environment variables. Default: All&quot;
+    Write-Host &quot;reset: Reset environment variables to default values.&quot;
+    Write-Host &quot;trim [All|Machine|User]: Trim environment variables.&quot;
+    Write-Host &quot;list &lt;-a|-m|-u&gt; [-n &lt;name&gt;] [-v &lt;value&gt;]: List environment variables.&quot;
+    Write-Host &quot;add &lt;Machine|User&gt; &lt;key&#x3D;value&gt;: Add a new environment variable.&quot;
+    Write-Host &quot;del &lt;Machine|User&gt; &lt;key&#x3D;value&gt;: Delete an environment variable.&quot;
+    Write-Host &quot;default &lt;All|Machine|User&gt; [-a]: Update environment variables with default values.&quot;
+    Write-Host &quot;switch &lt;Machine|User&gt; &lt;name&gt;: Switch values of the specified environment variable.&quot;
+    Write-Host &quot;flush: Flush environment variables to make changes take effect in the current session.&quot;
+&#125;
+
+
+# 处理命令
+switch ($args[0]) &#123;
+    &quot;backup&quot; &#123;
+        if ($args.Length -eq 1) &#123;
+            backupEnv &quot;All&quot;
+        &#125; else &#123;
+            backupEnv $args[1]
+        &#125;
+    &#125;
+    &quot;reset&quot; &#123;
+        backupEnv &quot;All&quot;
+        resetEnv
+    &#125;
+    &quot;trim&quot; &#123;
+        if ($args.Length -eq 1) &#123;
+            trimEnv &quot;All&quot;
+        &#125; else &#123;
+            trimEnv $args[1]
+        &#125;
+    &#125;
+    &quot;list&quot; &#123;
+        if ($args.Length -eq 1) &#123;
+            listEnv &quot;All&quot; $null $null
+        &#125; else &#123;
+            $type &#x3D; &quot;&quot;
+            if ($args[1] -eq &quot;-m&quot;) &#123;
+                $type &#x3D; &quot;Machine&quot;
+            &#125; elseif ($args[1] -eq &quot;-u&quot;) &#123;
+                $type &#x3D; &quot;User&quot;
+            &#125; elseif ($args[1] -eq &quot;-a&quot;) &#123;
+                $type &#x3D; &quot;All&quot;
+            &#125;
+            $name &#x3D; $args | ? &#123;$_ -match &quot;^-n&#x3D;&quot;&#125; | %&#123;$_ -replace &quot;^-n&#x3D;&quot;,&quot;&quot;&#125;
+            $value &#x3D; $args | ? &#123;$_ -match &quot;^-v&#x3D;&quot;&#125; | %&#123;$_ -replace &quot;^-v&#x3D;&quot;,&quot;&quot;&#125;
+            listEnv $type $name $value
+        &#125;
+    &#125;
+    &quot;add&quot; &#123;
+        addEnv $args[1] $args[2]
+    &#125;
+    &quot;del&quot; &#123;
+        backupEnv $args[1]
+        delEnv $args[1] $args[2]
+    &#125;
+    &quot;default&quot; &#123;
+        if ($args.Length -eq 1) &#123;
+            defaultEnv &quot;All&quot; $false
+        &#125; elseif ($args[1] -eq &quot;-a&quot;) &#123;
+            defaultEnv $args[2] $true
+        &#125; else &#123;
+            defaultEnv $args[1] $false
+        &#125;
+    &#125;
+    &quot;switch&quot; &#123;
+        switchEnv $args[1] $args[2]
+    &#125;
+    &quot;flush&quot; &#123;
+        [Environment]::SetEnvironmentVariable(&quot;dummy&quot;, &quot;1&quot;, &quot;User&quot;)
+        [Environment]::SetEnvironmentVariable(&quot;dummy&quot;, &quot;1&quot;, &quot;Machine&quot;)
+        [Environment]::SetEnvironmentVariable(&quot;dummy&quot;, &quot;1&quot;, &quot;Process&quot;)
+        [Environment]::SetEnvironmentVariable(&quot;dummy&quot;, $null, &quot;User&quot;)
+        [Environment]::SetEnvironmentVariable(&quot;dummy&quot;, $null, &quot;Machine&quot;)
+        [Environment]::SetEnvironmentVariable(&quot;dummy&quot;, $null, &quot;Process&quot;)
+    &#125;
+    default &#123;
+        Show-Help
+    &#125;
+&#125;</code></pre></div></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/OS/Windows/" class="category-chain-item">Windows</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/OS/" class="print-no-link">#OS</a>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/%E6%B3%A8%E5%86%8C%E8%A1%A8/" class="print-no-link">#注册表</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Windows 注册表</div>
+      <div>https://blog.cikaros.top/doc/5ef1aa76.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/f63f87f0.html" title="ChatGPT-神经网络咨询">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ChatGPT-神经网络咨询</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/2964f075.html" title="Ubuntu弃用apt-key">
+                        <span class="hidden-mobile">Ubuntu弃用apt-key</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

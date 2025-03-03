@@ -1,0 +1,1041 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="YAML文档自定义转储在SnakeYAML中进行转储的主要目的是生成可以反序列化实例的YAML文档。在某些情况下，创建的YAML文档可能并不符合你的需求：  不可变的对象。不可变对象可能拥有getter方法，但不存在setter方法。默认情况下，映射时会调用setter方法或构造方法。若属性的顺序不一致，致使对象无法解析。因此对象属性的顺序尤为重要，必须按照指定顺序序列化属性。 注释。注释可以帮助">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Springboot底层-snakeyaml自定义转储格式">
+<meta property="og:url" content="https://blog.cikaros.top/doc/ef82d306.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="YAML文档自定义转储在SnakeYAML中进行转储的主要目的是生成可以反序列化实例的YAML文档。在某些情况下，创建的YAML文档可能并不符合你的需求：  不可变的对象。不可变对象可能拥有getter方法，但不存在setter方法。默认情况下，映射时会调用setter方法或构造方法。若属性的顺序不一致，致使对象无法解析。因此对象属性的顺序尤为重要，必须按照指定顺序序列化属性。 注释。注释可以帮助">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-15T01:31:47.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.593Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="snakeyaml">
+<meta property="article:tag" content="yaml">
+<meta property="article:tag" content="yml">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Springboot底层-snakeyaml自定义转储格式 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Springboot底层-snakeyaml自定义转储格式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-04-15 09:31" pubdate>
+          2021年4月15日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          781 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Springboot底层-snakeyaml自定义转储格式</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="YAML文档自定义转储"><a href="#YAML文档自定义转储" class="headerlink" title="YAML文档自定义转储"></a>YAML文档自定义转储</h2><p>在SnakeYAML中进行转储的主要目的是生成可以反序列化实例的YAML文档。在某些情况下，创建的YAML文档可能并不符合你的需求：</p>
+<ul>
+<li>不可变的对象。不可变对象可能拥有<code>getter</code>方法，但不存在<code>setter</code>方法。默认情况下，映射时会调用<code>setter</code>方法或构造方法。若属性的顺序不一致，致使对象无法解析。因此对象属性的顺序尤为重要，必须按照指定顺序序列化属性。</li>
+<li>注释。注释可以帮助我们更好的理解和编辑YAML文档。</li>
+<li>跳过一些JavaBean属性（例如：空集合、null、计算属性等）。</li>
+<li>定义JavaBean属性顺序。这个顺序可能非常有用：比如，我们通常会将id或name作为第一个属性。（默认情况下按照字母顺序排序。）</li>
+<li>由于标准类型具有一个以上的值，因此可以将<code>Representer</code>配置为使用不同的值。</li>
+</ul>
+<p>YAML文档就是一个普通的文本文档，因此你可以使用任意的模板处理器来处理它。</p>
+<p>默认算法：</p>
+<ol>
+<li>判断是否可以仅使用<code>DumperOptions</code>。</li>
+<li>若不是则使用<code>yaml.dumpAs(obj,Tag.MAP)</code>来解析它。</li>
+<li>选择您指定的模板引擎，然后继续解析。</li>
+<li>自行编写一个对象类存储数据，然后通过YAML解析生成对象类实例进行测试。测试过程中会提示该对象类不符合规范的地方并提醒您修改。</li>
+<li>您也可以考虑扩展SnakeYAML的<code>org.yaml.snakeyaml.representer.Representer</code>。</li>
+<li>实现你自己的模板引擎，将实例序列化为YAML文档。</li>
+</ol>
+<p>以下是使用模板的示例。</p>
+<h3 id="JavaBeans"><a href="#JavaBeans" class="headerlink" title="JavaBeans"></a>JavaBeans</h3><p>这个规范说明：“JavaBeans体系结构的主要目的是提供一种平台无关的组件体系结构。”</p>
+<p>避免使用全局标记可以提高不同平台和语言之间公用YAML文档的能力。简单点来说就是跨平台和跨语言的能力。</p>
+<p>若您自定义的Java类符合JavaBean规范，则可无需其他额外的代码支持，就可实现对象的序列化与反序列化。</p>
+<p>例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class CarWithWheel &#123;
+    private String plate;
+    private String year;
+    private Wheel wheel;
+    private Object part;
+    private Map&lt;String, Integer&gt; map;
+
+    public String getPlate() &#123;
+        return plate;
+    &#125;
+
+    public void setPlate(String plate) &#123;
+        this.plate &#x3D; plate;
+    &#125;
+
+    public Wheel getWheel() &#123;
+        return wheel;
+    &#125;
+
+    public void setWheel(Wheel wheel) &#123;
+        this.wheel &#x3D; wheel;
+    &#125;
+
+    public Map&lt;String, Integer&gt; getMap() &#123;
+        return map;
+    &#125;
+
+    public void setMap(Map&lt;String, Integer&gt; map) &#123;
+        this.map &#x3D; map;
+    &#125;
+
+    public Object getPart() &#123;
+        return part;
+    &#125;
+
+    public void setPart(Object part) &#123;
+        this.part &#x3D; part;
+    &#125;
+
+    public String getYear() &#123;
+        return year;
+    &#125;
+
+    public void setYear(String year) &#123;
+        this.year &#x3D; year;
+    &#125;
+&#125;</code></pre></div></figure>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">CarWithWheel car1 &#x3D; new CarWithWheel();
+car1.setPlate(&quot;12-XP-F4&quot;);
+Wheel wheel &#x3D; new Wheel();
+wheel.setId(2);
+car1.setWheel(wheel);
+Map&lt;String, Integer&gt; map &#x3D; new HashMap&lt;String, Integer&gt;();
+map.put(&quot;id&quot;, 3);
+car1.setMap(map);
+car1.setPart(new Wheel(4));
+car1.setYear(&quot;2008&quot;);
+String output &#x3D; new Yaml().dump(car1);</code></pre></div></figure>
+<p>以上代码会输出如下文档：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">!!package.CarWithWheel
+map: &#123;id: 3&#125;
+part: !!org.yaml.snakeyaml.constructor.Wheel &#123;id: 4&#125;
+plate: 12-XP-F4
+wheel: &#123;id: 2&#125;
+year: &#39;2008&#39;</code></pre></div></figure>
+<p><strong>注意：</strong> ‘part’属性存在全局标记。而‘wheel’则没有（因为wheel的运行时类与CarWithWheel类中定义的相同）。</p>
+<p>转储时首选的方法是使用<code>yaml.dumpAs(obj,Tag.MAP)</code>。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Spring/" class="category-chain-item">Spring</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Spring/Boot/" class="category-chain-item">Boot</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/snakeyaml/" class="print-no-link">#snakeyaml</a>
+      
+        <a href="/tags/yaml/" class="print-no-link">#yaml</a>
+      
+        <a href="/tags/yml/" class="print-no-link">#yml</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Springboot底层-snakeyaml自定义转储格式</div>
+      <div>https://blog.cikaros.top/doc/ef82d306.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/d85b22db.html" title="Ubuntu调试命令strace">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ubuntu调试命令strace</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/5d12e6ae.html" title="Springboot底层-snakeyaml的使用">
+                        <span class="hidden-mobile">Springboot底层-snakeyaml的使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

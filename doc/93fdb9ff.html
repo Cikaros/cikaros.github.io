@@ -1,0 +1,1056 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="OS专题-了解函数和字符串为了更高效的开发，我们肯定需要将一些公共代码封装起来，这样就可以减少很多代码量。为此我们需要了解函数这个概念。 字符串首先先来说一下字符串吧！他也是非常常用的一个东西。我们知道在C语言中，字符串就是字符数组组成的，并且最后一位总是\0。汇编中也是一样的，一般情况下我们定义字符串是这样定义的： mystring:     db &#39;Hello, World&#39;,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS专题-了解函数和字符串">
+<meta property="og:url" content="https://blog.cikaros.top/doc/93fdb9ff.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="OS专题-了解函数和字符串为了更高效的开发，我们肯定需要将一些公共代码封装起来，这样就可以减少很多代码量。为此我们需要了解函数这个概念。 字符串首先先来说一下字符串吧！他也是非常常用的一个东西。我们知道在C语言中，字符串就是字符数组组成的，并且最后一位总是\0。汇编中也是一样的，一般情况下我们定义字符串是这样定义的： mystring:     db &#39;Hello, World&#39;,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-23T02:35:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.626Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros&#96;s space">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>OS专题-了解函数和字符串 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OS专题-了解函数和字符串"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-23 10:35" pubdate>
+          2022年9月23日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OS专题-了解函数和字符串</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="OS专题-了解函数和字符串"><a href="#OS专题-了解函数和字符串" class="headerlink" title="OS专题-了解函数和字符串"></a>OS专题-了解函数和字符串</h1><p>为了更高效的开发，我们肯定需要将一些公共代码封装起来，这样就可以减少很多代码量。为此我们需要了解函数这个概念。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>首先先来说一下字符串吧！他也是非常常用的一个东西。我们知道在C语言中，字符串就是字符数组组成的，并且最后一位总是<code>\0</code>。汇编中也是一样的，一般情况下我们定义字符串是这样定义的：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mystring:
+    db &#39;Hello, World&#39;, 0</code></pre></div></figure>
+
+<p>上面的代码被单引号包围的文本会被汇编器转换成<strong>ASCII码</strong>，最后那个<code>0</code>会被直接当成<code>0x00</code>处理。</p>
+<h2 id="控制流程"><a href="#控制流程" class="headerlink" title="控制流程"></a>控制流程</h2><p>我们还要学习一些控制流程，不然我们写不出向C那样的条件分支语句和循环语句。</p>
+<p>之前我们已经学习过一个控制语句了，就是<code>jmp $</code>！它的作用是跳转到当前语句位置继续执行，说白了就是死循环。跳转语句非常有用，就是它实现了我们C中的分支语句。汇编中的跳转条件是基于 <em>上一条</em> 指令的计算结果来执行的。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">cmp ax, 4      ; 这里是比较两个数
+je ax_is_four  ; 根据比较结果来决定是否跳转
+jmp else       ; 若上面的条件不成立就跳转到else
+jmp endif      ; 结束一个if分支
+
+ax_is_four:
+    .....
+    jmp endif
+
+else:
+    .....
+    jmp endif  ; 这一行其实可有可无，为了好看统一写上去的
+
+endif:</code></pre></div></figure>
+
+<p>这些东西都非常重要，了解了这些才能完成较为复杂的逻辑语句。里面的汇编指令需要各位自行百度或Google，有时间我会整理一份指令说明的~</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>现在我们来聊聊函数，和你预想的一样，他跟我们调用字符串没什么区别，调用函数就是跳转到函数对应的位置并执行。这里有一个值得注意的点，就是如何传递参数？我们可以用两种传递方式：</p>
+<ol>
+<li>事先规定使用某一个寄存器或地址来共享数据</li>
+<li>需要更多的代码逻辑，抽象一个共享区域</li>
+</ol>
+<p>第一种很简单，我们规定使用<strong>AX寄存器来存储参数</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">mov al, &#39;X&#39;
+jmp print
+endprint:
+
+...
+
+print:
+    mov ah, 0x0e  ; tty code
+    int 0x10      ; I assume that &#39;al&#39; already has the character
+    jmp endprint  ; this label is also pre-agreed</code></pre></div></figure>
+
+<p>上述代码虽然实现了参数传递，但是这个代码却不能复用。因为print函数中存在跳转回去的代码，所以只能在这里使用。那该怎么修改呢？我们需要改进两处位置：</p>
+<ul>
+<li>通过一个寄存器或空间保存需要返回执行的代码地址</li>
+<li>保存寄存器的当前状态，让子函数可以修改寄存器，而不影响其他的函数调用</li>
+</ul>
+<p>这些功能CPU都已经实现，我们可以使用<code>call</code>指令和<code>ret</code>指令来代替<code>jmp</code>指令完成对函数的调用。用<code>pusha</code>和<code>popa</code>指令来保存和恢复寄存器信息。</p>
+<blockquote>
+<p>这里提一个小知识点，我们可以像C语言那样将不同的模块分成不同的文件。<br>在需要的地方用<code>%include &quot;file.asm&quot;</code>去引入这个文件</p>
+</blockquote>
+<h2 id="实现打印函数"><a href="#实现打印函数" class="headerlink" title="实现打印函数"></a>实现打印函数</h2><p>现在我们来封装一下打印函数，新建两个文件<code>lib/print.asm</code>和<code>lib/print_hex.asm</code>。代码如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">; lib&#x2F;print.asm
+print:
+    pusha ;保存之前的状态
+
+; 记住这个C代码：
+; while (string[i] !&#x3D; 0) &#123; print string[i]; i++ &#125;
+
+; 实现循环判断
+start:
+    mov al, [bx] ; 将BX寄存器指向的数据取出存入AX
+    cmp al, 0 ; 比较是否为字符串的结尾标记 \0
+    je done ; 根据比较结果执行，如果是就跳转到结束位置停止执行
+
+    ; 不是我们开始打印
+    mov ah, 0x0e
+    int 0x10 ; 中断触发打印
+
+    ; 让指针加1，指向下一个字符
+    add bx, 1
+    jmp start ; 返回到开头继续执行
+
+done:
+    popa
+    ret
+
+
+print_nl:
+    pusha
+    
+    mov ah, 0x0e
+    mov al, 0x0a ; ASCII换行符
+    int 0x10
+    mov al, 0x0d ; ASCII回车指令
+    int 0x10
+    
+    popa
+    ret
+
+
+; lib&#x2F;print.asm
+; 接收DX寄存器中的数据
+; 假设dx&#x3D;0x1234
+print_hex:
+    pusha
+
+    mov cx, 0 ; 指针变量
+
+; 获取DX中的字节数据
+; 因为数字0在ASCII中的数据值是&#96;0x30&#96;,9是&#96;0x39&#96;,所以让&#96;0x30&#96;作为数字基准
+; 字符A-F对应的值为&#96;0x41&#96;-&#96;0x46&#96;,所以让&#96;0x40&#96;作为大于10之后的数字基准
+; 通过这样的基准运算，我们就可以计算出数值对应的字符值。
+hex_loop:
+    cmp cx, 4 ; 我们需要循环四次，满足就结束循环
+    je end
+    
+    mov ax, dx ; 我们让AX寄存器作为工作寄存器
+    and ax, 0x000f ; 屏蔽其他值只保留最后4位的数据
+    add al, 0x30 ; 将其转换为数字字符的ASCII
+    cmp al, 0x39 ; 比较一下看看是不是大于数字9了
+    jle step2 ; 不大于就跳过下面的处理指令
+    add al, 7 ; 需要额外进行ASCII转换，才能表示出字母A-F
+
+step2:
+    mov bx, HEX_OUT + 5 ; 取到HEX_OUT模板的对应地址
+    sub bx, cx  ; 减去下标获取地址
+    mov [bx], al ; 给对应的位置赋值
+    ror dx, 4 ; 循环右移4位 举例：0x1234 -&gt; 0x4123 -&gt; 0x3412 -&gt; 0x2341 -&gt; 0x1234
+
+    ; 给循环标志加1
+    add cx, 1
+    jmp hex_loop
+
+end:
+    ; 循环结束后我们输出HEX_OUT模板就是我们想要的结果了
+    mov bx, HEX_OUT
+    call print
+
+    popa
+    ret
+
+HEX_OUT:
+    db &#39;0x0000&#39;,0 ; 在内存中开辟空间存放字符串</code></pre></div></figure>
+
+<p>修改<code>mbr.asm</code>中的代码，调用上述函数：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">[org 0x7c00] ; 告诉编译器我们的基准地址
+
+; 函数调用打印数据
+mov bx, HELLO
+call print
+
+call print_nl
+
+mov bx, GOODBYE
+call print
+
+call print_nl
+
+mov dx, 0x12fe
+call print_hex
+
+; 无限循环
+jmp $
+
+; 导入函数文件
+%include &quot;print.asm&quot;
+%include &quot;print_hex.asm&quot;
+
+
+; 数据
+HELLO:
+    db &#39;Hello, World&#39;, 0
+
+GOODBYE:
+    db &#39;Goodbye&#39;, 0
+
+; 填充其他位的值为00
+times 510-($-$$) db 0
+; 魔数
+dw 0xaa55</code></pre></div></figure>
+
+<p>若你真的这么做了…那么代码编译时会出现如下错误：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">error: unable to open include file &#96;print.asm&#39;: No such file or directory
+error: unable to open include file &#96;print_hex.asm&#39;: No such file or directory</code></pre></div></figure>
+
+<p>这是因为我们没有告诉编译器，这些函数文件的位置，我们需要修改一下<code>CMakeLists.txt</code>文件。在<code>add_executable(loader boot/mbr.asm)</code>前面增加<code>include_directories(lib)</code>即可。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OS专题-了解函数和字符串</div>
+      <div>https://blog.cikaros.top/doc/93fdb9ff.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

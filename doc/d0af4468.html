@@ -1,0 +1,1698 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="Compose文件是一个定义Docker应用程序的服务，网络和卷的YAML文件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker-Compose环境搭建及其使用">
+<meta property="og:url" content="https://blog.cikaros.top/doc/d0af4468.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="Compose文件是一个定义Docker应用程序的服务，网络和卷的YAML文件。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-29T02:09:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.615Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="容器编排">
+<meta property="article:tag" content="Docker-Compose">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Docker-Compose环境搭建及其使用 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Docker-Compose环境搭建及其使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-12-29 10:09" pubdate>
+          2021年12月29日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          6.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Docker-Compose环境搭建及其使用</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Compose文件是一个定义Docker应用程序的服务，网络和卷的YAML文件。</p>
+<span id="more"></span>
+
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Compose文件是一个定义Docker应用程序的服务，网络和卷的YAML文件。</p>
+<h3 id="兼容"><a href="#兼容" class="headerlink" title="兼容"></a>兼容</h3><p>有几种版本的Compose文件格式 1、2、2.x和3.x</p>
+<p>此表显示哪些Compose文件版本支持特定的Docker版本。</p>
+<table>
+<thead>
+<tr>
+<th>Compose file format</th>
+<th>Docker Engine release</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3.3</td>
+<td>17.06.0+</td>
+</tr>
+<tr>
+<td>3.2</td>
+<td>17.04.0+</td>
+</tr>
+<tr>
+<td>3.1</td>
+<td>1.13.1+</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>1.13.0+</td>
+</tr>
+<tr>
+<td>2.3</td>
+<td>17.06.0+</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>1.13.0+</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>1.12.0+</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>1.10.0+</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>1.9.1.+</td>
+</tr>
+</tbody></table>
+<h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>目前有三种版本的Compose文件格式：</p>
+<ul>
+<li>版本1，传统格式。这是通过省略<code>version</code>YAML根部的一个键来指定的。</li>
+<li>版本2.x. 这是通过YAML根部的一个<code>version: &#39;2&#39;</code>或者<code>version: &#39;2.1&#39;</code>等等条目指定的。</li>
+<li>版本3.x是最新和推荐的版本，旨在在Compose和Docker Engine的swarm模式之间交叉兼容。这是通过YAML根部的一个<code>version: &#39;3&#39;</code>或者<code>version: &#39;3.1&#39;</code>等等条目指定的。</li>
+</ul>
+<p>下面将一一介绍版本差异：</p>
+<h4 id="版本1"><a href="#版本1" class="headerlink" title="版本1"></a>版本1</h4><p>当在书写<code>docker-compose.yml</code>文件时不声明文件版本时，默认为<strong>版本1</strong>。这个版本中，所有的服务都是直接声明在根下的。</p>
+<p>在<strong>版本1</strong>文件中是不能声明<code>volumes</code>、<code>network</code>和构建参数的。</p>
+<p>在使用<strong>版本1</strong>时，<strong>Compose</strong>会将每一个容器都放置在一个默认的<code>bridge</code>环境中。</p>
+<p><em>example:</em></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">web:
+  build: .
+  ports:
+    - &quot;5000:5000&quot;
+  volumes:
+    - .:&#x2F;code
+  links:
+    - redis
+redis:
+  image: redis:latest</code></pre></div></figure>
+
+<h4 id="版本2"><a href="#版本2" class="headerlink" title="版本2"></a>版本2</h4><p>当在书写<code>docker-compose.yml</code>文件时，此时则必须在文档根目录下声明版本号。</p>
+<p>所有的服务均需声明在<code>services:</code>目录下。</p>
+<p>命名卷声明在<code>volumes:</code>目录下，网络声明在<code>networks:</code>目录下。</p>
+<p>默认情况下，每个容器均会加入<strong>Project</strong>（<em>应用程序：</em>即一个<code>docker-compose.yml</code>文件的范围）范围的默认网络中，并且相互之间可以使用服务名访问对方，<code>links</code>可以弃用了。</p>
+<p><em>example:</em></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">version: &#39;2&#39;
+services:
+  web:
+    build: &quot;&quot;
+    ports:
+      - &quot;5000:5000&quot;
+    volumes:
+      - .&#x2F;code
+  redis:
+    image: redis:latest</code></pre></div></figure>
+
+<p><em>Full example:</em></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">version: &#39;2&#39;
+services:
+  web:
+    build: .
+    ports:
+      - &quot;5000:5000&quot;
+    volumes:
+      - .:&#x2F;code
+    networks:
+      - front-tier
+      - back-tier
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:&#x2F;var&#x2F;lib&#x2F;redis
+    networks:
+      - back-tier
+volumes:
+  redis-data:
+    driver: local
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge</code></pre></div></figure>
+
+<h4 id="版本2-1"><a href="#版本2-1" class="headerlink" title="版本2.1"></a>版本2.1</h4><p>引入以下附加参数：</p>
+<ul>
+<li><code>link_local_ips</code></li>
+<li><code>isolation</code></li>
+<li><code>labels</code></li>
+<li><code>name</code></li>
+<li><code>userns_mode</code></li>
+<li><code>healthcheck</code></li>
+<li><code>sysctls</code></li>
+<li><code>pids_limit</code></li>
+</ul>
+<h4 id="版本2-2"><a href="#版本2-2" class="headerlink" title="版本2.2"></a>版本2.2</h4><p>引入以下附加参数：</p>
+<ul>
+<li><code>init</code></li>
+<li><code>scale</code></li>
+</ul>
+<h4 id="版本2-3"><a href="#版本2-3" class="headerlink" title="版本2.3"></a>版本2.3</h4><p>引入以下附加参数：</p>
+<ul>
+<li><code>target</code></li>
+<li><code>start_period</code> 与 <code>healthchecks</code></li>
+</ul>
+<h4 id="版本3"><a href="#版本3" class="headerlink" title="版本3"></a>版本3</h4><p>为了在Compose和Docker Engine的swarm模式之间交叉兼容，版本3删除了几个选项并添加了更多选项。</p>
+<ul>
+<li>删除：<code>volume_driver</code>，<code>volumes_from</code>，<code>cpu_shares</code>，<code>cpu_quota</code>，<code>cpuset</code>，<code>mem_limit</code>，<code>memswap_limit</code>，<code>extends</code>，<code>group_add</code><br>。请参阅升级指南以了解如何迁移这些指南。（有关更多信息<code>extends</code>，请参阅扩展服务。）</li>
+<li>补充：部署</li>
+</ul>
+<h4 id="版本3-3"><a href="#版本3-3" class="headerlink" title="版本3.3"></a>版本3.3</h4><p>引入以下附加参数：</p>
+<ul>
+<li>建立 <code>labels</code></li>
+<li><code>credential_spec</code></li>
+<li><code>configs</code></li>
+<li>部署 <code>endpoint_mode</code></li>
+</ul>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><h4 id="版本2-x到3-x"><a href="#版本2-x到3-x" class="headerlink" title="版本2.x到3.x"></a>版本2.x到3.x</h4><p>在版本2.x和3.x之间，yml文件的结构是相同的，但是几个选项已被删除：</p>
+<ul>
+<li><code>volume_driver</code>：不是在服务上设置卷驱动，而是使用顶层<code>volumes</code>选项定义卷并在那里指定驱动。版本：“3”服务：db：image：postgres卷： - data：&#x2F; var &#x2F; lib &#x2F; postgresql<br>&#x2F; data卷：data：驱动程序：mydriver</li>
+<li><code>volumes_from</code>：要在服务之间共享卷，请使用顶级<code>volumes</code>选项对其进行定义，并从使用服务级别<code>volumes</code>选项共享服务的每个服务中引用它。</li>
+<li><code>cpu_shares</code>，<code>cpu_quota</code>，<code>cpuset</code>，<code>mem_limit</code>，<code>memswap_limit</code>：这些已被替换下的资源键<code>deploy</code>。请注意，<code>deploy</code><br>配置仅在使用时生效<code>docker stack deploy</code>，并被忽略<code>docker-compose</code>。</li>
+<li><code>extends</code>：对于<code>version: &quot;3.x&quot;</code>撰写文件，此选项已被删除。（有关更多信息，请参阅扩展服务。）</li>
+<li><code>group_add</code>：对于<code>version: &quot;3.x&quot;</code>撰写文件，此选项已被删除。</li>
+<li><code>pids_limit</code>：此选项尚未在<code>version: &quot;3.x&quot;</code>Compose文件中引入。</li>
+<li><code>link_local_ips</code>in <code>networks</code>：该选项尚未在<code>version: &quot;3.x&quot;</code>Compose文件中引入。</li>
+</ul>
+<h4 id="版本1到2-x"><a href="#版本1到2-x" class="headerlink" title="版本1到2.x"></a>版本1到2.x</h4><p>在大多数情况下，从版本1移动到2是一个非常简单的过程：</p>
+<ol>
+<li>将整个文件缩进一层，并<code>services:</code>在顶部放置一个键。</li>
+<li><code>version: &#39;2&#39;</code>在文件顶部添加一行。</li>
+</ol>
+<p>如果您使用特定的配置功能，则会更加复杂：</p>
+<ul>
+<li><code>dockerfile</code>：现在<code>context</code>在<code>build</code>之下：<code>build: context:</code>。dockerfile：Dockerfile-alternate</li>
+<li><code>log_driver</code>，<code>log_opt</code>：这些现在在<code>logging</code>密钥下：<code>logging: driver: syslog options: syslog-address: &quot;tcp://192.168.0.42:123&quot;</code></li>
+<li><code>links</code>使用环境变量：如环境变量引用中所述，由链接创建的环境变量已被弃用一段时间。在新的Docker网络系统中，它们已被删除。您应该直接连接到适当的主机名或使用链接主机名设置相关的环境变量：web：links： - db<br>environment： - DB_PORT &#x3D; tcp：&#x2F;&#x2F; db：5432</li>
+<li><code>external_links</code><br>：Compose在运行版本2项目时使用Docker网络，因此链接的行为稍有不同。特别是，两个容器必须连接到至少一个共同的网络才能通信，即使明确地链接在一起。将外部容器连接到应用程序的默认网络，或者将外部容器和服务的容器连接到外部网络。</li>
+<li><code>net</code>：这现在被network_mode：net：host - &gt; network_mode：host net：bridge - &gt; network_mode：bridge net：none - &gt;<br>network_mode：none 替代如果您正在使用<code>net: &quot;container:[service name]&quot;</code>，您现在必须<code>network_mode: &quot;service:[service name]&quot;</code><br>改用它。net：“container：web” - &gt; network_mode：“service：web”如果你正在使用<code>net: &quot;container:[container name/id]&quot;</code><br>，这个值不需要改变。net：“container：cont-name” - &gt; network_mode：“container：cont-name”net：“container：abc12345” - &gt;<br>network_mode：“container：abc12345”</li>
+<li><code>volumes</code>使用命名卷：现在必须在<code>volumes</code>Compose文件的顶级部分显式声明这些命令。如果某个服务装载了一个已命名的卷<code>data</code>，则必须<code>data</code>在顶级<code>volumes</code><br>部分中声明一个卷。整个文件可能如下所示：版本：’2’服务：db：image：postgres卷： - data：&#x2F; var &#x2F; lib &#x2F; postgresql &#x2F;<br>data卷：data：默认情况下，Compose创建一个卷，其名称带有前缀与您的项目名称。如果您希望仅调用<code>data</code>它，请将其声明为external：volumes：data：external：true</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h3><p>我们可以从 Github 上下载它的二进制包来使用，最新发行的版本地址：<a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases%E3%80%82">https://github.com/docker/compose/releases。</a></p>
+<p>运行以下命令以下载 Docker Compose 的当前稳定版本：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.24.1&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</code></pre></div></figure>
+
+<p>要安装其他版本的 Compose，请替换 1.24.1。</p>
+<p>将可执行权限应用于二进制文件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</code></pre></div></figure>
+
+<h3 id="Docker-Desktop-or-Docker-Toolbox"><a href="#Docker-Desktop-or-Docker-Toolbox" class="headerlink" title="Docker Desktop or Docker Toolbox"></a>Docker Desktop or Docker Toolbox</h3><p>Docker 桌面版和 Docker Toolbox 已经包括 Compose 和其他 Docker 应用程序，因此 Windows 用户不需要单独安装 Compose。</p>
+<h2 id="Docker-Compose指令"><a href="#Docker-Compose指令" class="headerlink" title="Docker-Compose指令"></a>Docker-Compose指令</h2><ul>
+<li><p>build</p>
+</li>
+<li><p>bundle</p>
+</li>
+<li><p>config</p>
+</li>
+<li><p>create</p>
+</li>
+<li><p>down</p>
+</li>
+<li><p>events</p>
+</li>
+<li><p>exec</p>
+</li>
+<li><p>help</p>
+</li>
+<li><p>images</p>
+</li>
+<li><p>kill</p>
+</li>
+<li><p>logs</p>
+</li>
+<li><p>pause</p>
+</li>
+<li><p>port</p>
+</li>
+<li><p>PS</p>
+</li>
+<li><p>pull</p>
+</li>
+<li><p>push</p>
+</li>
+<li><p>restart</p>
+</li>
+<li><p>rm</p>
+</li>
+<li><p>run</p>
+</li>
+<li><p>scale</p>
+</li>
+<li><p>start</p>
+</li>
+<li><p>stop</p>
+</li>
+<li><p>top</p>
+</li>
+<li><p>unpause</p>
+</li>
+<li><p>up</p>
+</li>
+</ul>
+<h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: build [options] [--build-arg key&#x3D;val...] [SERVICE...]
+Options:    
+    --force-rm              Always remove intermediate containers.    
+    --no-cache              Do not use cache when building the image.    
+    --pull                  Always attempt to pull a newer version of the image.    
+    --build-arg key&#x3D;val     Set build-time variables for one service.</code></pre></div></figure>
+
+<p>构建docker-compose服务。服务名默认为<code>project_service</code>。</p>
+<h3 id="bundle"><a href="#bundle" class="headerlink" title="bundle"></a>bundle</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: bundle [options]
+Options:    
+    --push-img              Automatically push img for any services
+                               which have a &#96;build&#96; option specified.    
+    -o, --output PATH          Path to write the bundle file to.
+                               Defaults to &quot;&lt;project name&gt;.dab&quot;.</code></pre></div></figure>
+
+<p>生成分布式应用程序包（DAB）。</p>
+<h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: config [options]
+Options:    
+    --resolve-image-digests  Pin image tags to digests.    
+    -q, --quiet              Only validate the configuration, don&#39;t print
+                             anything.    
+    --services               Print the service names, one per line.   
+    --volumes                Print the volume names, one per line.</code></pre></div></figure>
+
+<p>验证并查看<code>docker-compose.yml</code>文件。</p>
+<h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: create [options] [SERVICE...]
+Options:    
+--force-recreate       Recreate containers even if their configuration and
+                           image haven&#39;t changed. Incompatible with --no-recreate.    
+--no-recreate          If containers already exist, don&#39;t recreate them.
+                           Incompatible with --force-recreate.    
+--no-build             Don&#39;t build an image, even if it&#39;s missing.    
+--build                Build img before creating containers.</code></pre></div></figure>
+
+<p>为服务创建容器。</p>
+<h3 id="down"><a href="#down" class="headerlink" title="down"></a>down</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: down [options]
+Options:    
+    --rmi type          Remove img. Type must be one of:                        
+                        &#39;all&#39;: Remove all img used by any service.                        
+                        &#39;local&#39;: Remove only img that don&#39;t have a custom tag                        
+                        set by the &#96;image&#96; field.    
+    -v, --volumes       Remove named volumes declared in the &#96;volumes&#96; section                        
+                        of the Compose file and anonymous volumes
+                        attached to containers.    
+    --remove-orphans    Remove containers for services not defined in the
+                        Compose file</code></pre></div></figure>
+
+<p>停止容器并移除通过<code>up</code>创建的容器，网络，卷和图像。</p>
+<p>默认情况下，唯一删除的内容是：</p>
+<ul>
+<li><p>在撰写文件中定义的服务容器</p>
+</li>
+<li><p>在撰写文件的部分中定义的网络<code>networks</code></p>
+</li>
+<li><p>默认网络（如果使用的话）</p>
+</li>
+</ul>
+<p><strong>注：由用户自定义的网络和卷不会删除。</strong></p>
+<h3 id="events"><a href="#events" class="headerlink" title="events"></a>events</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: events [options] [SERVICE...]
+    Options:    
+        --json      Output events as a stream of json objects</code></pre></div></figure>
+
+<p>为项目中的每个容器流化容器事件。</p>
+<p>使用该<code>--json</code>标志，每行将打印一个 json 对象，其格式为：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
+  &quot;service&quot;: &quot;web&quot;,
+  &quot;event&quot;: &quot;create&quot;,
+  &quot;container&quot;: &quot;213cf75fc39a&quot;,
+  &quot;image&quot;: &quot;alpine:edge&quot;,
+  &quot;time&quot;: &quot;2015-11-20T18:01:03.615550&quot;
+&#125;</code></pre></div></figure>
+
+<h3 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: exec [options] SERVICE COMMAND [ARGS...]
+    Options:
+        -d                Detached mode: Run command in the background.
+        --privileged      Give extended privileges to the process.
+        -u, --user USER   Run the command as this user.
+        -T                Disable pseudo-tty allocation. By default &#96;docker-compose exec&#96;
+                          allocates a TTY.
+        --index&#x3D;index     index of the container if there are multiple
+                          instances of a service [default: 1]</code></pre></div></figure>
+
+<p>这相当于<code>docker exec</code>。使用此子命令，您可以在服务中运行任意命令。命令默认分配一个 TTY ，所以你可以通过此命令获得交互式提示。例如:<code>docker-compose exec web bash</code>。</p>
+<h3 id="images"><a href="#images" class="headerlink" title="images"></a>images</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: img [options] [SERVICE...]
+    Options:
+        -q     Only display image IDs</code></pre></div></figure>
+
+<p>列出创建的容器使用的图像。</p>
+<h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: kill [options] [SERVICE...]
+    Options:
+    -s SIGNAL         SIGNAL to send to the container. Default signal is SIGKILL.</code></pre></div></figure>
+
+<p>运行容器的强制通过发送<code>SIGKILL</code>信号来停止。可以选择要传递的信号类型，例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose kill -s SIGINT</code></pre></div></figure>
+
+<h3 id="logs"><a href="#logs" class="headerlink" title="logs"></a>logs</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: logs [options] [SERVICE...]
+    Options:
+    --no-color          Produce monochrome output.
+    -f, --follow        Follow log output
+    -t, --timestamps    Show timestamps
+    --tail&#x3D;&quot;all&quot;        Number of lines to show from the end of the logs                    
+                        for each container.</code></pre></div></figure>
+
+<p>显示服务的日志输出。</p>
+<h3 id="pause"><a href="#pause" class="headerlink" title="pause"></a>pause</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: pause [SERVICE...]</code></pre></div></figure>
+
+<p>暂停运行服务的容器。它可以与<code>docker-compose unpause</code>一起使用。</p>
+<h3 id="port"><a href="#port" class="headerlink" title="port"></a>port</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: port [options] SERVICE PRIVATE_PORT
+
+Options:
+    --protocol&#x3D;proto  tcp or udp [default: tcp]
+    --index&#x3D;index     index of the container if there are multiple
+                      instances of a service [default: 1]</code></pre></div></figure>
+
+<p>打印端口绑定的公共端口。</p>
+<h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: ps [options] [SERVICE...]
+Options:-q    Only display IDs</code></pre></div></figure>
+
+<p>列出容器。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ docker-compose ps
+         Name                        Command                 State             Ports
+         --------------------------------------------------------------------------------------------
+         mywordpress_db_1          docker-entrypoint.sh mysqld      Up           3306&#x2F;tcp
+         mywordpress_wordpress_1   &#x2F;entrypoint.sh apache2-for ...   Restarting   0.0.0.0:8000-&gt;80&#x2F;tcp</code></pre></div></figure>
+
+<h3 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: pull [options] [SERVICE...]
+    Options:    
+    --ignore-pull-failures  Pull what it can and ignores img with pull failures.    
+    --parallel              Pull multiple img in parallel.    
+    --quiet                 Pull without printing progress information</code></pre></div></figure>
+
+<p>拉取在<code>docker-compose.yml</code>或<code>docker-stack.yml</code>文件中定义的服务相关联的映像，但不会基于这些映像启动容器。</p>
+<h3 id="push"><a href="#push" class="headerlink" title="push"></a>push</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: push [options] [SERVICE...]Options:    --ignore-push-failures  Push what it can and ignores img with push failures.</code></pre></div></figure>
+
+<p>将服务的镜像推送到它们各自的位置<code>registry/repository</code>。</p>
+<p>做出以下假设：</p>
+<ul>
+<li><p>您正在推送您在本地创建的镜像</p>
+</li>
+<li><p>您可以访问构建密钥</p>
+</li>
+</ul>
+<h3 id="restart"><a href="#restart" class="headerlink" title="restart"></a>restart</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: restart [options] [SERVICE...]Options:-t, --timeout TIMEOUT      Specify a shutdown timeout in seconds. (default: 10)</code></pre></div></figure>
+
+<p>重新启动所有停止并正在运行的服务</p>
+<p>如果对<code>docker-compose.yml</code>配置进行更改，则运行此命令后这些更改将不会反映出来。</p>
+<p>例如，对环境变量（在构建容器后但在容器的命令执行之前添加）的更改在重新启动后将不会更新。</p>
+<h3 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: rm [options] [SERVICE...]
+Options:    
+-f, --force   Don&#39;t ask to confirm removal    
+-s, --stop    Stop the containers, if required, before removing    
+-v            Remove any anonymous volumes attached to containers</code></pre></div></figure>
+
+<p>删除已停止的服务容器。</p>
+<p>默认情况下，附加到容器的匿名卷不会被删除。你可以用这个覆盖它<code>-v</code>。要列出所有卷，请使用<code>docker volume ls</code>。</p>
+<p>任何不在卷中的数据都将丢失。</p>
+<p>运行没有选项的命令也会删除由<code>docker-compose up</code>或创建的一次性容器<code>docker-compose run</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ docker-compose rm
+Going to remove djangoquickstart_web_run_1
+Are you sure? [yN] y
+Removing djangoquickstart_web_run_1 ... done</code></pre></div></figure>
+
+<h3 id="run"><a href="#run" class="headerlink" title="run"></a>run</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: run [options] [-v VOLUME...] [-p PORT...] [-e KEY&#x3D;VAL...] SERVICE [COMMAND] [ARGS...]
+Options:    
+        -d                    Detached mode: Run container in the background, print                          
+                              new container name.    
+        --name NAME           Assign a name to the container    
+        --entrypoint CMD      Override the entrypoint of the image.    
+        -e KEY&#x3D;VAL            Set an environment variable (can be used multiple times)    
+        -u, --user&#x3D;&quot;&quot;         Run as specified username or uid    
+        --no-deps             Don&#39;t start linked services.    
+        --rm                  Remove container after run. Ignored in detached mode.    
+        -p, --publish&#x3D;[]      Publish a container&#39;s port(s) to the host    
+        --service-ports       Run command with the service&#39;s ports enabled and mapped
+                              to the host.    
+        -v, --volume&#x3D;[]       Bind mount a volume (default [])    
+        -T                    Disable pseudo-tty allocation. By default &#96;docker-compose run&#96;
+                              allocates a TTY.    
+        -w, --workdir&#x3D;&quot;&quot;      Working directory inside the container</code></pre></div></figure>
+
+<p>针对服务运行一次性命令。例如，以下命令启动该<code>web</code>服务并<code>bash</code>作为其命令运行。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run web bash</code></pre></div></figure>
+
+<p>您使用的命令<code>run</code>从具有由服务定义的配置的新容器中启动，包括卷，链接和其他详细信息。但是，有两个重要的区别。</p>
+<p>首先，通过的命令将<code>run</code>覆盖服务配置中定义的命令。例如，如果<code>web</code>服务配置以<code>bash</code>开头，则将其<code>docker-compose run web python app.py</code>覆盖<code>python app.py</code>。</p>
+<p>第二个区别是该<code>docker-compose run</code>命令不会创建服务配置中指定的任何端口。这可以防止端口与已打开的端口发生冲突。如果您<em>确实想要</em>创建服务的端口并将其映射到主机，请指定<code>--service-ports</code>标签：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run --service-ports web python manage.py shell</code></pre></div></figure>
+
+<p>或者，可以使用<code>--publish</code>或<code>-p</code>选项，就像使用<code>docker run</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run --publish 8080:80 -p 2022:22 -p 127.0.0.1:2021:21 web python manage.py shell</code></pre></div></figure>
+
+<p>如果启动使用链接配置的服务，则该<code>run</code>命令首先检查链接服务是否正在运行，并在服务停止时启动该服务。一旦所有链接的服务正在运行，<code>run</code>执行您通过它的命令。例如，您可以运行：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run db psql -h db -U docker</code></pre></div></figure>
+
+<p>这将为链接<code>db</code>容器打开一个交互式 PostgreSQL shell 。</p>
+<p>如果您不希望<code>run</code>命令启动链接容器，请使用<code>--no-deps</code>标签：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run --no-deps web python manage.py shell</code></pre></div></figure>
+
+<h3 id="scale"><a href="#scale" class="headerlink" title="scale"></a>scale</h3><blockquote>
+<p><strong>注</strong>该命令已弃用。若需使用该命令，请用<code>--scale</code>标签代替。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: scale [SERVICE&#x3D;NUM...]</code></pre></div></figure>
+
+<p>设置为服务运行的容器数量。</p>
+<p>数字在表单中被指定为参数<code>service=num</code>。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose scale web&#x3D;2 worker&#x3D;3</code></pre></div></figure>
+
+<blockquote>
+<p><strong>提示</strong>：或者，在 Compose 文件版本3.x中，您可以将部署密钥下的副本指定为 Swarm 模式的服务配置的一部分。请注意，<code>deploy</code>密钥及其子选项（包括<code>replicas</code>）仅适用于<code>docker stack deploy</code>命令，不适用于<code>docker compose up</code>或<code>docker-compose run</code>。</p>
+</blockquote>
+<h3 id="start"><a href="#start" class="headerlink" title="start"></a>start</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: start [SERVICE...]</code></pre></div></figure>
+
+<p>启动服务的现有容器。</p>
+<h3 id="stop"><a href="#stop" class="headerlink" title="stop"></a>stop</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: stop [options] [SERVICE...]
+    Options:
+        -t, --timeout TIMEOUT      Specify a shutdown timeout in seconds (default: 10).</code></pre></div></figure>
+
+<p>停止运行容器而不删除它们。他们可以重新开始<code>docker-compose start</code>。</p>
+<h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: top [SERVICE...]</code></pre></div></figure>
+
+<p>显示正在运行的进程。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ docker-compose top
+compose_service_a_1
+PID    USER   TIME   COMMAND----------------------------4060   root   0:00   top
+
+compose_service_b_1
+PID    USER   TIME   COMMAND----------------------------4115   root   0:00   top</code></pre></div></figure>
+
+<h3 id="unpause"><a href="#unpause" class="headerlink" title="unpause"></a>unpause</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: unpause [SERVICE...]</code></pre></div></figure>
+
+<p>取消暂停服务的暂停容器。</p>
+<h3 id="up"><a href="#up" class="headerlink" title="up"></a><font color='red'>up</font></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Usage: up [options] [--scale SERVICE&#x3D;NUM...] [SERVICE...]
+Options:    -d              Detached mode: Run containers in the background,
+                       print new container names.
+                       Incompatible with --abort-on-container-exit.    
+        --no-color          Produce monochrome output.    
+        --no-deps           Don&#39;t start linked services.    
+        --force-recreate       Recreate containers even if their configuration
+                       and image haven&#39;t changed.
+                       Incompatible with --no-recreate.    
+        --no-recreate         If containers already exist, don&#39;t recreate them.
+                       Incompatible with --force-recreate.    
+        --no-build          Don&#39;t build an image, even if it&#39;s missing.    
+        --build            Build img before starting containers.    
+        --abort-on-container-exit   Stops all containers if any container was stopped.
+                       Incompatible with -d.    
+        -t, --timeout TIMEOUT    Use this timeout in seconds for container shutdown
+                       when attached or when containers are already
+                       running. (default: 10)    
+        --remove-orphans       Remove containers for services not defined in
+                       the Compose file    
+        --exit-code-from SERVICE   Return the exit code of the selected service container.
+                       Implies --abort-on-container-exit.    
+        --scale SERVICE&#x3D;NUM     Scale SERVICE to NUM instances. Overrides the &#96;scale&#96;
+                       setting in the Compose file if present.</code></pre></div></figure>
+
+<p>构建，（重新）创建，启动并附加到服务的容器。</p>
+<p>除非它们已经在运行，否则该命令还会启动所有相关联的服务。</p>
+<p>该<code>docker-compose up</code>命令汇总每个容器的输出。当命令退出时，所有容器都停止。运行<code>docker-compose up -d</code>将在后台启动容器并使其运行。</p>
+<p>如果存在服务的现有容器，并且在创建容器后服务的配置或映像已更改，则<code>docker-compose up</code>通过停止并重新创建容器（保留已安装的卷）来提取更改。要防止撰写选取更改，请使用该<code>--no-recreate</code>标签。</p>
+<p>如果您想强制 Compose 停止并重新创建所有容器，请使用该<code>--force-recreate</code>标签。</p>
+<p>如果进程遇到错误，则此命令的退出代码为<code>1</code>。</p>
+<p>如果使用<code>SIGINT</code>（<code>ctrl</code>+ <code>C</code>）中断进程或者<code>SIGTERM</code>容器停止，并且退出代码为<code>0</code>。</p>
+<p>如果<code>SIGINT</code>或<code>SIGTERM</code>在此关闭阶段再次发送，正在运行的容器将被终止，并且退出代码为<code>2</code>。</p>
+<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>Compose 支持在<code>.env</code>放在<code>docker-compose</code>执行该命令的文件夹<em>（</em>当前工作目录<em>）</em>中的环境文件中声明默认环境变量。</p>
+<h3 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h3><p>这些语法规则适用于<code>.env</code>档案：</p>
+<ul>
+<li><p>以<code>VAR=VAL</code>格式组合期望<code>env</code>文件。</p>
+</li>
+<li><p>以<code>#</code>（即注释）开头的行被忽略。</p>
+</li>
+<li><p>空行被忽略。</p>
+</li>
+<li><p>没有特殊的引号处理（即<strong>它们将成为 VAL 的一部分</strong>，你已经被警告;））。</p>
+</li>
+</ul>
+<h3 id="编写文件和-CLI-变量"><a href="#编写文件和-CLI-变量" class="headerlink" title="编写文件和 CLI 变量"></a>编写文件和 CLI 变量</h3><p>这里定义的环境变量将用于变量替换在撰写文件中，并且还可以用于定义以下内容 CLI 变量</p>
+<ul>
+<li><p><code>COMPOSE_API_VERSION</code></p>
+</li>
+<li><p><code>COMPOSE_CONVERT_WINDOWS_PATHS</code></p>
+</li>
+<li><p><code>COMPOSE_FILE</code></p>
+</li>
+<li><p><code>COMPOSE_HTTP_TIMEOUT</code></p>
+</li>
+<li><p><code>COMPOSE_TLS_VERSION</code></p>
+</li>
+<li><p><code>COMPOSE_PROJECT_NAME</code></p>
+</li>
+<li><p><code>DOCKER_CERT_PATH</code></p>
+</li>
+<li><p><code>DOCKER_HOST</code></p>
+</li>
+<li><p><code>DOCKER_TLS_VERIFY</code></p>
+</li>
+</ul>
+<h3 id="注"><a href="#注" class="headerlink" title="注"></a>注</h3><ul>
+<li><p>运行时环境中存在的值将始终覆盖在<code>.env</code>档案。同样，通过命令行参数传递的值也优先。</p>
+</li>
+<li><p>中定义的环境变量。<code>.env</code>文件在容器中不自动可见。若要设置适用于容器的环境变量，请遵循本主题中的指导方针。组合中的环境变量，描述如何将 shell 环境变量传递到容器，在复合文件中定义环境变量等等。</p>
+</li>
+</ul>
+<h2 id="环境变量的使用"><a href="#环境变量的使用" class="headerlink" title="环境变量的使用"></a>环境变量的使用</h2><p>撰写中有多个部分在某种意义上处理环境变量。这个页面应该可以帮助你找到你需要的信息。</p>
+<h3 id="在组合文件中替换环境变量"><a href="#在组合文件中替换环境变量" class="headerlink" title="在组合文件中替换环境变量"></a>在组合文件中替换环境变量</h3><p>可以在 shell 中使用环境变量填充复合文件中的值：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  image: &quot;webapp:$&#123;TAG&#125;&quot;</code></pre></div></figure>
+
+<p>有关更多信息，请参见变量替换节中的“撰写文件引用”。</p>
+<h3 id="在容器中设置环境变量"><a href="#在容器中设置环境变量" class="headerlink" title="在容器中设置环境变量"></a>在容器中设置环境变量</h3><p>可以在服务的容器中设置环境变量。“环境”键，就像<code>docker run -e VARIABLE=VALUE ...</code>*</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  environment:    - DEBUG&#x3D;1</code></pre></div></figure>
+
+<h3 id="将环境变量传递到容器"><a href="#将环境变量传递到容器" class="headerlink" title="将环境变量传递到容器"></a>将环境变量传递到容器</h3><p>可以将环境变量直接从shell传递到服务的容器，“环境”键不给他们一个价值，就像<code>docker run -e VARIABLE ...</code>*</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  environment:    - DEBUG</code></pre></div></figure>
+
+<p><code>DEBUG</code>容器中的变量的值将从运行复合的 shell 中相同变量的值中提取。</p>
+<h3 id="“env-file“-配置选项"><a href="#“env-file“-配置选项" class="headerlink" title="“env_file“ 配置选项"></a>“<strong>env_file</strong>“ 配置选项</h3><p>可以将多个环境变量从外部文件传递到服务的容器，env_file</p>
+<p>选项，就像<code>docker run --env-file=FILE ...</code>*</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  env_file:    - web-variables.env</code></pre></div></figure>
+
+<h3 id="以-“docker-compose-run”设置环境变量"><a href="#以-“docker-compose-run”设置环境变量" class="headerlink" title="以 “docker-compose run”设置环境变量"></a>以 “<strong>docker-compose run</strong>”设置环境变量</h3><p>就像<code>docker run -e</code>，则可以在一次性容器上设置环境变量<code>docker-compose run -e</code>*。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run -e DEBUG&#x3D;1 web python console.py</code></pre></div></figure>
+
+<p>还可以通过不给变量值从 shell 传递变量：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose run -e DEBUG web python console.py</code></pre></div></figure>
+
+<p><code>DEBUG</code>容器中的变量的值将从运行复合的 shell 中的相同变量的值中提取。</p>
+<h3 id="“-env”文件"><a href="#“-env”文件" class="headerlink" title="“.env”文件"></a>“.env”文件</h3><p>控件中引用的任何环境变量或用于配置撰写的任何环境变量的默认值。环境文件命名<code>.env</code>*</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cat .env
+TAG&#x3D;v1.5$ cat docker-compose.yml
+version: &#39;3&#39;services:
+  web:
+    image: &quot;webapp:$&#123;TAG&#125;&quot;</code></pre></div></figure>
+
+<p>当你运行的时候<code>docker-compose up</code>，<code>web</code>上面定义的服务使用图像<code>webapp:v1.5</code>.您可以使用配置命令，它将已解析的应用程序配置打印到终端：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ docker-compose config
+version: &#39;3&#39;services:
+  web:
+    image: &#39;webapp:v1.5&#39;</code></pre></div></figure>
+
+<p>shell 中的值优先于<code>.env</code>文件中指定的值。如果你<code>TAG</code>在你的 shell 中设置了一个不同的值，那么这个替换就会<code>image</code>使用它：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ export TAG&#x3D;v2.0$ docker-compose config
+version: &#39;3&#39;services:
+  web:
+    image: &#39;webapp:v2.0&#39;</code></pre></div></figure>
+
+<p>当使用 shell 中 <code>environment</code>变量和<code>env_file</code>配置文件提供值时，环境变量的值将首先<strong>从环境密钥获取，然后从环境文件获取，然后从</strong> *<strong>*</strong> -entry **<br>获取：<code>**Dockerfile**</code> <code>**ENV**</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cat .&#x2F;Docker&#x2F;api&#x2F;api.env
+NODE_ENV&#x3D;test
+
+$ cat docker-compose.yml
+version: &#39;3&#39;services:
+  api:
+    image: &#39;node:6-alpine&#39;
+    env_file:     - .&#x2F;Docker&#x2F;api&#x2F;api.env
+    environment:     - NODE_ENV&#x3D;production</code></pre></div></figure>
+
+<p>你可以用它来测试例如 NodeJSCLI 中的容器：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ docker-compose exec api node&gt; process.env.NODE_ENV&#39;production&#39;</code></pre></div></figure>
+
+<p>有任何<code>ARG</code>或<code>ENV</code>设置在<code>Dockerfile</code>只有在否码头工人作曲进入<code>environment</code>或<code>env_file</code></p>
+<p>NodeJS 容器专用材料：如果你有<code>package.json</code>进入<code>script:start</code>就像<code>NODE_ENV=test node server.js</code>，这将推翻你的docker-compose.yml档案中任何文件。</p>
+<h3 id="使用环境变量配置组合"><a href="#使用环境变量配置组合" class="headerlink" title="使用环境变量配置组合"></a>使用环境变量配置组合</h3><p>有几个环境变量可供您配置 Docker Compose 命令行行为。它们以 CLI 环境变量开头<code>COMPOSE_</code>或<code>DOCKER_</code>记录在 CLI 环境变量中。</p>
+<h3 id="由链接创建的环境变量"><a href="#由链接创建的环境变量" class="headerlink" title="由链接创建的环境变量"></a>由链接创建的环境变量</h3><p>在 v1 撰写文件中使用 ‘links’ 选项时，将为每个链接创建环境变量。它们记录在 Link 环境变量参考中。但请注意，这些变量已被弃用 - 您应该将链接别名用作主机名。</p>
+<h2 id="通用服务配置"><a href="#通用服务配置" class="headerlink" title="通用服务配置"></a>通用服务配置</h2><p>Compose 支持两种共享通用配置的方法：</p>
+<ol>
+<li><p>扩展整个撰写文件使用多个组合文件</p>
+</li>
+<li><p>扩展个人服务大<code>extends</code>场域</p>
+</li>
+</ol>
+<h3 id="多重合成文件"><a href="#多重合成文件" class="headerlink" title="多重合成文件"></a>多重合成文件</h3><p>使用多个组合文件可以使您为不同的环境或不同的工作流自定义组合应用程序。</p>
+<h4 id="理解多重组合文件"><a href="#理解多重组合文件" class="headerlink" title="理解多重组合文件"></a>理解多重组合文件</h4><p>默认情况下，撰写读取两个文件，<code>docker-compose.yml</code>还有一个可选的<code>docker-compose.override.yml</code>档案。根据惯例，<code>docker-compose.yml</code><br>包含基本配置。正如其名称所暗示的那样，覆盖文件可以包含对现有服务或全新服务的配置重写。</p>
+<p>如果在两个文件中都定义了服务，则使用添加和覆盖配置.</p>
+<p>若要使用多个覆盖文件或具有不同名称的重写文件，可以使用<code>-f</code>选项指定文件列表。按照命令行中指定的顺序编写合并文件。<code>docker-compose</code>命令引用有关使用<code>-f</code></p>
+<p>使用多个配置文件时，必须确保文件中的所有路径相对于基本组合文件。这是必需的，因为重写文件不一定是有效的组合文件。覆盖文件可以包含小的配置片段。跟踪服务的哪个片段相对于哪个路径比较困难和混乱，因此，为了使路径更容易理解，必须相对于基文件定义所有路径。</p>
+<h4 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h4><p>在本节中，有两个用于多个组合文件的常用用例：为不同的环境更改一个组合应用程序，以及对一个复合应用程序运行管理任务。</p>
+<h5 id="不同环境"><a href="#不同环境" class="headerlink" title="不同环境"></a>不同环境</h5><p>多文件的常见用例是为类似生产环境（可能是生产，分段或CI）更改开发撰写应用程序。为了支持这些差异，你可以将你的 Compose 配置分成几个不同的文件：</p>
+<p>从一个基本文件开始，它定义了服务的规范配置。</p>
+<p><strong>Docker-Compose.yml</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  image: example&#x2F;my_web_app:latest
+  links:    - db    - cache
+
+db:
+  image: postgres:latest
+
+cache:
+  image: redis:latest</code></pre></div></figure>
+
+<p>在此示例中，开发配置向主机公开了一些端口，将我们的代码作为卷装入，并构建 Web 图像。</p>
+<p><strong>docker-compose.override.yml</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  build: .
+  volumes:    - &#39;.:&#x2F;code&#39;
+  ports:    - 8883:80
+  environment:
+    DEBUG: &#39;true&#39;db:
+  command: &#39;-d&#39;
+  ports:    - 5432:5432cache:
+  ports:    - 6379:6379</code></pre></div></figure>
+
+<p>当你运行的时候<code>docker-compose up</code>它自动读取重写。</p>
+<p>现在，在生产环境中使用 Compose 应用程序将会很好。因此，创建另一个覆盖文件（可能存储在不同的 git 仓库或由不同的团队管理）。</p>
+<p><strong>Docker-Compose.prod.yml</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  ports:    - 80:80
+  environment:
+    PRODUCTION: &#39;true&#39;cache:
+  environment:
+    TTL: &#39;500&#39;</code></pre></div></figure>
+
+<p>要使用此产品组合文件进行部署，可以运行</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d</code></pre></div></figure>
+
+<p>这将使用<code>docker-compose.yml</code>和<code>docker-compose.prod.yml</code>（但不包括开发配置<code>docker-compose.override.yml</code>）中的配置部署所有三个服务。</p>
+<p>有关产品中的 Compose 的更多信息，请参阅产品。</p>
+<h5 id="管理任务"><a href="#管理任务" class="headerlink" title="管理任务"></a>管理任务</h5><p>另一个常见的用例是针对组合应用程序中的一个或多个服务运行临时或管理任务。此示例演示运行数据库备份。</p>
+<p>从 <strong>Docker-Compose.yml</strong> 开始</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:
+  image: example&#x2F;my_web_app:latest
+  links:    - db
+
+db:
+  image: postgres:latest</code></pre></div></figure>
+
+<p>在 <strong>docker-compose.admin.yml</strong> 中添加一个新服务来运行数据库导出或备份。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dbadmin:
+  build: database_admin&#x2F;
+  links:    - db</code></pre></div></figure>
+
+<p>开始正常的环境运行<code>docker-compose up -d</code>。要运行数据库备份，也要包含<code>docker-compose.admin.yml</code>。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
+    run dbadmin db-backup</code></pre></div></figure>
+
+<h3 id="扩展服务"><a href="#扩展服务" class="headerlink" title="扩展服务"></a>扩展服务</h3><blockquote>
+<p><strong>注意</strong>：<code>extends</code>关键字在早期的 Compose 文件格式中支持到 Compose 文件版本2.1（请参阅v1中的扩展和第2版中的扩展），但在 Compose 版本3.x中不受支持。请参阅第3版的添加和删除键摘要以及有关如何升级的信息。请参阅 moby &#x2F; moby＃31101 以关注<code>extends</code>在未来版本中以某种形式添加支持的可能性。</p>
+</blockquote>
+<p>Docker Compose 的<code>extends</code>关键字可以在不同文件之间共享通用配置，甚至可以完全共享不同的项目。如果您有多个服务可以重复使用一组通用配置选项，则扩展服务很有用。使用<code>extends</code><br>您可以在一个地方定义一套通用的服务选项，并从任何地方引用它。</p>
+<p>记住<code>links</code>，<code>volumes_from</code>和<code>depends_on</code>从不使用<code>extends</code>服务之间共享。这些例外存在以避免隐式依赖性; 你总是本地定义<code>links</code>和<code>volumes_from</code><br>。这可以确保在读取当前文件时，服务之间的依赖关系清晰可见。在本地定义这些也确保对引用文件的更改不会破坏任何内容。</p>
+<h4 id="理解扩展配置"><a href="#理解扩展配置" class="headerlink" title="理解扩展配置"></a>理解扩展配置</h4><p>中定义任何服务时<code>docker-compose.yml</code>，您可以声明您正在扩展如下的另一个服务：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:  extends:
+    file: common-services.yml
+    service: webapp</code></pre></div></figure>
+
+<p>此指令将编写为重用<code>webapp</code>中定义的服务。<code>common-services.yml</code>档案。假设<code>common-services.yml</code>看起来是这样的：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">webapp:
+  build: .
+  ports:    - &quot;8000:8000&quot;
+  volumes:    - &quot;&#x2F;data&quot;</code></pre></div></figure>
+
+<p>在这种情况下，您将得到完全相同的结果，就像您编写<code>docker-compose.yml</code>用同样的<code>build</code>，<code>ports</code>和<code>volumes</code>直接定义在<code>web</code>.</p>
+<p>您可以进一步在本地定义（或重新定义）配置<code>docker-compose.yml</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:  extends:
+    file: common-services.yml
+    service: webapp
+  environment:    - DEBUG&#x3D;1
+  cpu_shares: 5important_web:  extends: web
+  cpu_shares: 10</code></pre></div></figure>
+
+<p>您还可以编写其他服务并链接<code>web</code>向他们提供服务：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">web:  extends:
+    file: common-services.yml
+    service: webapp
+  environment:    - DEBUG&#x3D;1
+  cpu_shares: 5
+  links:    - db
+db:
+  image: postgres</code></pre></div></figure>
+
+<h4 id="用例-1"><a href="#用例-1" class="headerlink" title="用例"></a>用例</h4><p>当您有多个具有公共配置的服务时，扩展单个服务非常有用。下面的示例是一个包含两个服务的撰写应用程序：一个 Web 应用程序和一个队列工作程序。这两个服务使用相同的代码库，并共享许多配置选项。</p>
+<p>在 <strong>common.yml 中</strong>我们定义了通用配置：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">app:
+  build: .
+  environment:
+    CONFIG_FILE_PATH: &#x2F;code&#x2F;config
+    API_KEY: xxxyyy
+  cpu_shares: 5</code></pre></div></figure>
+
+<p>在 <strong>docker-compose.yml</strong> 中<strong>，</strong>我们定义了使用通用配置的具体服务：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">webapp:  extends:
+    file: common.yml
+    service: app
+  command: &#x2F;code&#x2F;run_web_app
+  ports:    - 8080:8080
+  links:    - queue    - db
+
+queue_worker:  extends:
+    file: common.yml
+    service: app
+  command: &#x2F;code&#x2F;run_worker
+  links:    - queue</code></pre></div></figure>
+
+<h3 id="添加和覆盖配置"><a href="#添加和覆盖配置" class="headerlink" title="添加和覆盖配置"></a>添加和覆盖配置</h3><p>将副本配置从原始服务复制到本地服务。如果在原始服务和本地服务中都定义了配置选项，则本地值取代或扩展原始价值。</p>
+<p>对于单值选项<code>image</code>，<code>command</code>或者<code>mem_limit</code>，新值替换旧值。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># original service
+command: python app.py
+
+# local service
+command: python otherapp.py
+
+# result
+command: python otherapp.py</code></pre></div></figure>
+
+<blockquote>
+<p><code>build</code>和<code>image</code>在撰写文件版本1 如属<code>build</code>和<code>image</code>，使用时编写文件格式的版本1，如果在原始服务中定义了另一个选项，则使用本地服务中的一个选项将导致组合放弃另一个选项。 例如，如果原始服务定义<code>image: webapp</code>本地服务定义<code>build: .</code>则结果服务将具有<code>build: .</code>而不是<code>image</code>选择。 这是因为<code>build</code>和<code>image</code>不能在版本1文件中一起使用。</p>
+</blockquote>
+<p>对于<strong>多值的选项</strong> <code>ports</code>，<code>expose</code>，<code>external_links</code>，<code>dns</code>，<code>dns_search</code>，和<code>tmpfs</code>，撰写会连接两组的值：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># original service
+expose:  - &quot;3000&quot;# local service
+expose:  - &quot;4000&quot;  - &quot;5000&quot;# result
+expose:  - &quot;3000&quot;  - &quot;4000&quot;  - &quot;5000&quot;</code></pre></div></figure>
+
+<p>在<code>environment</code>，<code>labels</code>，<code>volumes</code>和<code>devices</code>情况下，撰写“合并”的条目连同本地定义的值取的优先级：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># original service
+environment:  - FOO&#x3D;original  - BAR&#x3D;original
+
+# local service
+environment:  - BAR&#x3D;local  - BAZ&#x3D;local
+
+# result
+environment:  - FOO&#x3D;original  - BAR&#x3D;local  - BAZ&#x3D;local</code></pre></div></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Middleware/" class="category-chain-item">Middleware</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Middleware/Docker/" class="category-chain-item">Docker</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92/" class="print-no-link">#容器编排</a>
+      
+        <a href="/tags/Docker-Compose/" class="print-no-link">#Docker-Compose</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Docker-Compose环境搭建及其使用</div>
+      <div>https://blog.cikaros.top/doc/d0af4468.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年12月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/b6830aac.html" title="Docker配置SSL访问">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker配置SSL访问</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/ba191453.html" title="MKCert的安装与使用">
+                        <span class="hidden-mobile">MKCert的安装与使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

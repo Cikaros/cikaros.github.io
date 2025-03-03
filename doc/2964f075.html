@@ -1,0 +1,1033 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="弃用原因apt-key 命令被弃用是因为它存在安全问题。这个命令使用了非对称加密算法（公钥加密），它通过在本地计算机上生成一对公钥和私钥，然后将公钥上传到软件源服务器上，以确保软件包的完整性和认证性。然而，这种方法存在一个潜在的风险：如果攻击者能够通过某种方式篡改了软件源服务器上的公钥，那么他们就可以轻松地欺骗本地计算机，让其相信软件包是合法和完整的，即使它们被篡改或植入了恶意软件。 为了解决这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu弃用apt-key">
+<meta property="og:url" content="https://blog.cikaros.top/doc/2964f075.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="弃用原因apt-key 命令被弃用是因为它存在安全问题。这个命令使用了非对称加密算法（公钥加密），它通过在本地计算机上生成一对公钥和私钥，然后将公钥上传到软件源服务器上，以确保软件包的完整性和认证性。然而，这种方法存在一个潜在的风险：如果攻击者能够通过某种方式篡改了软件源服务器上的公钥，那么他们就可以轻松地欺骗本地计算机，让其相信软件包是合法和完整的，即使它们被篡改或植入了恶意软件。 为了解决这个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-12T02:56:35.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.628Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="ChatGPT">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="Source源">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Ubuntu弃用apt-key - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Ubuntu弃用apt-key"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-12 10:56" pubdate>
+          2023年3月12日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Ubuntu弃用apt-key</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="弃用原因"><a href="#弃用原因" class="headerlink" title="弃用原因"></a>弃用原因</h2><p>apt-key 命令被弃用是因为它存在安全问题。这个命令使用了非对称加密算法（公钥加密），它通过在本地计算机上生成一对公钥和私钥，然后将公钥上传到软件源服务器上，以确保软件包的完整性和认证性。然而，这种方法存在一个潜在的风险：如果攻击者能够通过某种方式篡改了软件源服务器上的公钥，那么他们就可以轻松地欺骗本地计算机，让其相信软件包是合法和完整的，即使它们被篡改或植入了恶意软件。</p>
+<p>为了解决这个问题，Ubuntu 现在更推荐使用 gpg 命令。gpg 命令使用数字签名来保证软件包的完整性和认证性。与 apt-key 不同，gpg 不使用服务器上的公钥，而是使用软件包本身的数字签名。这样，即使攻击者篡改了服务器上的公钥，也无法通过数字签名验证软件包的完整性和认证性。</p>
+<p>因此，使用 gpg 命令代替 apt-key 命令可以提高软件包的安全性。</p>
+<h2 id="来自ChatGPT的回答"><a href="#来自ChatGPT的回答" class="headerlink" title="来自ChatGPT的回答"></a>来自ChatGPT的回答</h2><blockquote>
+<p>Ubuntu 22.04在进行apt update 时报错：The following signatures couldn’t be verified because the public key is not available: NO_PUBKEY 40976EAF437D05B5 NO_PUBKEY 3B4FE6ACC0B21F32</p>
+</blockquote>
+<p>这个错误是由于系统中缺少对应的公钥，可以通过以下步骤来解决：</p>
+<ol>
+<li><p>打开终端，输入以下命令，将缺少的公钥添加到系统中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32</code></pre></div></figure>
+</li>
+<li><p>然后再次运行 <code>sudo apt update</code> 命令，应该不会再出现该错误。</p>
+</li>
+</ol>
+<p>这个命令会从 Ubuntu 的公钥服务器下载缺少的公钥并添加到系统中。如果你的网络环境有限制，你也可以使用其他的公钥服务器，比如 <code>hkp://keyserver.ubuntu.com:80</code>。</p>
+<blockquote>
+<p>可是apt-key已经弃用，有什么其他的办法吗</p>
+</blockquote>
+<p>是的，你说得对。自Ubuntu 21.10起，<code>apt-key</code> 已经被弃用了，使用 <code>gpg</code> 命令代替。因此，你需要使用以下命令将缺失的公钥添加到系统中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo gpg --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
+sudo gpg --export --armor 40976EAF437D05B5 3B4FE6ACC0B21F32 | sudo apt-key add -</code></pre></div></figure>
+
+<p>这里，第一个命令从 Ubuntu 公钥服务器接收并导入指定的公钥，第二个命令将导入的公钥导出为 ASCII 编码格式，然后使用 <code>apt-key add</code> 命令将其添加到系统中。执行以上两个命令后，你就可以再次运行 <code>sudo apt update</code> 命令了。</p>
+<blockquote>
+<p>既然已经弃用了，为什么你还要再指令中写<code>sudo apt-key add -</code>这一句呢</p>
+</blockquote>
+<p>好问题！对于新的 Ubuntu 发行版，确实不需要使用 <code>apt-key</code> 命令，因为该命令已经被弃用了。然而，一些旧的教程和文档可能仍然使用该命令，所以我在之前的回答中提到了它。</p>
+<p>在新的 Ubuntu 发行版中，使用 <code>gpg</code> 命令代替 <code>apt-key</code>，你可以使用以下命令将公钥添加到系统中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo gpg --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
+sudo gpg --export --armor 40976EAF437D05B5 3B4FE6ACC0B21F32 | sudo tee &#x2F;etc&#x2F;apt&#x2F;trusted.gpg.d&#x2F;my-apt-keys.gpg &gt; &#x2F;dev&#x2F;null</code></pre></div></figure>
+
+<p>上面的命令中，第一行从 Ubuntu 公钥服务器中接收并导入指定的公钥，第二行将导入的公钥导出为 ASCII 编码格式，并将其写入到一个名为 <code>my-apt-keys.gpg</code> 的文件中，该文件保存在 <code>/etc/apt/trusted.gpg.d/</code> 目录下。这个文件夹是用于存储被信任的 GPG 公钥的。这个命令会在这个目录下创建一个新的 GPG 公钥文件。</p>
+<p>总之，尽管 <code>apt-key</code> 命令已经被弃用了，但在某些情况下，你可能仍然需要在系统中添加公钥。在这种情况下，你可以使用 <code>gpg</code> 命令，将公钥导入并添加到 <code>/etc/apt/trusted.gpg.d/</code> 目录中。</p>
+<blockquote>
+<p>我刚刚使用了你第二个回答的解决方案，它在apt update时报：Key is stored in legacy trusted.gpg keyring (&#x2F;etc&#x2F;apt&#x2F;trusted.gpg), see the DEPRECATION section in apt-key(8) for details.</p>
+</blockquote>
+<p>这个警告信息是因为你将公钥添加到了 <code>/etc/apt/trusted.gpg.d/</code> 目录，但是 <code>apt</code> 命令仍然在使用旧的 <code>/etc/apt/trusted.gpg</code> 文件，这个文件是 <code>apt-key</code> 命令生成的。因此，<code>apt</code> 命令警告你公钥已存储在旧的 GPG 文件中。</p>
+<p>为了解决这个问题，你可以将公钥导出到一个单独的文件中，并将该文件添加到 <code>/etc/apt/trusted.gpg.d/</code> 目录。例如，你可以运行以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo gpg --output &#x2F;etc&#x2F;apt&#x2F;trusted.gpg.d&#x2F;my-apt-keys.gpg --export 40976EAF437D05B5 3B4FE6ACC0B21F32</code></pre></div></figure>
+
+<p>上面的命令将公钥导出到一个名为 <code>my-apt-keys.gpg</code> 的文件中，并将该文件添加到 <code>/etc/apt/trusted.gpg.d/</code> 目录。这样，<code>apt</code> 命令就可以找到并使用新的 GPG 公钥文件了。</p>
+<p>另外，如果你想更彻底地移除 <code>apt-key</code> 生成的旧的 GPG 公钥文件，你可以运行以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo rm &#x2F;etc&#x2F;apt&#x2F;trusted.gpg</code></pre></div></figure>
+
+<p>这个命令会删除旧的 GPG 公钥文件，确保 <code>apt</code> 命令只使用 <code>/etc/apt/trusted.gpg.d/</code> 目录中的新 GPG 公钥文件。</p>
+<blockquote>
+<p>The key(s) in the keyring &#x2F;etc&#x2F;apt&#x2F;trusted.gpg.d&#x2F;ustc-apt-keys.gpg are ignored as the file has an unsupported filetype.</p>
+</blockquote>
+<p>这个警告信息表明 <code>/etc/apt/trusted.gpg.d/ustc-apt-keys.gpg</code> 文件的文件类型不受支持，因此其中的 GPG 公钥被忽略了。</p>
+<p>这通常是由于文件的格式不正确所导致的。可能是你的 <code>apt-key add</code> 命令没有正确导入公钥。你可以尝试使用以下命令重新导入公钥：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt-key --keyring &#x2F;etc&#x2F;apt&#x2F;trusted.gpg.d&#x2F;ustc-apt-keys.gpg add &lt;path&#x2F;to&#x2F;your&#x2F;keyfile&gt;</code></pre></div></figure>
+
+<p>确保将 <code>&lt;path/to/your/keyfile&gt;</code> 替换为包含你的 GPG 公钥的文件的路径。</p>
+<p>如果你不知道公钥文件的路径，可以尝试在终端中输入以下命令查找：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">find &#x2F; -name &quot;ustc-apt-keys.gpg&quot;</code></pre></div></figure>
+
+<p>这会在整个文件系统中搜索包含 <code>ustc-apt-keys.gpg</code> 文件名的文件，并显示文件的路径。然后，你可以将路径替换为上述命令中的 <code>&lt;path/to/your/keyfile&gt;</code>。</p>
+<p>如果重新导入公钥后仍然遇到相同的问题，请确保你的公钥文件是正确的格式，它应该是一个文本文件，其中包含 ASCII 编码的 GPG 公钥。如果你不确定文件是否正确，请打开文件并检查它的内容是否与你期望的 GPG 公钥相匹配。</p>
+<blockquote>
+<p>请用最新的方案解决刚刚的问题，不要使用已弃用的指令apt-key</p>
+</blockquote>
+<p>当你向系统添加一个新的 GPG 公钥时，你可以使用 <code>gpg</code> 命令来完成这项任务。以下是如何使用 <code>gpg</code> 命令来添加 GPG 公钥的步骤：</p>
+<ol>
+<li><p>首先，你需要从软件提供方获取其 GPG 公钥。通常，软件提供方会在其网站上提供一个 ASCII 码格式的 GPG 公钥，你可以将其保存到一个文本文件中。假设你已经从软件提供方获取了一个名为 <code>key.asc</code> 的 GPG 公钥文件。</p>
+</li>
+<li><p>接下来，你需要将 GPG 公钥导入到你的 GPG 密钥环中。运行以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo gpg --import key.asc</code></pre></div></figure>
+
+<p>这会将 <code>key.asc</code> 文件中的公钥添加到你的 GPG 密钥环中。</p>
+</li>
+<li><p>现在，你需要找到新添加的 GPG 公钥的 Key ID。运行以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gpg --list-keys</code></pre></div></figure>
+
+<p>这会列出你的 GPG 密钥环中的所有密钥。在输出中，找到刚刚导入的公钥的 Key ID。Key ID 是一个 8 位十六进制数字。</p>
+</li>
+<li><p>最后，你需要将公钥的 Key ID 添加到 <code>/etc/apt/trusted.gpg.d/</code> 目录中的一个文件中，以便 <code>apt</code> 命令可以使用该公钥。运行以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo gpg --export &lt;key-id&gt; | sudo tee &#x2F;etc&#x2F;apt&#x2F;trusted.gpg.d&#x2F;my-apt-keys.gpg</code></pre></div></figure>
+
+<p>这会将公钥导出到一个名为 <code>my-apt-keys.gpg</code> 的文件中，并将该文件添加到 <code>/etc/apt/trusted.gpg.d/</code> 目录。确保将 <code>&lt;key-id&gt;</code> 替换为你在步骤 3 中找到的公钥的 Key ID。</p>
+</li>
+</ol>
+<p>现在，你应该能够使用 <code>apt update</code> 命令更新你的软件包列表，而不会收到公钥验证错误的消息。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/OS/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/OS/Linux/Ubuntu/" class="category-chain-item">Ubuntu</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ChatGPT/" class="print-no-link">#ChatGPT</a>
+      
+        <a href="/tags/Ubuntu/" class="print-no-link">#Ubuntu</a>
+      
+        <a href="/tags/Source%E6%BA%90/" class="print-no-link">#Source源</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Ubuntu弃用apt-key</div>
+      <div>https://blog.cikaros.top/doc/2964f075.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/5ef1aa76.html" title="Windows 注册表">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Windows 注册表</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/b3570cee.html" title="MultiPass Cloud-init文件介绍.md">
+                        <span class="hidden-mobile">MultiPass Cloud-init文件介绍.md</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

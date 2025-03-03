@@ -1,0 +1,1380 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="操作系统开发：编写开机引导 文章来源：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;LyShark&#x2F;p&#x2F;16517379.html  操作系统是用来管理与协调硬件工作的，开发一款操作系统有利于理解底层的运转逻辑，本篇内容主要用来理解操作系统是如何启动的，又是如何加载磁盘中的内核的，该系列文章参考各类底层书籍，通过自己的理解并加以叙述，让内容变得更加简单，一目了然，即可学到知识又能提高自己的表述能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搬运-操作系统开发：编写开机引导">
+<meta property="og:url" content="https://blog.cikaros.top/doc/483bf2e0.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="操作系统开发：编写开机引导 文章来源：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;LyShark&#x2F;p&#x2F;16517379.html  操作系统是用来管理与协调硬件工作的，开发一款操作系统有利于理解底层的运转逻辑，本篇内容主要用来理解操作系统是如何启动的，又是如何加载磁盘中的内核的，该系列文章参考各类底层书籍，通过自己的理解并加以叙述，让内容变得更加简单，一目了然，即可学到知识又能提高自己的表述能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145517602-1715723101.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145548953-1827793088.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145604208-911099651.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145627186-461943681.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145646468-623819972.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145700475-1833044642.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145713025-788873539.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145727844-2139804549.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145737505-1002718591.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145751733-1331411504.png">
+<meta property="article:published_time" content="2022-09-20T03:11:11.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.630Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="操作系统">
+<meta property="article:tag" content="引导">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.cikaros.top/doc/483bf2e0/1379525-20220725145517602-1715723101.png">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>搬运-操作系统开发：编写开机引导 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="搬运-操作系统开发：编写开机引导"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-20 11:11" pubdate>
+          2022年9月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          7.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          61 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">搬运-操作系统开发：编写开机引导</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="操作系统开发：编写开机引导"><a href="#操作系统开发：编写开机引导" class="headerlink" title="操作系统开发：编写开机引导"></a>操作系统开发：编写开机引导</h1><blockquote>
+<p>文章来源：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/LyShark/p/16517379.html">https://www.cnblogs.com/LyShark/p/16517379.html</a></p>
+</blockquote>
+<p>操作系统是用来管理与协调硬件工作的，开发一款操作系统有利于理解底层的运转逻辑，本篇内容主要用来理解操作系统是如何启动的，又是如何加载磁盘中的内核的，该系列文章参考各类底层书籍，通过自己的理解并加以叙述，让内容变得更加简单，一目了然，即可学到知识又能提高自己的表述能力。</p>
+<p>该系列文章是在学习《操作系统真相还原》时通过阅读后简化并适当描述整理的学习笔记，首先，致敬作者郑刚博士，在读本书时能深刻的感觉到作者写书时一丝不苟的态度，书很厚写的，讲解细致幽默，很能让人愿意继续读下去，同时也不得不佩服作者计算机底层功力的深厚。</p>
+<h2 id="BOIS是如何苏醒的"><a href="#BOIS是如何苏醒的" class="headerlink" title="BOIS是如何苏醒的"></a>BOIS是如何苏醒的</h2><p><strong>BIOS</strong> 基本输入输出系统,<strong>BIOS</strong> 代码所做的工作是一成不变的,所以他是被固化到<strong>ROM</strong>中的一块只读区域中,在开机时此<strong>ROM</strong>会被映射到低端<code>1MB</code>内存的顶部,原因是系统在开启时默认是实地址模式(该模式最大寻址范围<code>0-fffff</code>),所以其寻址范围也就被限制在了<code>0xF0000-x0xFFFFF</code>区域中,这<code>64KB</code>的内存就是<strong>BIOS</strong>的执行代码.</p>
+<p>在开机的一瞬间,<strong>CPU</strong>的<strong>CS:IP</strong>寄存器会被强制初始化为<code>0xF000:0xFFF0</code>,在实地址模式下该地址需要乘以16也就是左移四位加上偏移地址得到,于是<code>0xF000:0xFFF0</code>就等效于<code>0xFFFF0</code>此处的地址距离<code>0xFFFFF</code>只有16个字节的空间,里面存放着一条<code>jmp far f000:e05b = fe05b</code>的汇编指令,该指令将跳转到真正的<strong>BIOS</strong>开始的位置.</p>
+<p>接着<strong>BIOS</strong>将会通过自身的代码对硬件进行自检测,在初始化硬件后,则开始向内存<code>0x000-0x3ff</code>中初始化数据结构以及拷贝中断向量表,紧接着<strong>BIOS</strong>将会通过调用<code>int 19h</code>中断,此中断用以检测计算机中的硬盘,如果检测到0盘0道1扇区末尾的两个字节是<code>0x55,0xaa</code>则认为此扇区确实存在,于是就会将此区域中的内容,加载到内存<code>0x7c00</code>的位置,并通过一条<code>jmp far 0:0x7c00h</code>的指令跳转到该位置执行,这样<strong>BIOS</strong>就将<strong>CPU</strong>控制权交给了<strong>MBR</strong>了,而<strong>BIOS</strong>将会再次睡去.</p>
+<h2 id="MBR继续执行引导"><a href="#MBR继续执行引导" class="headerlink" title="MBR继续执行引导"></a>MBR继续执行引导</h2><p>如上提到过的<code>0x7c00</code>就是<strong>MBR</strong>代码的开始位置,之所以是<code>0x7C00</code>是因为,<strong>DOS</strong>中要求最小内存是<code>32KB</code>而<strong>MBR</strong>大小必须是<code>512</code>字节,所以选择<code>32kB</code>中的最后<code>1KB</code>的位置最为合适(<code>32KB(0x8000)-1KB(0x400)=&gt;0x7c00</code>),这就是<code>0x7C00</code>的由来,同时还需要保证第<code>510-511</code>字节必须为<code>0x55,0xaa</code>才可以,这就需要在末尾部分自动补齐两字节的填充.</p>
+<p>简单的引导<strong>MBR</strong>的代码如下,首先我们需要先初始化每个段寄存器<strong>DS</strong>,<strong>ES</strong>,<strong>SS</strong>,<strong>FS</strong>,<strong>SP</strong>然后通过调用两次<code>int 0x10</code>中断对命令行进行置空操作,最后通过<code>mov ax,01301h</code>也就是13号中断,打印出字符串.</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">SECTION MBR vstart&#x3D;0x7c00     ; 告诉编译器加载到7c00内存处
+        mov ax,cs
+        mov ds,ax
+        mov es,ax
+        mov ss,ax
+        mov fs,ax
+        mov sp,0x7c00
+
+        mov ax,0x600      ; 清屏范围,也就是宽度
+        mov bx,0x0
+        mov cx,0x0        ; 清屏 左上角(0,0)
+        mov dx,0x184f     ; 清屏 右下角(80&#x3D;0x4f,25&#x3D;0x18)
+
+        int 0x10
+        mov dh,0x0        ; 设置光标列号
+        mov dl,0x0        ; 设置光标行号
+        mov bh,0x0        ; 页码
+        int 0x10
+
+        mov ax,Message
+        mov bp,ax         ; 保存字符串地址
+        mov cx,15         ; 保存字符串长度
+        mov ax,01301h     ; 子功能号13是显示字符及属性
+        mov bx,000ch      ; 页号位0,使用黑色为背景色,红色为字体颜色
+        mov dl,0
+        int 10h           ; 调用10h号中断,用来显示字符
+        hlt
+        ret
+
+Message: db &quot;hello lyshark !&quot;
+times 510-($-$$) db 0  ; 填充剩余的510字节的空间为0
+db 0x55,0xaa           ; mbr的结束标志</code></pre></div></figure>
+
+<p>我们直接将其保存为<code>mbr.asm</code>文件,通过Nasm汇编器编译为二进制文件,然后再通过<code>dd</code>命令写入到一个镜像文件中,具体编译流程如下,这里需要下载好Windows版本的<code>dd</code>命令.</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none"># 首先编译为二进制文件
+nasm mbr.asm -o mbr.bin
+
+# 将镜像写入到kernel.img镜像中,写入长度512字节,循环1次
+dd if&#x3D;mbr.bin of&#x3D;kernel.img bs&#x3D;512 count&#x3D;1 conv&#x3D;notrunc
+
+# 通过seek跳过第一个扇区,然后向后填充4096字节的0
+dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;kernel.img seek&#x3D;1 bs&#x3D;512 count&#x3D;4096</code></pre></div></figure>
+
+<p>由于我们使用的模拟器是<strong>Bochs x86</strong>所以,在制作好镜像后,需要在编写一个虚拟机配置文件,该配置文件命名为<code>mbr.src</code>其内部需要定义好虚拟机的类型,启动方式,镜像位置等基本参数,一个简易版定义语句如下.</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">megs:32
+romimage:file&#x3D;.&#x2F;BIOS-bochs-latest
+vgaromimage:file&#x3D;.&#x2F;VGABIOS-lgpl-latest
+boot:disk
+mouse:enabled&#x3D;0
+ata0-master: type&#x3D;disk, path&#x3D;&quot;kernel.img&quot;, mode&#x3D;flat, status&#x3D;inserted
+keyboard: keymap&#x3D;.&#x2F;x11-pc-de.map</code></pre></div></figure>
+
+<p>启动时可以直接调用<code>bochsdbg -q -f mbr.src</code>命令,使用调试模式运行,并通过语句<code>vb sp:0x7c00</code>在开头下断点,使用<code>c</code>命令可运行到<strong>MBR</strong>代码处,单步<code>n</code>执行,即可输出一段话,标志着<strong>MBR</strong>已经成功被加载.</p>
+<img src="/doc/483bf2e0/1379525-20220725145517602-1715723101.png" srcset="/img/loading.gif" lazyload class="">
+
+<h2 id="让MBR直接驱动显卡"><a href="#让MBR直接驱动显卡" class="headerlink" title="让MBR直接驱动显卡"></a>让MBR直接驱动显卡</h2><p>如上代码，我们通过调用<strong>BIOS</strong>提供的<code>int 0x10</code>中断来实现打印字符操作，但我们在后期必须要借助显卡来输出图像，而显卡是外部设备，必须通过总线来操作。</p>
+<p>由于<strong>CPU</strong>使用的信号是<strong>TTL</strong>电平，而外部设备都是机械设备，故他们不会使用该电平驱动，这就导致<strong>CPU</strong>与硬件设备没有办法实现沟通，硬件工程师们提供的方法是，在这两者之间架起一座桥，也就是在<strong>CPU</strong>和外设之间加上一层<strong>IO</strong>接口，该接口的作用就是实现<strong>CPU</strong>和外设之间相互做协调转换。</p>
+<p>其次外部设备的种类也是多种多样的，其输出的信号可能是数字信号，也可能是模拟信号，而我们的<strong>CPU</strong>只能处理数字信号，数字信号需要经过数模转换器<code>&lt;D/A&gt;</code>成模拟量才能送到外设来驱动硬件工作，模拟量也同样需要经过模数转换器<code>&lt;A/D&gt;</code>转换成数字量才能被<strong>CPU</strong>直接处理，所以接口电路中需要包括<code>A/D</code>转换器和<code>D/A</code>转换器。</p>
+<p>转换后的数字信号，会经过总线进行传递，总线的别名是<strong>BUS</strong>，之所以叫做<strong>BUS</strong>是因为其是公共线路，所有硬件设备都会走此线路，但同一时刻，<strong>CPU</strong>只能和一个<strong>IO</strong>接口(寄存器&#x2F;端口)通信，当有多个<strong>IO</strong>接口同时想和<strong>CPU</strong>通信时，那么<strong>IO</strong>仲裁模块会对其进行竞争与选优，仲裁模块固化到，输入输出控制中心(<strong>ICH</strong>)也就是南桥芯片上的。</p>
+<p>多数情况下，南桥和北桥是成对出现的，南桥主要负责连接<strong>PCI</strong>,<strong>PCI-Express</strong>,<strong>AGP</strong>等低速设备，而北桥则用于链接高速设备，如内存等。</p>
+<p><strong>IO</strong>接口都是串行口，其在设计之初就是负责与<strong>CPU</strong>进行通信的，我们想要与<strong>CPU</strong>通信，其实是向这些接口中写入数据，同时为了区别<strong>CPU</strong>中的寄存器，所以把<strong>IO</strong>接口叫做端口，某些外设可以通过内存映射来访问，即把某些端口映射到指定内存中，访问某个内存区域就相当于访问了指定的端口。</p>
+<p>由于显卡的起始地址为<code>0xb800</code>向该地址写入数据即可回显在显示器上，如下代码是一个简单的填充过程。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">SECTION MBR vstart&#x3D;0x7c00     ; 告诉编译器加载到7c00内存处
+        mov ax,cs
+        mov sp,0x7c00
+        mov ax,0xb800
+        mov gs,ax
+
+        mov ax,0x600      ; 清屏范围,也就是宽度
+        mov bx,0x0
+        mov cx,0x0        ; 清屏 左上角(0,0)
+        mov dx,0x184f     ; 清屏 右下角(80&#x3D;0x4f,25&#x3D;0x18)
+        int 0x10
+
+        mov dh,0x0        ; 设置光标列号
+        mov dl,0x0        ; 设置光标行号
+        mov bh,0x0        ; 页码
+        int 0x10
+
+        mov byte [gs:0x00],&#39;L&#39;
+        mov byte [gs:0x01],0xa4 ; 显示A&#x3D;绿色闪烁 4&#x3D;红色
+
+        mov byte [gs:0x02],&#39;y&#39;
+        mov byte [gs:0x03],0xa5
+
+        mov byte [gs:0x04],&#39;S&#39;
+        mov byte [gs:0x05],0xa6
+
+        mov byte [gs:0x6],&#39;h&#39;
+        mov byte [gs:0x7],0xa7
+
+        mov byte[gs:0x8],&#39;a&#39;
+        mov byte [gs:0x9],0xa6
+
+        mov byte[gs:0xa],&#39;r&#39;
+        mov byte [gs:0xb],0xa5
+
+        mov byte[gs:0xc],&#39;k&#39;
+        mov byte [gs:0xd],0xa4
+        hlt
+        ret
+
+times 510-($-$$) db 0  ; 填充剩余的510字节的空间为0
+db 0x55,0xaa           ; mbr的结束标志</code></pre></div></figure>
+
+<p>编译并运行这段代码，由于使用的是显卡输出，所以在输出色彩上，我们的选择余地更多了。</p>
+<img src="/doc/483bf2e0/1379525-20220725145548953-1827793088.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>如上代码中需要注意，偶数行<code>gs:0x04</code>代表的是输出数据，奇数行<code>gs:0x05</code>则代表颜色背景色，如果需要实现循环输出，那么我们除需要考虑循环条件外，还应把基数偶数行也考虑进来。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">SECTION MBR vstart&#x3D;0x7c00     ; 告诉编译器加载到7c00内存处
+	; 清屏和设置光标位置
+	mov ax,0x600      ; 清屏范围,也就是宽度
+	mov bx,0x0
+	mov cx,0x0        ; 清屏 左上角(0,0)
+	mov dx,0x184f     ; 清屏 右下角(80&#x3D;0x4f,25&#x3D;0x18)
+	int 0x10
+
+	mov dh,0x0        ; 设置光标列号 左上角(0,0)
+	mov dl,0x0        ; 设置光标行号 右下角(0,0)
+	mov bh,0x0        ; 页码
+	int 0x10
+
+	; 初始化,使SP寄存器指向段基址0X7C0处,GS指向显存基地址
+	mov ax,cs
+	mov sp,0x7c00
+	mov ax,0xb800
+	mov gs,ax              ; 设置显存地址
+
+	; 设置字符串长度与字符串基地址
+	mov cx, msglen        ; 获取字符串长度
+	mov si, message       ; 设置字符串基址
+	xor di, di            ; 每次清空di寄存器
+
+loop_str:
+	mov al, [si]            ; 每次取出一个字符
+	mov [gs:di], al         ; 将字符逐一赋值到显存中
+	inc si
+	inc di
+	
+	mov byte [gs:di], 000ch ; 设置字体颜色
+	inc di
+	loop loop_str
+
+	hlt      ; 程序在此处终止
+
+;message db &quot;Loading MBR...&quot;,0ah,0dh
+message db &quot;Loading MBR...&quot;
+msglen  equ $ - message
+
+times 510-($-$$) db 0  ; 填充剩余的510字节的空间为0
+db 0x55,0xaa           ; mbr的结束标志</code></pre></div></figure>
+
+<img src="/doc/483bf2e0/1379525-20220725145604208-911099651.png" srcset="/img/loading.gif" lazyload class="">
+
+<h2 id="让MBR直接驱动硬盘"><a href="#让MBR直接驱动硬盘" class="headerlink" title="让MBR直接驱动硬盘"></a>让MBR直接驱动硬盘</h2><p>既然显卡中存在端口可以被操作，那么硬盘也同样存在，硬盘控制器属于<strong>IO</strong>接口，如果想让硬盘工作，我们需要通过读写硬盘控制器上的端口，此处的端口指的就是硬盘控制器上的寄存器组。</p>
+<ul>
+<li>硬盘控制器中的端口可被分为两种,最主要的是 <strong>Command Block registers</strong> 组中的寄存器</li>
+<li><strong>Command Block registers</strong> 用于向硬盘驱动器写入命令字或者从硬盘控制器获得硬盘状态</li>
+<li><strong>Control Block registers</strong> 用于控制硬盘工作状态</li>
+</ul>
+<p>一般硬盘中的一个通道包括两片硬盘，其中<code>0</code>为主盘，<code>1</code>为从盘，硬盘控制器中的主要寄存器如下，其中主盘所对应的通道为<strong>Primary</strong>，后面的那个<strong>Secondary</strong>则是从盘通道，主从盘调用中断号完全不同：</p>
+<img src="/doc/483bf2e0/1379525-20220725145627186-461943681.png" srcset="/img/loading.gif" lazyload class="">
+
+<ul>
+<li><strong>DATA</strong> 寄存器主要负责管理数据,相当于数据的门,作用是读取或写入数据</li>
+<li>读硬盘时: 硬盘准备好数据后，硬盘控制器将其放在内部的缓冲区中，不断读此寄存器便是读出缓冲区中的全部数据。</li>
+<li>写硬盘时: 把数据源源不断地输送到此端口，数据便被存入缓冲区里，硬盘控制器发现这个缓冲区中有数据了，便将此处的数据写入相应的扇区中。</li>
+<li><strong>ERROR&#x2F;FEATURES</strong> 由于环境不同用途不同,所以两个寄存器名字指的是同一个</li>
+<li>读硬盘时: 端口<code>0x171</code>或<code>0x1F1</code>的寄存器名字叫<strong>Error</strong>寄存器，若读取失败，里面存储的是失败状态信息，并且<code>0x1F2</code>端口中存储未读的扇区数。</li>
+<li>写硬盘时: 就变成<strong>feauture</strong>寄存器，用于写命令的参数，有些命令需要指定额外参数，这些参数就写在 <strong>Feature</strong> 寄存器中。</li>
+<li><strong>SectorCount</strong> 寄存器用来指定待读取或待写入的扇区数</li>
+<li>硬盘每完成1个扇区，就会将此寄存器的值减1，如果中间失败了，此寄存器中的值便是尚未完成的扇区。</li>
+<li><strong>LBA</strong> 逻辑块地址,解决了磁盘在柱面磁头扇区上寻址的麻烦(<strong>CHS</strong>),寻址时不用再考虑扇区所在的物理结构,当今<strong>LBA</strong>有两种,一种是<strong>LBA28</strong>最大支持<code>128GB</code>的寻址,另外一种是<strong>LBA48</strong>,最大支持<code>128PB</code>寻址.</li>
+<li><strong>LBA</strong>寄存器,有三种不同的形式: <code>LBA low</code>、<code>LBA mid</code>、<code>LBA high</code><ul>
+<li><code>LBA low</code> 寄存器用来存储28位地址的第0-7位</li>
+<li><code>LBA mid</code> 寄存器用来存储第8-15位</li>
+<li><code>LBA high</code> 寄存器存储第16-23位</li>
+</ul>
+</li>
+<li><strong>Device</strong> 寄存器是个杂项,宽度<code>8</code>位,此寄存器的低<code>4</code>位用来存储<strong>LBA</strong>地址的第<code>24-27</code>位<ul>
+<li>第<code>4</code>位用来指定通道上的主盘或从盘</li>
+<li>第<code>6</code>位用来设置是否启用<strong>LBA</strong>方式</li>
+<li>第<code>5</code>位和第<code>7</code>位是固定为<code>1</code>的,称为<strong>MBS</strong>位</li>
+</ul>
+</li>
+<li><strong>Status</strong> 状态寄存器,控制端口<code>0x1F7</code>或<code>0x177</code>,它是<code>8</code>位宽度寄存器,用来给出硬盘的状态信息<ul>
+<li>第<code>0</code>位是<strong>ERR</strong>位，为<code>1</code>表示命令出错，具体原因可见<strong>error</strong>寄存器。</li>
+<li>第<code>3</code>位是<strong>data request</strong>位，为<code>1</code>表示硬盘已经把数据准备好了机现在可以把数据读出来。</li>
+<li>第<code>6</code>位是<strong>DRDY</strong>，表示硬盘就绪表示硬盘检测正常，可以继续执行一些其他命令。</li>
+<li>第<code>7</code>位是<strong>BSY</strong>位，表示硬盘是否繁忙，为<code>1</code>表示硬盘正忙。</li>
+</ul>
+</li>
+<li>注释: 状态位与<strong>Error</strong>寄存器一样，在写硬盘时寄存器就变成<strong>Command</strong>，此寄存器用来存储让硬盘执行的命令，只要把命令写进此寄存器，硬盘就开始工作。</li>
+</ul>
+<p>由于<strong>MBR</strong>受制于只能容纳<code>512</code>字节大小的数据，没法为内核准备好环境，更没法将内核成功加载到内存并运行，此时我们需要让<strong>MBR</strong>实现从硬盘加载<strong>Loader</strong>程序到内存，加载完成后再将接力棒交给<strong>Loader</strong>继续运行，<strong>MBR</strong>加载磁盘代码如下。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">%include &quot;boot.inc&quot;
+SECTION MBR vstart&#x3D;0x7c00         
+   mov ax,cs      
+   mov ds,ax
+   mov es,ax
+   mov ss,ax
+   mov fs,ax
+   mov sp,0x7c00
+   mov ax,0xb800
+   mov gs,ax
+
+; 清屏
+   mov ax, 0600h
+   mov bx, 0700h
+   mov cx, 0
+   mov dx, 184fh
+   int 10h
+
+   mov eax,LOADER_START_SECTOR	 ; 起始扇区lba地址
+   mov bx,LOADER_BASE_ADDR       ; 写入的地址
+   mov cx,1			             ; 待读入的扇区数
+   call rd_disk_m_16		     ; 以下读取程序的起始部分（一个扇区）
+  
+   jmp LOADER_BASE_ADDR
+
+;功能:读取硬盘n个扇区
+rd_disk_m_16:	   
+      mov esi,eax	  ;备份eax
+      mov di,cx		  ;备份cx
+;读写硬盘:
+;第1步：设置要读取的扇区数
+      mov dx,0x1f2
+      mov al,cl
+      out dx,al            ;读取的扇区数
+
+      mov eax,esi	   ;恢复ax
+
+;第2步：将LBA地址存入0x1f3 ~ 0x1f6
+
+      ;LBA地址7~0位写入端口0x1f3
+      mov dx,0x1f3                       
+      out dx,al                          
+
+      ;LBA地址15~8位写入端口0x1f4
+      mov cl,8
+      shr eax,cl
+      mov dx,0x1f4
+      out dx,al
+
+      ;LBA地址23~16位写入端口0x1f5
+      shr eax,cl
+      mov dx,0x1f5
+      out dx,al
+
+      shr eax,cl
+      and al,0x0f	   ;lba第24~27位
+      or al,0xe0	   ; 设置7～4位为1110,表示lba模式
+      mov dx,0x1f6
+      out dx,al
+
+;第3步：向0x1f7端口写入读命令，0x20 
+      mov dx,0x1f7
+      mov al,0x20                        
+      out dx,al
+
+;第4步：检测硬盘状态
+  .not_ready:
+      ;同一端口，写时表示写入命令字，读时表示读入硬盘状态
+      nop
+      in al,dx
+      and al,0x88	   ;第4位为1表示硬盘控制器已准备好数据传输，第7位为1表示硬盘忙
+      cmp al,0x08
+      jnz .not_ready	   ;若未准备好，继续等。
+
+;第5步：从0x1f0端口读数据
+      mov ax, di
+      mov dx, 256
+      mul dx
+      mov cx, ax	   ; di为要读取的扇区数，一个扇区有512字节，每次读入一个字，
+			   ; 共需di*512&#x2F;2次，所以di*256
+      mov dx, 0x1f0
+  .go_on_read:
+      in ax,dx
+      mov [bx],ax
+      add bx,2		  
+      loop .go_on_read
+      ret
+
+   times 510-($-$$) db 0
+   db 0x55,0xaa</code></pre></div></figure>
+
+<img src="/doc/483bf2e0/1379525-20220725145646468-623819972.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>至此虽然输出效果与在MBR中直接操作显卡输出结果一致，但本质是不同的，此处代码中<strong>MBR</strong>主要负责从硬盘中的第<code>3</code>个扇区中读入<strong>Loader</strong>加载器到内存，并将<strong>CPU</strong>指针指向它，后期的输出纯粹是<strong>Loader</strong>加载器所为。</p>
+<h2 id="实模式切入保护模式"><a href="#实模式切入保护模式" class="headerlink" title="实模式切入保护模式"></a>实模式切入保护模式</h2><p>保护模式最早出现在<code>80286</code>系列处理器中，之所以会出现保护模式是因为实地址模式中存在以下问题：</p>
+<ol>
+<li>实模式下操作系统与用户程序属于同一特权级<code>R0</code>，无法区分系统程序与用户程序。</li>
+<li>用户程序引用的地址都是指向真实的物理地址，所以逻辑地址就等于物理地址。</li>
+<li>用户程序可以直接修改段基址，当访问超过<code>64KB</code>的内存区域时需要手动切换段基址。</li>
+<li>共<code>20</code>条地址线最大可用<code>1MB</code>内存，且一次只能运行<code>1</code>个程序,无法充分利用计算资源。</li>
+</ol>
+<p>为了克服内存访问限制，<strong>CPU</strong>厂商则开发出保护模式，在保护模式下物理地址不能被程序直接访问，在访问时需要将虚拟地址转换为物理地址再去访问，而对于程序而言这一系列操作都是透明的。</p>
+<p>这个地址转换过程是由操作系统与处理器共同协作完成的，处理器在硬件上提供地址转换部件，操作系统提供转换过程中所需要的页表。</p>
+<h3 id="实模式与保护模式"><a href="#实模式与保护模式" class="headerlink" title="实模式与保护模式"></a>实模式与保护模式</h3><p>相对于实地址模式，保护模式对寄存器进行了一定的扩展，<strong>CPU</strong>扩展为<code>32</code>位后，其地址总线和数据总线也变为<code>32</code>位，寻址空间达到了<code>4GB</code>，为了让一个寄存器可以访问到<code>4GB</code>空间，需要将寄存器宽度提升到<code>32</code>位。</p>
+<p>除段寄存器外，通用寄存器、指令指针寄存器、标志寄存器都由原来的<code>16</code>位扩展到了<code>32</code>位，段寄存器<code>16</code>位就够用了。</p>
+<p>相对于实地址模式，保护模式大大提高了对内存段的保护能力，<strong>GDT</strong>全局描述符就是对特定内存段属性进行描述的数据结构，该数据结构中的每一个表项称为段描述符，大小为<code>64</code>字节，用来描述各个内存段的起始地址、大小、权限等信息。</p>
+<p>由于全局描述符表<strong>GDT</strong>很大，所以默认将其放在了内存中，由<strong>GDTR</strong>寄存器指向它，<strong>GDTR</strong>是个<code>48</code>位的寄存器，通常使用<code>lgdtr</code>指令操作，控制该寄存器。</p>
+<p>这样，段寄存器中保存的再也不是段基址了，里面保存的内容叫 段选择子(<strong>selector</strong>) 该选择子其实就是个数，用这个数来索引全局描述符表中的段描述符，如果把全局描述符表当成数组，那么选择子就是数组的下标。</p>
+<h3 id="GDT全局描述符表"><a href="#GDT全局描述符表" class="headerlink" title="GDT全局描述符表"></a>GDT全局描述符表</h3><p>全局描述符表<strong>GDT</strong>是保护模式下内存段的登记表，这是不同于实地址模式下的显著特征。<br>局部描述符表<strong>LDT</strong>是<strong>CPU</strong>厂商为了在硬件层面支持多任务的一个表，当今操作系统不使用。</p>
+<p>在实地址模式下，寻址是按照<code>[段基址+段内偏移]</code>的形式进行，而在保护模式下为了保证兼容性，其也必须遵循这一规范。</p>
+<p>在实地址模式下，访问内存时只要将段基址加载到段寄存器中，再结合偏移地址就行，段寄存器太小了，只能存储 <code>16</code> 位的信息，甚至连 <code>20</code> 位地址都要借助左移 <code>4</code> 位来实现。</p>
+<p>而进入到保护模式，各个寄存器都提升到了<code>32</code>位，且还需对特定的内存段增加一些额外的安全属性，那么将这些属性放在内存中是最好的选择。</p>
+<ul>
+<li>之所以需要增加全局描述符表，并为每个段增加段描述符，是因为实模式下存在以下问题。</li>
+<li>实模式下的用户程序可以破坏存储代码的内存区域，所以要添加个内存段类型属性来阻止这种行为。</li>
+<li>实模式下的用户程序和操作系统是同一级别的，所以要添加个特权级属性来区分用户程序和系统。</li>
+<li>内存段是一片内存区域，访问内存就要提供段基址，所以要有段基址属性。</li>
+<li>为了限制程序访问内存的范围，还要对段大小进行约束，所以要有段界限属性。</li>
+</ul>
+<p><strong>段描述符</strong>: 一个段描述符只用来描述一个内存段的属性，这些描述符被依次排列在<strong>GDT</strong>中，<strong>GDT</strong>全局描述符表相当于描述符数组，数组中每个元素都是一个描述符，每个描述符大小是<code>8</code>字节，分为高<code>32</code>位与低<code>32</code>位，即两个四字节，<strong>GDT</strong>中最多可容纳的描述符数量是<code>65536/8=8192</code>个，即 <strong>GDT</strong> 中可容纳 <code>8192</code> 个段或门。</p>
+<p>如下，段描述符结构示意参考，以及每个字段的大体含义。</p>
+<img src="/doc/483bf2e0/1379525-20220725145700475-1833044642.png" srcset="/img/loading.gif" lazyload class="">
+
+<ul>
+<li>段界限:第<code>0-15</code>位与<code>16-19</code>位共同构成段界限，表示段的边界，大小，范围，段界限用<code>20</code>个二进制位来表示。</li>
+<li>段基址:第<code>0-7</code>是段基址的<code>16-23</code>位，第<code>24-31</code>位是段基址的高<code>32</code>位，加上段描述符低<code>32</code>位中的段基址<code>0-15</code>位，就构成了<code>32</code>位的基地址。</li>
+<li>Type字段:第<code>8-11</code>位是<strong>type</strong>字段，共占用<code>4</code>位，用于表示内存段或调用门的子类型。</li>
+<li>S字段:第<code>12</code>位是<strong>S</strong>字段，用于指示是否为系统段，为<code>0</code>是系统段，为<code>1</code>是数据段，通常与<strong>Type</strong>字段配合使用。</li>
+<li>DPL字段:第<code>13-14</code>位是<strong>DPL</strong>，即描述符特权级，通常是指所代表的内存段的特权级。</li>
+<li>Present字段:第<code>15</code>位是<strong>P</strong>字段，标志着指定段是否存在，如果段存在于内存中，<strong>P</strong>为<code>1</code>否则为<code>0</code>。</li>
+<li>AVaiLable字段:第<code>20</code>位是<strong>AVL</strong>字段，无用途，可随意使用此位。</li>
+<li>L字段:第<code>21</code>位是<strong>L</strong>字段，用于设置是否是<code>64</code>位代码段，<strong>L</strong>为<code>1</code>表示<code>64</code>位代码段，为<code>0</code>则为<code>32</code>位。</li>
+<li>D&#x2F;B字段:第<code>22</code>位是<strong>DB</strong>字段，用来指示有效地址(段内偏移地址)及操作数的大小。</li>
+<li>Granularity字段:第<code>23</code>位是<strong>G</strong>字段，用来指定段界限的单位大小，若<strong>G</strong>为<code>0</code>表示段界限的单位是<code>1</code>字节，若<strong>G</strong>为<code>1</code>表示段界限的单位是<code>4KB</code>。</li>
+</ul>
+<p><strong>段选择子</strong>: 保护模式下段寄存器中存储的就是段选择子，选择子是一个索引值，用此索引值在段描述符表中索引相应的段描述符，这样，便可以在段描述符中得到了内存段的起始地址和段界限值等相关信息。</p>
+<p>如下，段选择子结构示意参考，以及每个字段的大体含义。</p>
+<img src="/doc/483bf2e0/1379525-20220725145713025-788873539.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>由于段寄存器是<code>16</code>位，所以选择子也是<code>16</code>位，每一个选择子都会被分为<code>3</code>块。</p>
+<ul>
+<li>RPL字段:第<code>0-1</code>位，用来存储<strong>RPL</strong>(请求特权级) 通常为<code>0、1、2、3</code>四种特权级。</li>
+<li>TI字段:第<code>2</code>位，用来指示选择子是在<strong>GDT</strong>还是<strong>LDT</strong>中索引描述符，为<code>0</code>在<strong>GDT</strong>中，为<code>1</code>在<strong>LDT</strong>中。</li>
+<li>描述符索引:第<code>3-15</code>位是描述符的索引值，此值主要用于在<strong>GDT</strong>中索引符合条件的段描述符。</li>
+</ul>
+<p>选择子的作用主要是确定段描述符，确定描述符的目的，一是为了特权级、界限等安全考虑，最主要的还是要确定段的基地址。</p>
+<p>由于保护模式下段寄存器中已经默认是选择子了，在寻址时直接用选择子对应的<code>[段描述符中的段基址+段内偏移地址]</code>就是要访问的内存地址。</p>
+<h3 id="A20Gate地址回绕线"><a href="#A20Gate地址回绕线" class="headerlink" title="A20Gate地址回绕线"></a>A20Gate地址回绕线</h3><p>地址回绕线是为了兼容8086实模式而增加的，在实模式下地址线只有<code>20</code>条，寻址空间只能是<code>1MB(0x00000 - 0xFFFFF)</code>如果超出<code>1MB</code>的寻址范围，那么在默认开启地址回绕的<strong>CPU</strong>上，会自动将超出<code>1MB</code>的部分回绕到<code>0</code>地址处，继续从<code>0</code>地址处开始映射，地址回绕如下图。</p>
+<img src="/doc/483bf2e0/1379525-20220725145727844-2139804549.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>对于只有<code>20</code>位地址线的8086系列<strong>CPU</strong>而言，<code>A20</code>地址线默认是开启的，不需要任何操作即可实现地址回绕，但80286有 <code>24</code> 条地址线，即<code>A0-A23</code>，也就是说 <code>A20</code> 地址线是开启的，如果访问<code>0x100000-0x10FFEF</code>之间的内存，系统将直接访问这块物理内存，并不会像8086那样回绕到<code>0</code>，反之如果是关闭的，则访问超出<code>0x00000 - 0xfffff</code>的地址范围后会自动回绕到<code>0</code>处。</p>
+<blockquote>
+<p>如果A20Gate被打开，当访问到<code>0x100000-0x10FFEF</code>之间的地址时，CPU将真正访问这块物理内存。<br>如果A20Gate被禁止，当访问<code>0x100000-0x10FFEF</code>之间的地址时，CPU将采用8086的地址回绕。</p>
+</blockquote>
+<p>我们想进入保护模式，就需要突破第<code>20</code>条地址线（<code>A20</code>）去访问更大的内存空间。而这一切，只有关闭了地址回绕才能实现，而关闭地址回绕，就需要打开<strong>A20Gate</strong>，打开<strong>A20Gate</strong>地址线只需要将端口<code>0x92</code>的第<code>1</code>位置<code>1</code>即可。</p>
+<h3 id="CR0控制寄存器"><a href="#CR0控制寄存器" class="headerlink" title="CR0控制寄存器"></a>CR0控制寄存器</h3><p>想要进入保护模式还差最后一步，通过控制<strong>CR</strong>系列寄存器切换<strong>CPU</strong>模式，<strong>CR</strong>寄存器是<strong>CPU</strong>的控制窗口，即可用来查询<strong>CPU</strong>的内部状态，也可用于直接控制<strong>CPU</strong>的运行机制，切入保护模式最需要关注的是<strong>CR0</strong>寄存器中的<strong>PE</strong>位。</p>
+<p>如下图是完整的<strong>CR0</strong>寄存器,以及重要寄存器解释:</p>
+<img src="/doc/483bf2e0/1379525-20220725145737505-1002718591.png" srcset="/img/loading.gif" lazyload class="">
+
+<ul>
+<li><strong>保护允许位PE (Protedted Enable)</strong>:<code>0</code>位用于启动保护模式，如果<strong>PE</strong>置<code>1</code>则保护模式启动，<strong>PE</strong>置<code>0</code>则实模式启用。</li>
+<li><strong>监控协处理位MP (Moniter coprocessor)</strong>:<code>1</code>位与<code>3</code>位配合，当<code>TS=1</code>时操作码<code>WAIT</code>是否产生一个协处理器不能使用的出错信号。</li>
+<li><strong>任务转换位TS (Task Switch)</strong>:<code>3</code>位当一个任务转换完成之后，自动将它置<code>1</code>，随着<code>TS=1</code>就不能使用协处理器。</li>
+<li><strong>模拟协处理器位EM (Emulate coprocessor)</strong>:<code>2</code>位如果<code>EM=1</code>则不能使用协处理器，如果<code>EM=0</code>则允许使用协处理器。</li>
+<li><strong>微处理器扩展类型位ET (Processor Extension Type)</strong>:<code>4</code>位保存着处理器扩展类型的信息，如果<code>ET=0</code>使用287协处理器，<code>ET=1</code>使用387浮点协处理器。</li>
+<li><strong>写保护位WP</strong>:<code>16</code>位这一位置<code>0</code>就可以禁用写保护，置<code>1</code>则可恢复写保护。</li>
+<li><strong>分页允许位PE (Paging Enable)</strong>:<code>31</code>位表示芯片上的分页部件是否允许工作。</li>
+</ul>
+<h3 id="正式切入保护模式"><a href="#正式切入保护模式" class="headerlink" title="正式切入保护模式"></a>正式切入保护模式</h3><p>在保护模式中，内存段都是平坦模式，也就是整个内存都在一个段内，进入保护模式之前我们需要手动在内存中构建出<strong>GDT</strong>及其内部的描述符，<strong>GDT</strong>只是一片内存区域，里面每隔<code>8</code>字节即是一个段描述符，<strong>GDT</strong>结构如下。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">GDT_BASE:   dd    0x00000000 
+   dd    0x00000000
+
+CODE_DESC:  dd    0x0000FFFF 
+   dd    DESC_CODE_HIGH4
+
+DATA_STACK_DESC:  dd    0x0000FFFF
+		 dd    DESC_DATA_HIGH4
+
+VIDEO_DESC: dd    0x80000007	                  ; limit&#x3D;(0xbffff-0xb8000)&#x2F;4k&#x3D;0x7
+   dd    DESC_VIDEO_HIGH4             ; 此时dpl已改为0
+
+GDT_SIZE    equ   $ - GDT_BASE
+GDT_LIMIT   equ   GDT_SIZE -	1 
+
+times 60 dq 0					          ; 预留60个描述符的slot
+
+SELECTOR_CODE equ (0x0001&lt;&lt;3) + TI_GDT + RPL0         ; 相当于(CODE_DESC - GDT_BASE)&#x2F;8 + TI_GDT + RPL0
+SELECTOR_DATA equ (0x0002&lt;&lt;3) + TI_GDT + RPL0	     ; 同上
+SELECTOR_VIDEO equ (0x0003&lt;&lt;3) + TI_GDT + RPL0	     ; 同上 
+
+;以下是定义gdt的指针，前2字节是gdt界限，后4字节是gdt起始地址
+gdt_ptr  dw  GDT_LIMIT 
+      dd  GDT_BASE</code></pre></div></figure>
+
+<p><strong>GDT</strong>中的每个描述符简单介绍.</p>
+<ul>
+<li><strong>GDT_BASE</strong>:构建<strong>GDT</strong>的起始地址(此位是<code>0</code>位,不可用,所以直接填充为全<code>0</code>即可)</li>
+<li><strong>CODE_DESC&#x2F;DATA_STACK_DESC&#x2F;VIDEO_DESC</strong>:代码段描述符,数据段和栈段描述符,显存描述符</li>
+<li><strong>GDT_SIZE&#x2F;GDT_LIMIT</strong>:计算出<strong>GDT</strong>大小**,GDT_LIMIT<strong>得到段界限,为后续加载</strong>GDT**做准备.</li>
+<li><strong>SELECTOR_CODE&#x2F;SELECTOR_DATA&#x2F;SELECTOR_VIDEO</strong>:分别构建代码段,数据段,显存段的选择子.</li>
+<li><code>gdt_ptr</code>:定义<strong>GDT</strong>指针,此指针是<code>lgdt</code>加载<strong>GDT</strong>到<code>gdtr</code>寄存器用的.</li>
+</ul>
+<p>接下来就是进入保护模式，进入保护模式需要三步:</p>
+<ol>
+<li>打开<strong>A20</strong></li>
+<li>加载<strong>GDT</strong></li>
+<li><strong>CR0</strong>第<code>0</code>位置<code>1</code></li>
+</ol>
+<p>代码如下。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">in al,0x92
+or al,0000_0010B
+out 0x92,al
+
+lgdt [gdt_ptr]
+
+mov eax, cr0
+or eax, 0x00000001
+mov cr0, eax</code></pre></div></figure>
+
+<p>最后还需要使用<code>jmp SELECTOR_CODE:p_mode_start</code>指令来实现刷新流水线。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">   jmp  SELECTOR_CODE:p_mode_start
+
+[bits 32]
+p_mode_start:
+   mov ax, SELECTOR_DATA
+   jmp $</code></pre></div></figure>
+
+<p>流水线是<strong>CPU</strong>为了提高执行效率而发展起来的加速技术，通常执行指令需要经过取指令，译码，执行指令，等操作，而运用流水线技术则将当前指令及其后面的几条指令同时放在流水线中重叠执行。</p>
+<p>由于实模式是<code>16</code>位的，而保护模式是<code>32</code>位，在切换时必须要清空当前流水线上面所有的<code>16</code>位指令集，以及错误的段属性，只有这样才能保证后面的<code>32</code>位指令能够被正确的执行。</p>
+<p>此时我们既要改变代码段描述符缓冲寄存器的值，又要清空以前的流水线，使用<code>JMP</code>指令则可以达到这两种效果，<code>JMP</code>指令在执行无条件跳转时会自动的将所有段寄存器初始化并清空当前流水线上的指令集。</p>
+<img src="/doc/483bf2e0/1379525-20220725145751733-1331411504.png" srcset="/img/loading.gif" lazyload class="">
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/OS/" class="category-chain-item">OS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="print-no-link">#操作系统</a>
+      
+        <a href="/tags/%E5%BC%95%E5%AF%BC/" class="print-no-link">#引导</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>搬运-操作系统开发：编写开机引导</div>
+      <div>https://blog.cikaros.top/doc/483bf2e0.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/dc5b9862.html" title="搬运-CMake教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">搬运-CMake教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/c20cb394.html" title="BouncyCastle的使用">
+                        <span class="hidden-mobile">BouncyCastle的使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

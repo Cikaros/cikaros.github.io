@@ -1,0 +1,1085 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="神经网络的核心思想是什么？怎么理解才能让开发者能得心应手  神经网络的核心思想是模拟人脑中的神经元之间的相互作用，从而实现模式识别、分类、预测等任务。具体来说，神经网络由多层神经元组成，每个神经元接收来自前一层神经元的输入，并根据一定的权重和偏置值，将这些输入加权求和，再通过一个激活函数进行非线性变换，最后输出给下一层神经元。通过反复调整权重和偏置值，神经网络可以自动学习输入和输出之间的映射关系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ChatGPT-神经网络咨询">
+<meta property="og:url" content="https://blog.cikaros.top/doc/f63f87f0.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="神经网络的核心思想是什么？怎么理解才能让开发者能得心应手  神经网络的核心思想是模拟人脑中的神经元之间的相互作用，从而实现模式识别、分类、预测等任务。具体来说，神经网络由多层神经元组成，每个神经元接收来自前一层神经元的输入，并根据一定的权重和偏置值，将这些输入加权求和，再通过一个激活函数进行非线性变换，最后输出给下一层神经元。通过反复调整权重和偏置值，神经网络可以自动学习输入和输出之间的映射关系">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-16T06:11:11.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.633Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="ChatGPT">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="神经网络">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>ChatGPT-神经网络咨询 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ChatGPT-神经网络咨询"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-16 14:11" pubdate>
+          2023年3月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          7.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          60 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ChatGPT-神经网络咨询</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>神经网络的核心思想是什么？怎么理解才能让开发者能得心应手</p>
+</blockquote>
+<p>神经网络的核心思想是模拟人脑中的神经元之间的相互作用，从而实现模式识别、分类、预测等任务。具体来说，神经网络由多层神经元组成，每个神经元接收来自前一层神经元的输入，并根据一定的权重和偏置值，将这些输入加权求和，再通过一个激活函数进行非线性变换，最后输出给下一层神经元。通过反复调整权重和偏置值，神经网络可以自动学习输入和输出之间的映射关系，从而实现各种任务。</p>
+<p>为了让开发者能得心应手，他们需要深入了解神经网络的原理和基本概念，包括神经元、层、权重、偏置、损失函数、优化算法等。此外，开发者还需要了解常用的神经网络模型，如前馈神经网络、卷积神经网络、循环神经网络等，以及它们在不同领域中的应用，如计算机视觉、自然语言处理、语音识别等。在实践中，开发者需要熟练使用各种深度学习框架和工具，如TensorFlow、PyTorch等，以及进行模型训练、调参、优化等操作。最重要的是，开发者需要有持续学习和探索的精神，不断跟进最新的研究进展和技术趋势，不断提高自己的技能和水平。</p>
+<blockquote>
+<p>请详细说说让我能够深入理解神经网络的原理</p>
+</blockquote>
+<p>神经网络的原理涉及多个方面，包括神经元的模型、前向传播、反向传播、损失函数和优化算法等。下面我将逐一进行介绍。</p>
+<ol>
+<li><p>神经元模型 神经元是神经网络的基本单元，它接收来自前一层神经元的输入，并通过一定的权重和偏置值将这些输入加权求和，再通过一个激活函数进行非线性变换，最后输出给下一层神经元。神经元模型可以用如下公式来表示：</p>
+<p>$y &#x3D; f(w*x + b)$</p>
+<p>其中，$y$表示神经元的输出，$x$表示神经元的输入，$w$表示权重，$b$表示偏置，$f$表示激活函数。</p>
+</li>
+<li><p>前向传播 前向传播是神经网络的基本操作之一，它指的是从输入层到输出层的信号传递过程。在前向传播中，神经网络将输入信号通过多个层次的神经元进行计算，并输出最终的预测结果。具体来说，前向传播可以用如下公式来表示：</p>
+<p>a^(l) &#x3D; f(z^(l)) &#x3D; f(w^(l)*a^(l-1) + b^(l))</p>
+<p>其中，a^(l)表示第l层神经元的输出，f表示激活函数，z^(l)表示第l层神经元的输入，w^(l)表示第l层神经元的权重矩阵，b^(l)表示第l层神经元的偏置向量。</p>
+</li>
+<li><p>反向传播 反向传播是神经网络的训练过程中必不可少的一步，它指的是从输出层到输入层的误差反向传递过程。在反向传播中，神经网络通过计算损失函数对每个参数的偏导数，并将这些偏导数通过链式法则依次传递回前面的层次，从而实现参数的更新。具体来说，反向传播可以用如下公式来表示：</p>
+<p>δ^(L) &#x3D; ∂C&#x2F;∂a^(L) * f’(z^(L)) δ^(l) &#x3D; (w^(l+1))^T * δ^(l+1) * f’(z^(l))</p>
+<p>其中，δ^(l)表示第l层神经元的误差，C表示损失函数，f’表示激活函数的导数，L表示输出层的编号。</p>
+</li>
+<li><p>损失函数 损失函数是神经网络的重要组成部分，它用来衡量神经网络的预测结果与真实结果之间的差异。常见的损失函数包括均方误差、交叉熵等。均方误差可以用如下公式来表示：</p>
+<p>C &#x3D; 1&#x2F;2 * ∑(y - y_hat)^</p>
+</li>
+</ol>
+<blockquote>
+<p>所以神经网络的核心就是一个一元一次函数，通过学习修复一次函数的参数差异来达到学习的目的</p>
+</blockquote>
+<p>不完全正确。虽然神经网络中的神经元模型可以看做是一种函数，但是神经网络本身并不是简单的一元一次函数。实际上，神经网络是由多个神经元组成的复杂非线性模型，可以用于解决很多非线性问题。</p>
+<p>神经网络的学习过程主要是通过反向传播算法来进行的。反向传播算法是一种优化算法，它通过不断地调整神经网络中各个神经元之间的权重和偏置，从而使得神经网络的预测结果更加接近于真实结果。在这个过程中，损失函数扮演了至关重要的角色，它用于度量神经网络的预测误差，并反向传递给神经网络进行参数更新。</p>
+<p>总之，神经网络的核心思想是通过多个神经元之间的联结来构建一个复杂的非线性模型，通过反向传播算法进行学习和优化，从而实现各种非线性问题的解决。</p>
+<blockquote>
+<p>有没有推荐的中文书籍便于我理解神经网络，理解你的大致原理</p>
+</blockquote>
+<p>当今有很多好的中文书籍可以帮助您深入理解神经网络，以下是一些值得推荐的书籍：</p>
+<ol>
+<li>《深度学习》：作者是神经网络和深度学习领域的专家，书籍深入浅出地介绍了神经网络的基本原理和深度学习的核心技术，并提供了丰富的代码和实战案例。</li>
+<li>《Python深度学习》：该书使用Python语言介绍了神经网络的基本原理、算法和应用，旨在帮助读者快速掌握神经网络的理论和实践技巧。</li>
+<li>《神经网络与深度学习》：该书通过实例讲解，深入浅出地介绍了神经网络的原理、结构和应用，适合初学者和进阶者学习。</li>
+<li>《TensorFlow实战Google深度学习框架》：该书详细介绍了TensorFlow框架的使用和原理，帮助读者深入理解神经网络的基本原理和实现。</li>
+</ol>
+<p>希望这些推荐能够帮助您更好地理解神经网络的原理和应用。</p>
+<blockquote>
+<p>能不能介绍下你的原理呢？不用很深入，太深入了我相信肯定对你有所限制</p>
+</blockquote>
+<p>当涉及神经网络的原理时，其核心思想是通过神经元之间的联结和权重来构建一个复杂的非线性模型，使其能够进行分类、回归、聚类等各种任务。神经网络的工作方式是，它通过输入层接收输入数据，经过一系列隐藏层进行处理，最后在输出层产生结果。</p>
+<p>神经元是神经网络的基本组成单元，每个神经元接收一组输入，通过激活函数将输入信号转换为输出信号。激活函数通常是非线性的，使神经网络可以学习非线性关系。每个神经元都有一组权重，用于调整输入信号的影响程度，从而影响神经元的输出。</p>
+<p>神经网络的学习过程是通过反向传播算法进行的。反向传播算法基于梯度下降的优化思想，它通过计算损失函数的梯度来更新神经网络的权重和偏置，使得神经网络的预测结果更加接近真实结果。这个过程需要大量的训练数据和计算资源。</p>
+<p>总之，神经网络的原理是通过神经元之间的联结和权重来构建一个复杂的非线性模型，通过反向传播算法进行学习和优化，从而实现各种分类、回归、聚类等任务。</p>
+<blockquote>
+<p>能深入一点嘛，这些我大概都了解</p>
+</blockquote>
+<p>当涉及到深入神经网络的原理时，可以从以下几个方面来探讨：</p>
+<ol>
+<li>神经网络的结构：神经网络的结构包括输入层、隐藏层和输出层。输入层接收数据，输出层产生结果，而隐藏层则对输入数据进行处理，提取特征并学习抽象概念。在隐藏层中，神经元之间的连接和权重构成了神经网络的主要计算部分，也是神经网络能够学习复杂非线性关系的关键。</li>
+<li>激活函数：激活函数是神经元的核心部分，它接收神经元的输入信号，并将其转换为输出信号。激活函数通常是非线性的，因为线性函数无法处理非线性关系。常见的激活函数包括sigmoid函数、ReLU函数和tanh函数等。不同的激活函数具有不同的性质和适用范围，选择合适的激活函数对神经网络的性能至关重要。</li>
+<li>损失函数：损失函数是神经网络的训练目标，它表示模型预测结果与真实结果之间的差异程度。损失函数的选择取决于任务类型，如分类问题通常采用交叉熵损失函数，回归问题则通常采用均方误差损失函数。通过最小化损失函数，神经网络的预测结果可以逐步接近真实结果。</li>
+<li>反向传播算法：反向传播算法是神经网络的训练方法，它通过计算损失函数的梯度来更新神经网络的权重和偏置，使得神经网络的预测结果更加接近真实结果。反向传播算法的核心是链式法则，它将损失函数的梯度向后传递到每个神经元，并根据梯度大小更新权重和偏置。</li>
+<li>神经网络的优化方法：神经网络的优化方法包括随机梯度下降、动量优化、自适应学习率、批量归一化等。这些方法可以帮助神经网络快速收敛并达到更好的性能。</li>
+</ol>
+<p>综上所述，深入理解神经网络的原理需要掌握其结构、激活函数、损失函数、反向传播算法和优化方法等方面的知识。</p>
+<blockquote>
+<p>遇到一个问题时，我该如何选择神经网络呢？我很不理解，神经网络的层数和个数应该如何确定</p>
+</blockquote>
+<p>在选择神经网络时，应该考虑以下几个因素：</p>
+<ol>
+<li>问题类型：不同的问题类型需要不同的神经网络结构。例如，分类问题通常采用卷积神经网络（Convolutional Neural Networks，CNN），而序列问题通常采用循环神经网络（Recurrent Neural Networks，RNN）或者变种模型（如长短时记忆网络（Long Short-Term Memory，LSTM）和门控循环单元（Gated Recurrent Unit，GRU））。回归问题通常采用前馈神经网络（Feedforward Neural Networks，FNN）等。</li>
+<li>数据量和维度：对于较大的数据集和高维度的数据，通常需要较深的神经网络来学习更复杂的特征和模式。而对于小型数据集，使用浅层网络可能更为适合，以避免过拟合。</li>
+<li>计算资源：深层神经网络需要更多的计算资源，例如GPU和TPU等，而较浅的神经网络则可以在常规计算机上进行训练。</li>
+<li>模型复杂度：神经网络的复杂度是指神经元的数量和层数等。选择合适的复杂度可以在保证较好的预测能力的同时，减少训练时间和避免过拟合。过多的神经元和层数可能会导致过度拟合，过少的神经元和层数可能会导致欠拟合。</li>
+</ol>
+<p>在确定神经网络的层数和个数时，可以采用以下一些常用的方法：</p>
+<ol>
+<li>经验法则：通常可以根据经验法则来设置神经网络的层数和神经元个数。例如，对于FNN，通常将隐藏层数设定为1-3层，神经元个数根据数据的复杂度和维度进行设置；对于CNN和RNN，通常通过交叉验证来确定网络的结构。</li>
+<li>网格搜索：可以采用网格搜索或随机搜索来寻找最优的神经网络结构。这种方法通常需要耗费大量的计算时间和资源，但可以得到更优秀的模型。</li>
+<li>自动化神经网络：近年来，一些自动化神经网络设计方法的研究正在快速发展。例如，AutoML和神经架构搜索（Neural Architecture Search，NAS）等，这些方法通过搜索空间中的不同网络结构，以自动化的方式设计出更好的神经网络结构。</li>
+</ol>
+<p>总之，在选择神经网络结构时，需要根据不同的问题类型、数据量和维度、计算资源和模型复杂度等因素进行综合考虑，以选择出最优的神经网络结</p>
+<blockquote>
+<p>也就是说，没有一个确定的方式来找寻合适的层数和神经元个数</p>
+</blockquote>
+<p>是的，没有一种确定的方式来寻找最优的神经网络结构。不同的问题类型、数据集和任务都需要不同的网络结构和参数设置。在实践中，可以采用一些常用的方法和技巧来寻找合适的层数和神经元个数，例如经验法则、交叉验证和网格搜索等。但是，这些方法都不是完美的，也无法保证找到最优的神经网络结构。最终的选择通常是需要经验和实验验证的。同时，一些自动化神经网络设计方法的研究正在快速发展，未来也许会为神经网络结构设计提供更加高效和自动化的方法。</p>
+<blockquote>
+<p>人的大脑共有多少神经元，又有几层呢？可以用神经网络去模拟嘛</p>
+</blockquote>
+<p>人脑中神经元的数量和层数是非常庞大和复杂的，目前尚无法准确地确定人脑神经元的数量。根据科学家们的估计，大脑的神经元数量可能在数十亿到千亿个之间，并且大脑中的神经元不是简单地分成几层的，而是形成了错综复杂的连接网络。</p>
+<p>尽管人脑的神经元结构非常复杂，但神经网络的发展正是受到人脑的启发。神经网络可以通过模拟人脑中神经元的工作方式来解决各种问题。虽然神经网络无法完美地模拟人脑，但已经在许多领域展现出了强大的表现力和广泛的应用。在实践中，根据不同的任务和数据集，可以选择不同的神经网络结构和参数设置，从而实现最佳的性能表现。</p>
+<blockquote>
+<p>我记得曾经有种3进制计算机，能介绍一下它的原理嘛，现在是否还有方式实现这样的三进制计算机？</p>
+</blockquote>
+<p>您提到的三进制计算机可能是指三进制电路或三值逻辑电路。传统的数字电路是二进制的，即使用0和1来表示数字和逻辑状态。而三进制电路则使用了三种状态（0、1和-1）来表示数字和逻辑状态。三进制电路可以在一定程度上提高数字电路的密度和功率效率。</p>
+<p>三进制电路的实现方式可以使用三值逻辑门，例如三态门和可编程门阵列（PLA）。三态门可以具有三个不同的输出状态：高电平、低电平和高阻态（即输出不连接任何电路）。PLA可以使用一组输入和一组可编程逻辑门来实现三进制电路。</p>
+<p>三进制电路的实现已经存在一段时间，但是在现代计算机中，二进制计算机仍然是主流，因为它们已经经过广泛的研究和开发，并且已经被证明是非常有效和可靠的。同时，三进制计算机需要新的算法和编程语言来支持三进制的运算和逻辑处理。因此，尽管三进制计算机可能在某些特殊情况下具有优势，但在当前的计算机领域中，二进制计算机仍然是主流。</p>
+<blockquote>
+<p>我记得曾经好像看到一个故事，说当时已经开发出了三进制计算机，却因为不赚钱最终终止了这项技术研究</p>
+</blockquote>
+<p>我不知道具体的故事内容，但是确实有这样的情况。三进制计算机是计算机发展的一个分支，早在20世纪50年代就已经被研究出来。三进制计算机使用三进制的数字系统，可以在某些方面比二进制计算机更有效率，尤其是在一些特殊应用中，例如数字信号处理和图像处理。</p>
+<p>然而，三进制计算机并没有成为主流技术。一方面，三进制计算机需要使用全新的硬件和软件来支持三进制的数字系统，这在当时是一个非常大的挑战。另一方面，二进制计算机已经发展了几十年，经过了广泛的应用和改进，已经被证明是非常有效和可靠的。因此，许多人认为继续发展三进制计算机是一个冒险的选择。</p>
+<p>此外，商业考虑也是三进制计算机研究遇到的挑战之一。在当时，二进制计算机已经成为主流，拥有广泛的市场和商业利益。与之相比，三进制计算机的市场潜力不确定，商业利益也不明显。因此，一些公司和机构在研究三进制计算机之后放弃了这项技术的研究和开发。</p>
+<blockquote>
+<p>为什么说三进制对数字信号处理和图像处理更有效率呢？原理是什么？</p>
+</blockquote>
+<p>三进制在数字信号处理和图像处理中具有一些优势。其中一个优势是在处理一些特定的算法时，三进制可以比二进制计算更快，因为在三进制中，两个数的差值可以用更少的位数来表示。</p>
+<p>在数字信号处理和图像处理中，经常需要进行高精度的浮点数计算，而这些计算需要大量的乘法和加法运算。在二进制中，乘法和加法都是非常耗时的操作，而在三进制中，相比之下乘法和加法的运算速度更快。这是因为在三进制中，每个数位可以表示-1、0或1这三种状态，而这三种状态的计算可以使用非常简单的门电路实现，这就可以实现更快速的运算。此外，三进制计算机中的寄存器也可以更高效地利用位数，从而进一步提高运算速度。</p>
+<p>但需要注意的是，尽管三进制计算机可以提供一些优势，但是它也具有一些局限性。例如，由于三进制数字系统中的数字位数比二进制多一倍，所以需要更多的电路来支持它，从而增加了设计和制造的难度和成本。此外，在一些计算中，三进制可能比二进制更慢，这取决于具体的算法和实现方式。</p>
+<p>总的来说，三进制计算机是一种有趣的技术，但它并没有被广泛采用，因为它并不一定比二进制计算机更优秀。</p>
+<blockquote>
+<p>不考虑三进制计算机的硬件很难实现这一局限性，单纯说三进制的计算机，在神经网络方面它有优势吗？具体如何？</p>
+</blockquote>
+<p>对于神经网络来说，采用三进制计算可以提供一些潜在的优势。由于神经网络的训练过程通常涉及到大量的矩阵计算，因此三进制计算可以通过降低矩阵乘法的计算量来提高神经网络的计算效率。</p>
+<p>具体来说，三进制计算可以通过使用三元位表示权重和激活函数的值，从而可以将原来的矩阵乘法转化为一种更简单的计算方式，即三进制矩阵乘法。在三进制矩阵乘法中，计算量比二进制矩阵乘法要少，这就可以大大加快神经网络的计算速度。</p>
+<p>此外，三进制计算还可以通过减少内存访问和数据传输来降低计算的能耗，从而使得神经网络在边缘设备上的应用更加实用。</p>
+<p>然而，需要注意的是，尽管三进制计算可以提供一些优势，但它也具有一些局限性。例如，使用三进制计算可能会导致更多的错误率和精度下降，这取决于具体的算法和实现方式。此外，采用三进制计算还需要进行更多的硬件优化和工程设计，这将增加系统的复杂度和成本。</p>
+<blockquote>
+<p>假设说神经网络的层数与个数已确定，但是在最初思索如何实现时使用了比确定个数更多的层数与个数时会对神经网路的有效性有影响吗？具体有何影响</p>
+</blockquote>
+<p>在神经网络中，使用比确定个数更多的层数和神经元通常会增加模型的复杂度，这可能会导致过度拟合和训练时间的增加。</p>
+<p>过度拟合指的是神经网络在训练集上表现很好，但是在测试集或实际应用中表现不佳的情况。当神经网络过于复杂时，它可能会过度记忆训练集中的噪声，从而忽略真正的特征。这意味着，当应用到新数据时，模型可能会表现出不好的性能。因此，使用过多的层数和神经元可能会导致过度拟合。</p>
+<p>此外，使用过多的层数和神经元也可能会增加训练时间。由于神经网络通常需要在大量的数据上进行训练，每个训练步骤都需要计算成千上万个神经元之间的权重和偏差的调整。如果神经网络太大，计算时间将大大增加，这将增加训练的时间和资源消耗。</p>
+<p>因此，在设计神经网络时，应该避免使用过多的层数和神经元。应该通过反复测试和验证来确定合适的模型复杂度，并且在训练过程中使用技巧和策略来减少过度拟合和计算时间。</p>
+<blockquote>
+<p>所以一般在实现过程中也会适当的使用合适的降噪算法过滤数据是吗</p>
+</blockquote>
+<p>是的，降噪算法可以用来过滤数据中的噪声和不必要的信息，从而提高神经网络的准确性和鲁棒性。一些常见的降噪算法包括：</p>
+<ol>
+<li>均值滤波：用周围像素的平均值代替当前像素的值，可以平滑图像并去除噪声。</li>
+<li>中值滤波：用周围像素的中位数代替当前像素的值，可以在保留图像细节的同时去除噪声。</li>
+<li>高斯滤波：使用高斯核函数对图像进行卷积操作，可以平滑图像并去除噪声。</li>
+<li>小波变换：通过将信号分解成不同的频率组件，可以去除噪声并保留信号的重要特征。</li>
+</ol>
+<p>这些降噪算法可以应用于各种信号和数据处理任务，例如图像处理、音频处理和时间序列分析。在神经网络的实现过程中，应该根据具体任务的需求选择合适的降噪算法，以提高数据的质量和神经网络的准确性。</p>
+<blockquote>
+<p>所以降噪一般用于图像、视频、音频处理，或者说流数据的处理上是吗</p>
+</blockquote>
+<p>是的，降噪算法通常用于图像、视频、音频等连续数据流的处理上。这是因为这些数据往往受到环境干扰、设备噪声等因素的影响，导致信号中存在各种形式的噪声，从而影响数据的质量和准确性。通过应用降噪算法，可以去除这些噪声，从而提高数据的质量和可靠性。在神经网络的实现中，使用降噪算法可以提高训练数据的准确性和鲁棒性，从而提高神经网络的性能。</p>
+<blockquote>
+<p>在人工智能方面，是否存在做抉择的神经网路？从我们刚刚的聊天中我发现，在学习过程中如果拥有一个抉择的神经网络的话就可以更好的去决定数据是否需要处理或者其他的决择</p>
+</blockquote>
+<p>是的，在人工智能领域中存在许多用于决策和分类的神经网络模型。这些模型通常被称为决策树、支持向量机、神经决策网络等。它们可以接收一组输入特征，并根据这些特征进行分类或预测。在这些模型中，决策树是一种常用的分类模型，它通过对输入数据进行逐步划分，最终将数据划分为不同的类别。而支持向量机则是一种基于分类超平面的分类模型，它通过最大化不同类别之间的间隔，来实现数据的分类。神经决策网络则是一种将神经网络与决策树相结合的模型，它可以在学习过程中动态生成决策树，从而实现更高效和准确的分类和决策。这些模型在许多领域中都有广泛的应用，例如图像识别、语音识别、自然语言处理、医学诊断等。</p>
+<blockquote>
+<p>我终于明白了，训练人工智能需要大量的数据支撑，一般人做不了这个</p>
+</blockquote>
+<p>是的，确实需要大量的数据作为支撑来训练出高质量的人工智能模型。而这些数据往往需要进行标注和处理，需要耗费大量的时间和人力成本。因此，一般来说，只有拥有大量数据和足够的资源的机构和公司才能在人工智能领域取得重要的进展。不过，近年来出现了一些开源的数据集和平台，使得个人和小型团体也能够使用这些数据和工具进行人工智能的研究和开发。</p>
+<blockquote>
+<p>但是很有限不是吗？因为这些机构可以控制开放的数据集</p>
+</blockquote>
+<p>确实如此，尽管有很多开源的数据集和平台，但是真正可以用于研究和开发的数据仍然相对有限。很多数据集都是由大型公司或者机构掌控，并不一定能够公开开放。此外，即使数据集开放了，也需要一定的技术水平才能够处理和使用这些数据集。不过，随着人工智能领域的发展，越来越多的数据集和工具会被公开开放，这也为广大的研究人员和开发者提供了更多的机会。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Other/" class="category-chain-item">Other</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ChatGPT/" class="print-no-link">#ChatGPT</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="print-no-link">#人工智能</a>
+      
+        <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#神经网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ChatGPT-神经网络咨询</div>
+      <div>https://blog.cikaros.top/doc/f63f87f0.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/47aace24.html" title="ChatGPT-TS与JS对比学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ChatGPT-TS与JS对比学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/5ef1aa76.html" title="Windows 注册表">
+                        <span class="hidden-mobile">Windows 注册表</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

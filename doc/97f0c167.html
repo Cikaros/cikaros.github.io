@@ -1,0 +1,1061 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="概述Byte Buddy是一个Java字节码生成和操作库，它允许在运行时创建新的类和修改现有的类。它可以用于动态代理、AOP（面向切面编程）、类加载、代码生成等多个领域。 Byte Buddy提供了一个简单而强大的API，使得在运行时创建和修改类变得非常容易。它的API使用起来非常直观，并且支持链式编程风格，使得代码可读性和可维护性更好。 Byte Buddy支持Java 6及以上版本，并提供了丰">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Byte Buddy介绍">
+<meta property="og:url" content="https://blog.cikaros.top/doc/97f0c167.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="概述Byte Buddy是一个Java字节码生成和操作库，它允许在运行时创建新的类和修改现有的类。它可以用于动态代理、AOP（面向切面编程）、类加载、代码生成等多个领域。 Byte Buddy提供了一个简单而强大的API，使得在运行时创建和修改类变得非常容易。它的API使用起来非常直观，并且支持链式编程风格，使得代码可读性和可维护性更好。 Byte Buddy支持Java 6及以上版本，并提供了丰">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T09:50:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.588Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="ByteCode">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="字节码">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Byte Buddy介绍 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Byte Buddy介绍"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-06 17:50" pubdate>
+          2023年3月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Byte Buddy介绍</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Byte Buddy是一个Java字节码生成和操作库，它允许在运行时创建新的类和修改现有的类。它可以用于动态代理、AOP（面向切面编程）、类加载、代码生成等多个领域。</p>
+<p>Byte Buddy提供了一个简单而强大的API，使得在运行时创建和修改类变得非常容易。它的API使用起来非常直观，并且支持链式编程风格，使得代码可读性和可维护性更好。</p>
+<p>Byte Buddy支持Java 6及以上版本，并提供了丰富的功能，例如：</p>
+<ul>
+<li>创建新的类和接口</li>
+<li>修改现有的类和接口</li>
+<li>实现动态代理</li>
+<li>拦截和修改方法</li>
+<li>重定义类</li>
+<li>改变类的继承和实现关系</li>
+<li>自定义类加载器</li>
+<li>生成和加载Java字节码</li>
+</ul>
+<p>Byte Buddy的性能也非常优秀，它能够生成高效的字节码，并且不会对JVM的性能造成显著的影响。</p>
+<p>总之，Byte Buddy是一个功能强大、易于使用、性能优秀的Java字节码生成和操作库，适用于各种场景下的动态代码生成和操作需求。</p>
+<h2 id="常见功能列举"><a href="#常见功能列举" class="headerlink" title="常见功能列举"></a>常见功能列举</h2><p>下面是Byte Buddy的一些主要功能：</p>
+<ol>
+<li>创建新的类和接口：Byte Buddy可以通过代码动态生成新的类和接口，并为它们添加字段、方法、构造函数等。</li>
+<li>修改现有的类和接口：Byte Buddy可以修改现有的类和接口的字段、方法等，从而实现对现有代码的增强或修复。</li>
+<li>实现动态代理：Byte Buddy可以实现动态代理，包括JDK动态代理和CGLIB动态代理，并且支持创建带有拦截器的代理。</li>
+<li>拦截和修改方法：Byte Buddy可以拦截和修改现有的方法，并且可以添加前置和后置拦截器，实现类似AOP的功能。</li>
+<li>重定义类：Byte Buddy可以重新定义类的字节码，从而实现类的热替换和重新加载。</li>
+<li>改变类的继承和实现关系：Byte Buddy可以修改类的继承和实现关系，从而实现对现有代码的增强或修复。</li>
+<li>自定义类加载器：Byte Buddy可以支持自定义类加载器，从而实现对类的动态加载和卸载。</li>
+<li>生成和加载Java字节码：Byte Buddy可以生成Java字节码并将其加载到JVM中。</li>
+</ol>
+<p>总之，Byte Buddy是一个功能强大的Java字节码生成和操作库，适用于各种场景下的动态代码生成和操作需求。</p>
+<h3 id="对类的操作"><a href="#对类的操作" class="headerlink" title="对类的操作"></a>对类的操作</h3><p>Byte Buddy 可以对类进行多种操作，包括创建、修改和重定义等。下面分别介绍这些操作：</p>
+<ol>
+<li>创建新的类和接口：使用 Byte Buddy 可以动态地创建新的类和接口，可以添加字段、方法、构造函数等，通过一个简单的 API 就可以完成这些操作。</li>
+<li>修改现有的类和接口：使用 Byte Buddy 可以修改现有的类和接口的字段、方法等，包括添加、删除、修改等操作，可以使用编程的方式对现有代码进行增强或修复。</li>
+<li>重定义类：使用 Byte Buddy 可以重新定义类的字节码，包括修改类的方法、字段等，从而实现类的热替换和重新加载。</li>
+<li>改变类的继承和实现关系：使用 Byte Buddy 可以修改类的继承和实现关系，包括实现接口、继承父类等操作，从而实现对现有代码的增强或修复。</li>
+<li>拦截和修改方法：使用 Byte Buddy 可以拦截和修改现有的方法，包括添加前置和后置拦截器、修改方法参数和返回值等操作，实现类似 AOP 的功能。</li>
+</ol>
+<p>总之，Byte Buddy 提供了一系列操作类的 API，可以方便地进行类的创建、修改和重定义等操作，从而满足各种动态代码生成和操作的需求。</p>
+<h3 id="对自定义类加载器的支持"><a href="#对自定义类加载器的支持" class="headerlink" title="对自定义类加载器的支持"></a>对自定义类加载器的支持</h3><p>Byte Buddy 对自定义类加载器的支持非常完善，可以使用自定义类加载器加载和卸载类。这为动态代码生成和操作提供了更大的灵活性和可扩展性。</p>
+<p>在 Byte Buddy 中，可以通过使用 ClassLoadingStrategy 类来实现自定义类加载器的支持。ClassLoadingStrategy 可以指定加载新生成的类的类加载器，也可以指定重新定义类的类加载器。</p>
+<p>Byte Buddy 提供了多种 ClassLoadingStrategy 的实现，包括：</p>
+<ol>
+<li>DefaultClassLoaderStrategy：使用默认的类加载器加载新生成的类。</li>
+<li>InjectionClassLoaderStrategy：使用 Instrumentation API 注入类加载器，从而实现类的动态加载和卸载。</li>
+<li>ChildFirstClassLoaderStrategy：使用一个子类加载器来加载新生成的类，这个子类加载器优先加载自己的类，如果找不到再委托给父类加载器。</li>
+<li>ParentFirstClassLoaderStrategy：使用一个父类加载器来加载新生成的类，这个父类加载器优先加载自己的类，如果找不到再委托给子类加载器。</li>
+</ol>
+<p>通过使用 ClassLoadingStrategy，可以轻松地实现自定义类加载器，并且在不同的场景下选择合适的加载策略。这为动态代码生成和操作提供了更大的灵活性和可扩展性，使得 Byte Buddy 成为一款功能强大、易于使用、性能优秀的 Java 字节码生成和操作库。</p>
+<h2 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h2><p>Byte Buddy 提供了丰富的 API 可以用于动态调整已加载类的元数据，包括添加、修改、删除方法、字段、注解等等。</p>
+<p>以下是一些常见的操作示例：</p>
+<ol>
+<li>添加方法</li>
+</ol>
+<p>java</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">Class&lt;?&gt; dynamicType &#x3D; new ByteBuddy()
+        .subclass(Object.class)
+        .method(named(&quot;greet&quot;)).intercept(FixedValue.value(&quot;Hello World!&quot;))
+        .make()
+        .load(getClass().getClassLoader())
+        .getLoaded();
+
+Object dynamicObject &#x3D; dynamicType.newInstance();
+String result &#x3D; dynamicObject.greet(); &#x2F;&#x2F; &quot;Hello World!&quot;</code></pre></div></figure>
+
+<p>这个示例创建了一个 Object 的子类，然后添加了一个名为 greet 的方法，这个方法的实现返回固定的字符串 “Hello World!”。最后，调用 make() 方法生成这个新的类，然后使用 load() 方法加载到指定的类加载器中。</p>
+<ol start="2">
+<li>修改方法</li>
+</ol>
+<p>java</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">Class&lt;?&gt; dynamicType &#x3D; new ByteBuddy()
+        .subclass(Object.class)
+        .method(named(&quot;toString&quot;)).intercept(FixedValue.value(&quot;Hello World!&quot;))
+        .make()
+        .load(getClass().getClassLoader())
+        .getLoaded();
+
+Object dynamicObject &#x3D; dynamicType.newInstance();
+String result &#x3D; dynamicObject.toString(); &#x2F;&#x2F; &quot;Hello World!&quot;</code></pre></div></figure>
+
+<p>这个示例也创建了一个 Object 的子类，但是它修改了父类的 toString() 方法的实现，使得它返回固定的字符串 “Hello World!”。</p>
+<ol start="3">
+<li>删除方法</li>
+</ol>
+<p>java</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">Class&lt;?&gt; dynamicType &#x3D; new ByteBuddy()
+        .subclass(Object.class)
+        .method(named(&quot;toString&quot;)).withoutCode()
+        .make()
+        .load(getClass().getClassLoader())
+        .getLoaded();
+
+Object dynamicObject &#x3D; dynamicType.newInstance();
+String result &#x3D; dynamicObject.toString(); &#x2F;&#x2F; default implementation</code></pre></div></figure>
+
+<p>这个示例同样创建了一个 Object 的子类，但是它删除了父类的 toString() 方法的实现，使得它恢复为默认的实现。</p>
+<ol start="4">
+<li>添加注解</li>
+</ol>
+<p>java</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">Class&lt;?&gt; dynamicType &#x3D; new ByteBuddy()
+        .subclass(Object.class)
+        .annotateType(AnnotationDescription.Builder.ofType(MyAnnotation.class).build())
+        .make()
+        .load(getClass().getClassLoader())
+        .getLoaded();
+
+Annotation annotation &#x3D; dynamicType.getAnnotation(MyAnnotation.class);</code></pre></div></figure>
+
+<p>这个示例为 Object 的子类添加了一个自定义注解 MyAnnotation，并使用 Java 反射 API 获取了这个注解的实例。</p>
+<p>总之，Byte Buddy 提供了强大而灵活的 API，可以用于修改已加载类的元数据，使得程序可以在运行时动态地适应不同的需求和场景。</p>
+<h2 id="Byte-Buddy-的学习路线"><a href="#Byte-Buddy-的学习路线" class="headerlink" title="Byte Buddy 的学习路线"></a>Byte Buddy 的学习路线</h2><p>如果您想学习Byte Buddy，以下是一些可能的学习路线：</p>
+<ol>
+<li>学习Java字节码：Byte Buddy的核心功能是通过动态生成Java字节码来创建新的类。因此，如果您不熟悉Java字节码，建议先学习它。有一些非常好的资源可以帮助您了解Java字节码的基础知识，如《深入理解Java虚拟机》一书。</li>
+<li>学习Byte Buddy的基础知识：Byte Buddy的官方文档是一个很好的起点。您可以从官方文档中了解Byte Buddy的基础知识，包括如何创建和修改类、方法和字段等。</li>
+<li>探索Byte Buddy的高级功能：一旦您了解了Byte Buddy的基础知识，可以开始探索它的高级功能，如类加载、动态代理、方法拦截等。Byte Buddy的官方文档提供了很多示例代码，可以帮助您学习这些高级功能。</li>
+<li>阅读Byte Buddy的源代码：如果您想更深入地了解Byte Buddy的工作原理，可以阅读其源代码。Byte Buddy的源代码非常清晰，注释详细，可以帮助您了解其实现细节。</li>
+<li>尝试在实际项目中使用Byte Buddy：最后，如果您想真正掌握Byte Buddy，最好的方法是在实际项目中使用它。尝试使用Byte Buddy创建和修改类，动态代理等等，并观察其效果。这将帮助您深入了解Byte Buddy的工作原理和用途。</li>
+</ol>
+<p>希望这些提示能够帮助您学习Byte Buddy，并在实际项目中有效地使用它。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/ByteCode/" class="category-chain-item">ByteCode</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ByteCode/" class="print-no-link">#ByteCode</a>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+        <a href="/tags/%E5%AD%97%E8%8A%82%E7%A0%81/" class="print-no-link">#字节码</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Byte Buddy介绍</div>
+      <div>https://blog.cikaros.top/doc/97f0c167.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/a1064baf.html" title="开源VPN-WireGuard">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">开源VPN-WireGuard</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/ccb79e1b.html" title="JDK的升级指南">
+                        <span class="hidden-mobile">JDK的升级指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

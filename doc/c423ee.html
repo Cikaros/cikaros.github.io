@@ -1,0 +1,1018 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="Aria2 是一个功能非常强大且功能非常齐全的下载工具，它支持 BT、磁力、HTTP、FTP 等下载协议，常用做离线下载的服务端。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aria2的介绍与使用">
+<meta property="og:url" content="https://blog.cikaros.top/doc/c423ee.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="Aria2 是一个功能非常强大且功能非常齐全的下载工具，它支持 BT、磁力、HTTP、FTP 等下载协议，常用做离线下载的服务端。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-20T12:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.632Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="Aria2">
+<meta property="article:tag" content="下载器">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>Aria2的介绍与使用 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Aria2的介绍与使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-20 20:00" pubdate>
+          2023年3月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Aria2的介绍与使用</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Aria2 是一个功能非常强大且功能非常齐全的下载工具，它支持 BT、磁力、HTTP、FTP 等下载协议，常用做离线下载的服务端。</p>
+<span id="more"></span>
+<blockquote>
+<p>官方地址：<a target="_blank" rel="noopener" href="https://aria2.github.io/">https://aria2.github.io/</a><br>源码地址：<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">https://github.com/aria2/aria2</a><br>镜像源码地址：<a target="_blank" rel="noopener" href="https://github.com/P3TERX/Aria2-Pro-Docker">https://github.com/P3TERX/Aria2-Pro-Docker</a><br>镜像仓库地址：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/p3terx/aria2-pro">https://hub.docker.com/r/p3terx/aria2-pro</a></p>
+</blockquote>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>aria2 是一个用于下载文件的实用程序。支持的协议有 HTTP(S)、FTP、SFTP、BitTorrent 和 Metalink。aria2 可以从多个来源&#x2F;协议下载文件并尝试利用您的最大下载带宽。支持同时从HTTP(S)&#x2F;FTP&#x2F;SFTP和BitTorrent下载一个文件，同时从HTTP(S)&#x2F;FTP&#x2F;SFTP下载的数据上传到BT群。使用 Metalink 块校验和，aria2 在下载文件时自动验证数据块。</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ul>
+<li>多线程下载。aria2 可以从多个来源&#x2F;协议下载文件并尝试利用您的最大下载带宽。真正加快您的下载体验。</li>
+<li>轻量级。aria2 不需要太多内存和 CPU 时间。当磁盘缓存关闭时，物理内存使用量通常为 4MiB（正常 HTTP&#x2F;FTP 下载）到 9MiB（BitTorrent 下载）。下载速度为 2.8MiB&#x2F;秒的 BitTorrent 中的 CPU 使用率约为 6%。</li>
+<li>功能齐全的 BitTorrent 客户端。您想要的 BitTorrent 客户端的所有功能都可用：DHT、PEX、加密、Magnet URI、网络播种、选择性下载、本地对等发现和 UDP 跟踪器。</li>
+<li>支持元链接。aria2 支持Metalink 下载描述格式 （又名 Metalink v4）、Metalink 版本 3 和 Metalink&#x2F;HTTP。Metalink 提供文件验证、HTTP&#x2F;FTP&#x2F;SFTP&#x2F;BitTorrent 集成以及针对语言、位置、操作系统等的各种配置。</li>
+<li>远程控制。aria2 支持 RPC 接口来控制 aria2 进程。支持的接口是 JSON-RPC（通过 HTTP 和 WebSocket）和 XML-RPC。</li>
+</ul>
+<h2 id="aria2-conf配置文件"><a href="#aria2-conf配置文件" class="headerlink" title="aria2.conf配置文件"></a><code>aria2.conf</code>配置文件</h2><p>默认情况下，aria2 检查遗留路径是否 <code>$HOME/.aria2/aria2.conf</code>存在，否则它会解析 <code>$XDG_CONFIG_HOME/aria2/aria2.conf</code>为它的配置文件。您可以使用选项指定配置文件的路径<code>--conf-path</code> 。如果您不想使用配置文件，请使用 <code>--no-conf</code>选项。</p>
+<p>配置文件是一个文本文件，每行有一个选项。在每一行中，您可以指定以下格式的名称-值对，<code>NAME=VALUE</code>其中名称是不带前缀的长命令行选项名称<code>--</code>。您可以对命令行选项使用相同的语法。开头的行<code>#</code>被视为注释：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-conf" data-language="conf"><code class="language-conf"># sample configuration file for aria2c
+listen-port&#x3D;60000
+dht-listen-port&#x3D;60000
+seed-ratio&#x3D;1.0
+max-upload-limit&#x3D;50K
+ftp-pasv&#x3D;true</code></pre></div></figure>
+
+<blockquote>
+<p>配置文件中可能包含用户&#x2F;密码等机密信息。建议更改配置文件的文件模式位（例如: <code>chmod 600 aria2.conf</code>），这样其他用户就看不到文件的内容。</p>
+</blockquote>
+<p>以下是 Aria2 的默认配置文件 <code>aria2.conf</code> 中的一些常见配置项及其作用：</p>
+<ol>
+<li><code>dir=DIR</code> 指定下载文件的保存目录。</li>
+<li><code>watchdir=DIR</code> 指定监听种子的目录。</li>
+<li><code>allow-overwrite</code>：允许覆盖已存在的文件，例如 <code>allow-overwrite=true</code></li>
+<li><code>continue</code>：启用断点续传功能，例如 <code>continue=true</code></li>
+<li><code>input-file=FILE</code> 指定下载任务的输入文件，多个输入文件用逗号分隔。</li>
+<li><code>save-session=FILE</code> 指定保存所有下载任务的状态的文件。</li>
+<li><code>continue=true/false</code> 指定是否在下载失败后自动恢复下载。</li>
+<li><code>max-concurrent-downloads=N</code> 指定同时下载的最大任务数。</li>
+<li><code>max-connection-per-server=N</code> 指定每个服务器的最大连接数。</li>
+<li><code>min-split-size=N</code> 指定最小分片大小。</li>
+<li><code>split=N</code> 指定下载时使用的线程数。</li>
+<li><code>max-overall-download-limit=LIMIT</code> 指定所有下载任务的最大下载速度。</li>
+<li><code>max-download-limit=LIMIT</code> 指定每个下载任务的最大下载速度。</li>
+<li><code>max-overall-upload-limit=LIMIT</code> 指定所有上传任务的最大上传速度。</li>
+<li><code>max-upload-limit=LIMIT</code> 指定每个上传任务的最大上传速度。</li>
+<li><code>file-allocation=none/prealloc/falloc</code> 指定文件预分配方式。</li>
+<li><code>log=FILE</code> 指定日志文件的保存路径。</li>
+<li><code>log-level=DEBUG/INFO/WARNING/ERROR/FATAL</code> 指定日志记录级别。</li>
+<li><code>daemon=true/false</code> 指定是否以守护进程方式运行。</li>
+<li><code>enable-rpc=true/false</code> 指定是否启用 RPC 服务器。</li>
+<li><code>rpc-listen-port=PORT</code> 指定 RPC 服务器的监听端口。</li>
+<li><code>rpc-secret=SECRET</code> 指定 RPC 服务器的验证密钥。</li>
+<li><code>rpc-allow-origin-all=true/false</code> 指定是否允许跨域访问 RPC 服务器。</li>
+<li><code>bt-enable-lpd=true/false</code> 指定是否启用本地对等下载。</li>
+<li><code>bt-max-peers=N</code> 指定 BT 下载时的最大对等连接数。</li>
+<li><code>seed-time=SECONDS</code> 指定 BT 下载完成后继续做种的时间。</li>
+<li><code>seed-ratio=RATIO</code> 指定 BT 下载完成后继续做种的分享比率。</li>
+<li><code>listen-port=PORT</code> 指定监听端口。</li>
+<li><code>rpc-secret-file=FILE</code> 指定 RPC 服务器的验证密钥文件。</li>
+<li><code>dir-pr2efix=DIR</code>指定所有下载任务的前缀目录。</li>
+<li><code>always-resume=true/false</code> 指定是否总是在下载任务失败后自动恢复下载。</li>
+<li><code>allow-overwrite=true/false</code> 指定是否允许覆盖同名文件。</li>
+<li><code>auto-save-interval=SECONDS</code> 指定自动保存下载任务状态的时间间隔。</li>
+<li><code>file-allocation=none/prealloc/falloc/...</code> 指定文件预分配方式。</li>
+<li><code>http-accept-gzip=true/false</code> 指定是否允许下载 gzip 压缩过的文件。</li>
+<li><code>http-no-cache=true/false</code> 指定是否禁用 HTTP 缓存。</li>
+<li><code>http-proxy=URL</code> 指定 HTTP 代理服务器地址。</li>
+<li><code>https-proxy=URL</code> 指定 HTTPS 代理服务器地址。</li>
+</ol>
+<h2 id="RPC接口"><a href="#RPC接口" class="headerlink" title="RPC接口"></a>RPC接口</h2><p>Aria2 提供了许多 RPC（远程过程调用）接口，可以使用这些接口从其他应用程序或脚本中控制 Aria2。以下是 Aria2 中最常用的 RPC 接口：</p>
+<ol>
+<li>aria2.addUri([secret,] uris[, options[, position]])：这个接口用于添加一个 HTTP&#x2F;FTP&#x2F;SFTP&#x2F;BitTorrent 下载任务。您可以使用此接口添加单个 URI 或多个 URI，其中 options 参数包括诸如文件保存位置、最大下载速度和下载进度回调等选项。</li>
+<li>aria2.addTorrent([secret,] torrent[, uris[, options[, position]]])：此接口用于添加一个种子下载任务。除了种子文件之外，您还可以提供一组 URI，以便 Aria2 可以查找和下载种子中列出的文件。</li>
+<li>aria2.addMetalink([secret,] metalink[, options[, position]])：此接口用于添加一个 Metalink 下载任务。Metalink 是一个 XML 格式的文件，其中包含多个 URI 和文件哈希值，以便 Aria2 可以下载并验证下载的文件。</li>
+<li>aria2.pause([secret,] gid)：此接口用于暂停正在下载的任务。</li>
+<li>aria2.unpause([secret,] gid)：此接口用于恢复已暂停的下载任务。</li>
+<li>aria2.remove([secret,] gid)：此接口用于删除一个下载任务。</li>
+<li>aria2.tellStatus([secret,] gid[, keys])：此接口返回有关特定下载任务的状态信息，包括下载进度、下载速度、剩余时间和错误消息等。</li>
+<li>aria2.getGlobalStat([secret])：此接口返回有关全局下载统计信息的信息，包括总下载速度、总下载数量和总运行时间等。</li>
+<li>aria2.getVersion([secret])：此接口返回 Aria2 的版本信息。</li>
+<li>aria2.getOption([secret,] gid)：此接口返回指定下载任务的选项，例如文件保存位置、最大下载速度和种子文件保存位置等。</li>
+<li>aria2.changeOption([secret,] gid, options)：此接口用于更改指定下载任务的选项，例如文件保存位置、最大下载速度和下载进度回调等选项。</li>
+<li>aria2.getFiles([secret,] gid)：此接口返回正在下载的文件的详细信息，包括文件名称、大小、下载进度和哈希值等。</li>
+<li>aria2.getUris([secret,] gid)：此接口返回正在下载的文件的 URI 列表，以便您可以查看和更改下载来源。</li>
+<li>aria2.getGlobalOption([secret])：此接口返回全局选项，例如最大下载速度和文件保存位置等。</li>
+</ol>
+<p>这些 RPC 接口提供了对 Aria2 的全面控制，使您可以轻松地从其他应用程序或脚本中控制 Aria2 的下载行为。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Other/" class="category-chain-item">Other</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Aria2/" class="print-no-link">#Aria2</a>
+      
+        <a href="/tags/%E4%B8%8B%E8%BD%BD%E5%99%A8/" class="print-no-link">#下载器</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Aria2的介绍与使用</div>
+      <div>https://blog.cikaros.top/doc/c423ee.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/a6c8b3a8.html" title="ChatGPT-视频播放器原理咨询">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ChatGPT-视频播放器原理咨询</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/47aace24.html" title="ChatGPT-TS与JS对比学习">
+                        <span class="hidden-mobile">ChatGPT-TS与JS对比学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

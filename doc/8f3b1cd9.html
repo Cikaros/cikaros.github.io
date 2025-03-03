@@ -1,0 +1,1110 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="具体介绍Sink接口的设计与本质。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解Stream API-Sink的本质">
+<meta property="og:url" content="https://blog.cikaros.top/doc/8f3b1cd9.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="具体介绍Sink接口的设计与本质。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-02-19T02:50:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.609Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="JDK">
+<meta property="article:tag" content="源码解析">
+<meta property="article:tag" content="Stream">
+<meta property="article:tag" content="Stream包">
+<meta property="article:tag" content="Sink">
+<meta property="article:tag" content="链式结构">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>理解Stream API-Sink的本质 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="理解Stream API-Sink的本质"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-19 10:50" pubdate>
+          2025年2月19日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">理解Stream API-Sink的本质</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>具体介绍Sink接口的设计与本质。</p>
+<span id="more"></span>
+<p>我们需要深入到 <strong>Sink 接口的实现细节</strong>和 <strong>Sink 链式处理数据的具体流程</strong>，并结合 JDK 源码中的关键类（如 <code>AbstractPipeline</code> 和 <code>Sink</code>）来解析 Stream 的底层机制。以下是更底层的实现分析：</p>
+<hr>
+<h3 id="一、Sink-接口：数据处理的“水槽”"><a href="#一、Sink-接口：数据处理的“水槽”" class="headerlink" title="一、Sink 接口：数据处理的“水槽”"></a>一、Sink 接口：数据处理的“水槽”</h3><p><code>Sink</code> 接口是 Stream API 最底层的核心抽象，它直接负责对每个元素的处理。<strong>所有 Stream 操作（如 <code>filter</code>、<code>map</code>）最终都会转化为一个 <code>Sink</code> 的实现类</strong>。</p>
+<h4 id="1-Sink-接口定义"><a href="#1-Sink-接口定义" class="headerlink" title="1. Sink 接口定义"></a>1. <strong>Sink 接口定义</strong></h4><p>在 JDK 源码中，<code>Sink</code> 接口定义如下（简化）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">interface Sink&lt;T&gt; extends Consumer&lt;T&gt; &#123;
+    default void begin(long size) &#123;&#125;    &#x2F;&#x2F; 开始处理前调用（可选）
+    default void end() &#123;&#125;              &#x2F;&#x2F; 处理完成后调用（可选）
+    default boolean cancellationRequested() &#123; return false; &#125; &#x2F;&#x2F; 是否提前终止
+&#125;</code></pre></div></figure>
+<ul>
+<li><code>accept(T t)</code>：处理单个元素（从 <code>Consumer</code> 继承）。</li>
+<li><code>begin()</code> 和 <code>end()</code>：用于批量处理的前置和后置操作（例如排序需要先收集所有元素）。</li>
+<li><code>cancellationRequested()</code>：是否提前终止处理（例如 <code>findFirst</code> 找到第一个元素后终止）。</li>
+</ul>
+<hr>
+<h3 id="二、Sink-链的构建与执行"><a href="#二、Sink-链的构建与执行" class="headerlink" title="二、Sink 链的构建与执行"></a>二、Sink 链的构建与执行</h3><p>Stream 的流水线（Pipeline）本质上是一个 <strong>由多个 Sink 组成的链式结构</strong>。每个中间操作会生成一个新的 Sink 节点，并将它们链接成一个链表。</p>
+<h4 id="1-Sink-链的构建过程"><a href="#1-Sink-链的构建过程" class="headerlink" title="1. Sink 链的构建过程"></a>1. <strong>Sink 链的构建过程</strong></h4><p>以 <code>Stream.filter().map().collect()</code> 为例：</p>
+<ol>
+<li><strong>创建初始 Sink</strong>：终端操作（如 <code>collect()</code>）会创建一个初始 Sink（称为终端 Sink）。</li>
+<li><strong>反向组装链</strong>：从终端操作向源头反向组装 Sink：<ul>
+<li><code>map()</code> 操作的 Sink 会包裹终端 Sink。</li>
+<li><code>filter()</code> 操作的 Sink 会包裹 <code>map()</code> 的 Sink。</li>
+</ul>
+</li>
+<li><strong>最终触发</strong>：源头的数据会从最外层的 <code>filter</code> Sink 开始处理，依次传递到 <code>map</code> Sink，最终到达终端 Sink。</li>
+</ol>
+<p><strong>伪代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; 假设终端操作是 collect(toList())
+Sink&lt;Terminal&gt; terminalSink &#x3D; new ToListSink&lt;&gt;();
+
+&#x2F;&#x2F; map() 的 Sink 包裹终端 Sink
+Sink&lt;MapInput&gt; mapSink &#x3D; new MapSink&lt;&gt;(terminalSink, mapper);
+
+&#x2F;&#x2F; filter() 的 Sink 包裹 map Sink
+Sink&lt;FilterInput&gt; filterSink &#x3D; new FilterSink&lt;&gt;(mapSink, predicate);
+
+&#x2F;&#x2F; 数据从源头流入 filterSink
+source.forEach(filterSink);</code></pre></div></figure>
+
+<hr>
+<h4 id="2-Sink-链的执行流程"><a href="#2-Sink-链的执行流程" class="headerlink" title="2. Sink 链的执行流程"></a>2. <strong>Sink 链的执行流程</strong></h4><p>当数据从源头（如 <code>List</code>）开始流动时，会依次经过每个 Sink 的处理：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">数据源 → FilterSink → MapSink → TerminalSink（如收集到 List）</code></pre></div></figure>
+
+<p><strong>以 <code>filter</code> 和 <code>map</code> 为例的详细处理逻辑</strong>：</p>
+<ol>
+<li><p><strong>FilterSink</strong>：</p>
+<ul>
+<li>对每个元素调用 <code>predicate.test(t)</code>。</li>
+<li>如果条件满足，将元素传递给下游 Sink（即 <code>MapSink</code>）。<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">class FilterSink&lt;T&gt; implements Sink&lt;T&gt; &#123;
+    Sink&lt;T&gt; downstream;
+    Predicate&lt;T&gt; predicate;
+
+    public void accept(T t) &#123;
+        if (predicate.test(t)) &#123;
+            downstream.accept(t); &#x2F;&#x2F; 传递到下游
+        &#125;
+    &#125;
+&#125;</code></pre></div></figure></li>
+</ul>
+</li>
+<li><p><strong>MapSink</strong>：</p>
+<ul>
+<li>对元素进行转换，并将结果传递给下游。<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">class MapSink&lt;T, R&gt; implements Sink&lt;T&gt; &#123;
+    Sink&lt;R&gt; downstream;
+    Function&lt;T, R&gt; mapper;
+
+    public void accept(T t) &#123;
+        R r &#x3D; mapper.apply(t);
+        downstream.accept(r); &#x2F;&#x2F; 传递转换后的结果
+    &#125;
+&#125;</code></pre></div></figure></li>
+</ul>
+</li>
+<li><p><strong>TerminalSink</strong>（如 <code>ToListSink</code>）：</p>
+<ul>
+<li>将元素添加到结果列表中。<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">class ToListSink&lt;T&gt; implements Sink&lt;T&gt; &#123;
+    List&lt;T&gt; list &#x3D; new ArrayList&lt;&gt;();
+
+    public void accept(T t) &#123;
+        list.add(t);
+    &#125;
+&#125;</code></pre></div></figure></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="三、源码级实现分析"><a href="#三、源码级实现分析" class="headerlink" title="三、源码级实现分析"></a>三、源码级实现分析</h3><p>JDK 中 Stream 的核心实现位于 <code>java.util.stream</code> 包，关键类如下：</p>
+<h4 id="1-AbstractPipeline"><a href="#1-AbstractPipeline" class="headerlink" title="1. AbstractPipeline"></a>1. <strong>AbstractPipeline</strong></h4><p>Stream 流水线的基类，维护以下关键字段：</p>
+<ul>
+<li><code>sourceSpliterator</code>：数据源的 <code>Spliterator</code>（负责分割数据）。</li>
+<li><code>previousStage</code>：前一个流水线阶段（用于反向构建 Sink 链）。</li>
+<li><code>nextStage</code>：下一个流水线阶段。</li>
+</ul>
+<h4 id="2-Sink-链的构建入口"><a href="#2-Sink-链的构建入口" class="headerlink" title="2. Sink 链的构建入口"></a>2. <strong>Sink 链的构建入口</strong></h4><p>在终端操作（如 <code>collect()</code>）触发时，会调用 <code>wrapSink()</code> 方法，从终端 Sink 反向组装整个链：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; AbstractPipeline.java
+final &lt;P_IN&gt; Sink&lt;P_IN&gt; wrapSink(Sink&lt;E_OUT&gt; sink) &#123;
+    for (AbstractPipeline p &#x3D; this; p.previousStage !&#x3D; null; p &#x3D; p.previousStage) &#123;
+        sink &#x3D; p.opWrapSink(p.previousStage.combinedFlags, sink);
+    &#125;
+    return (Sink&lt;P_IN&gt;) sink;
+&#125;</code></pre></div></figure>
+
+<ul>
+<li><code>opWrapSink()</code>：每个中间操作（如 <code>filter</code>、<code>map</code>）实现此方法，返回包裹下游 Sink 的新 Sink。</li>
+</ul>
+<hr>
+<h4 id="3-以-filter-为例的-Sink-实现"><a href="#3-以-filter-为例的-Sink-实现" class="headerlink" title="3. 以 filter() 为例的 Sink 实现"></a>3. <strong>以 <code>filter()</code> 为例的 Sink 实现</strong></h4><p><code>filter()</code> 操作的 Sink 实现位于 <code>ReferencePipeline.filter()</code> 中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; ReferencePipeline.java
+@Override
+Sink&lt;T&gt; opWrapSink(int flags, Sink&lt;R&gt; sink) &#123;
+    return new Sink.ChainedReference&lt;T, R&gt;(sink) &#123;
+        @Override
+        public void accept(T t) &#123;
+            if (predicate.test(t)) &#123;
+                downstream.accept(t); &#x2F;&#x2F; 条件满足时传递到下游
+            &#125;
+        &#125;
+    &#125;;
+&#125;</code></pre></div></figure>
+
+<ul>
+<li><code>ChainedReference</code> 是一个辅助类，封装了 <code>downstream</code> Sink。</li>
+</ul>
+<hr>
+<h4 id="4-数据流动的触发"><a href="#4-数据流动的触发" class="headerlink" title="4. 数据流动的触发"></a>4. <strong>数据流动的触发</strong></h4><p>最终，数据通过 <code>Spliterator</code> 遍历并传递给 Sink 链：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">&#x2F;&#x2F; AbstractPipeline.java
+final &lt;P_IN&gt; void copyInto(Sink&lt;P_IN&gt; wrappedSink, Spliterator&lt;P_IN&gt; spliterator) &#123;
+    if (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) &#123;
+        spliterator.forEachRemaining(wrappedSink); &#x2F;&#x2F; 遍历所有元素
+    &#125; else &#123;
+        &#x2F;&#x2F; 处理可能提前终止的情况（如 findFirst）
+    &#125;
+&#125;</code></pre></div></figure>
+
+<ul>
+<li><code>spliterator.forEachRemaining(wrappedSink)</code>：将数据源的每个元素传递给 <code>wrappedSink</code>（即 Sink 链的头部）。</li>
+</ul>
+<hr>
+<h3 id="四、并行流与-Sink-链的交互"><a href="#四、并行流与-Sink-链的交互" class="headerlink" title="四、并行流与 Sink 链的交互"></a>四、并行流与 Sink 链的交互</h3><p>在并行流中，Sink 链的执行会通过 <strong>Fork&#x2F;Join 框架</strong> 分配到多个线程：</p>
+<h4 id="1-分割数据源"><a href="#1-分割数据源" class="headerlink" title="1. 分割数据源"></a>1. <strong>分割数据源</strong></h4><ul>
+<li><code>Spliterator</code> 将数据源分割为多个子任务（<code>Spliterator</code> 的 <code>trySplit()</code> 方法）。</li>
+<li>每个子任务独立处理自己的数据块。</li>
+</ul>
+<h4 id="2-合并结果"><a href="#2-合并结果" class="headerlink" title="2. 合并结果"></a>2. <strong>合并结果</strong></h4><ul>
+<li>终端操作的 Sink 需要支持合并（如 <code>Collector</code> 的 <code>combiner()</code> 方法）。</li>
+<li>例如，<code>toList()</code> 的合并操作是将多个子列表合并为一个列表。</li>
+</ul>
+<hr>
+<h3 id="五、总结：Sink-链的本质"><a href="#五、总结：Sink-链的本质" class="headerlink" title="五、总结：Sink 链的本质"></a>五、总结：Sink 链的本质</h3><p>Java Stream API 的底层实现可以归结为以下关键设计：</p>
+<ol>
+<li><strong>Sink 链式结构</strong>：每个操作对应一个 Sink 节点，通过 <code>downstream</code> 字段链接。</li>
+<li><strong>反向构建链</strong>：从终端操作向源头反向组装 Sink，确保数据处理顺序正确。</li>
+<li><strong>惰性触发执行</strong>：只有在终端操作调用时，才会通过 <code>Spliterator</code> 遍历数据并触发 Sink 链的处理。</li>
+<li><strong>并行透明性</strong>：通过 <code>Spliterator</code> 分割数据，结合 <code>ForkJoinPool</code> 实现并行处理，对开发者透明。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/JDK/" class="category-chain-item">JDK</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JDK/" class="print-no-link">#JDK</a>
+      
+        <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="print-no-link">#源码解析</a>
+      
+        <a href="/tags/Stream/" class="print-no-link">#Stream</a>
+      
+        <a href="/tags/Stream%E5%8C%85/" class="print-no-link">#Stream包</a>
+      
+        <a href="/tags/Sink/" class="print-no-link">#Sink</a>
+      
+        <a href="/tags/%E9%93%BE%E5%BC%8F%E7%BB%93%E6%9E%84/" class="print-no-link">#链式结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>理解Stream API-Sink的本质</div>
+      <div>https://blog.cikaros.top/doc/8f3b1cd9.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/9d9cdff4.html" title="理解Stream API-Collector收集器">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">理解Stream API-Collector收集器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/e035d11f.html" title="深度解析java.lang.util.stream">
+                        <span class="hidden-mobile">深度解析java.lang.util.stream</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

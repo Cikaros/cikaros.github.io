@@ -1,0 +1,1313 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="JS与TS有哪些区别，重点讲区别，要全面  JavaScript (JS) 和 TypeScript (TS) 都是流行的编程语言，用于创建 Web 应用程序。它们都可以用于编写前端和后端应用程序，但是它们在某些方面有所不同。下面是 JS 和 TS 的一些区别：  静态类型检查：TS 强制进行静态类型检查，这意味着您需要在编写代码时指定变量的类型，以确保类型的正确性。相比之下，JS 不需要强制执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ChatGPT-TS与JS对比学习">
+<meta property="og:url" content="https://blog.cikaros.top/doc/47aace24.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="JS与TS有哪些区别，重点讲区别，要全面  JavaScript (JS) 和 TypeScript (TS) 都是流行的编程语言，用于创建 Web 应用程序。它们都可以用于编写前端和后端应用程序，但是它们在某些方面有所不同。下面是 JS 和 TS 的一些区别：  静态类型检查：TS 强制进行静态类型检查，这意味着您需要在编写代码时指定变量的类型，以确保类型的正确性。相比之下，JS 不需要强制执">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-16T09:45:10.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.622Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="ChatGPT">
+<meta property="article:tag" content="JS">
+<meta property="article:tag" content="TS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>ChatGPT-TS与JS对比学习 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ChatGPT-TS与JS对比学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-16 17:45" pubdate>
+          2023年3月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          4.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ChatGPT-TS与JS对比学习</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>JS与TS有哪些区别，重点讲区别，要全面</p>
+</blockquote>
+<p>JavaScript (JS) 和 TypeScript (TS) 都是流行的编程语言，用于创建 Web 应用程序。它们都可以用于编写前端和后端应用程序，但是它们在某些方面有所不同。下面是 JS 和 TS 的一些区别：</p>
+<ol>
+<li><p>静态类型检查：TS 强制进行静态类型检查，这意味着您需要在编写代码时指定变量的类型，以确保类型的正确性。相比之下，JS 不需要强制执行静态类型检查。</p>
+</li>
+<li><p>代码可读性：由于 TS 具有静态类型检查，因此代码更易于阅读和理解。您可以在编写代码时清楚地了解变量的类型以及它们可以执行的操作。</p>
+</li>
+<li><p>错误检测：TS 在编译代码时执行类型检查，因此可以更早地检测到潜在的错误。相比之下，JS 只有在代码运行时才能检测到错误。</p>
+</li>
+<li><p>ES6 特性支持：TS 支持 ECMAScript 6 (ES6) 的所有特性，包括类、模块、箭头函数、Promise、解构等，而 JS 仅支持其中的一部分。</p>
+</li>
+<li><p>工具支持：TS 可以使用强大的编辑器（如VS Code）和 IDE 支持，这些工具可以提供更好的自动完成和代码重构。相比之下，JS 的编辑器支持较弱。</p>
+</li>
+<li><p>学习曲线：对于那些没有使用过静态类型语言的人来说，学习 TS 可能会有一定的学习曲线，因为他们需要了解类型注释和类型系统。相比之下，JS 更容易上手。</p>
+</li>
+<li><p>运行时性能：由于 TS 在编译时进行了类型检查和优化，因此在运行时会比 JS 快一些。</p>
+</li>
+</ol>
+<p>总体而言，TS 在类型检查、代码可读性、错误检测和工具支持方面具有优势，而 JS 在学习曲线和灵活性方面具有优势。选择哪种语言取决于您的项目需求和您和您的团队的技能水平。</p>
+<blockquote>
+<p>我想直到他们在语法上都有哪些不通，全面列举</p>
+</blockquote>
+<p>以下是 JavaScript (JS) 和 TypeScript (TS) 在语法上的主要不同之处：</p>
+<ol>
+<li><p>类型注释：TS 要求在变量声明和函数参数、返回值等处都要添加类型注释。这意味着在 TS 中，您需要指定变量、函数参数和返回值的类型，而在 JS 中则不需要。</p>
+</li>
+<li><p>类型声明：TS 允许使用类型声明文件(.d.ts)将 TypeScript 代码和非 TypeScript 代码集成在一起，这是为了允许TS使用 JS 代码库。JS 不支持类型声明。</p>
+</li>
+<li><p>类型系统：TS 具有静态类型系统，这意味着您需要在编写代码时指定变量、函数参数和返回值的类型。而在 JS 中，变量和参数类型是动态的，这意味着它们只有在运行时才确定。</p>
+</li>
+<li><p>枚举：TS 提供了枚举类型，这使得您可以定义具有有限值的一组常量。JS 没有这种类型。</p>
+</li>
+<li><p>泛型：TS 支持泛型类型，这是一种可以在不同类型之间共享代码的方式。JS 没有这种类型。</p>
+</li>
+<li><p>接口：TS 支持接口，这使得您可以定义对象的结构和类型。JS 没有这种类型。</p>
+</li>
+<li><p>类：TS 支持类和面向对象编程，这使得您可以将数据和功能组织成一个单一的单元。JS 也支持类，但是它不是一等公民。</p>
+</li>
+<li><p>可选类型：TS 允许您在变量和函数参数上使用可选类型，这意味着这些变量或参数可以是 undefined。JS 没有这种类型。</p>
+</li>
+<li><p>元组：TS 提供了元组类型，这是一种固定长度、特定类型的数组。JS 没有这种类型。</p>
+</li>
+<li><p>访问修饰符：TS 支持访问修饰符(public, private, protected)，这使得您可以控制类的成员变量和方法的访问级别。JS 没有这种访问控制。</p>
+</li>
+</ol>
+<p>总的来说，TS 在类型系统、泛型、枚举、接口、类和元组等方面与JS不同。</p>
+<blockquote>
+<p>列举一下刚刚说的第1点，用代码举例</p>
+</blockquote>
+<p>好的，以下是类型注释的一个例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">&#x2F;&#x2F; TypeScript中需要类型注释
+function addNumbers(a: number, b: number): number &#123;
+  return a + b;
+&#125;
+
+&#x2F;&#x2F; JavaScript中不需要类型注释
+function addNumbers(a, b) &#123;
+  return a + b;
+&#125;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个函数<code>addNumbers</code>，该函数接受两个参数 <code>a</code> 和 <code>b</code>，并返回它们的和。在 TypeScript 中，我们在函数参数声明和返回值类型之前添加类型注释，以指定参数和返回值的类型。在 JavaScript 中，我们不需要类型注释，因为它是动态类型语言，变量类型是在运行时确定的。</p>
+<blockquote>
+<p>列举一下刚刚说的第2点，用代码举例</p>
+</blockquote>
+<p>好的，以下是类型声明文件的一个例子：</p>
+<p>我们假设我们有一个名为 <code>greeting.js</code> 的 JavaScript 模块，它包含一个导出的函数 <code>sayHello</code>，如下所示：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">&#x2F;&#x2F; greeting.js
+
+function sayHello(name) &#123;
+  console.log(&#96;Hello $&#123;name&#125;!&#96;);
+&#125;
+
+module.exports &#x3D; &#123; sayHello &#125;;</code></pre></div></figure>
+
+<p>现在我们想在 TypeScript 代码中使用 <code>sayHello</code> 函数，但是我们需要指定其参数和返回值类型。因此，我们可以创建一个名为 <code>greeting.d.ts</code> 的类型声明文件，将其放置在与 <code>greeting.js</code> 同级的目录中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">&#x2F;&#x2F; greeting.d.ts
+
+export declare function sayHello(name: string): void;</code></pre></div></figure>
+
+<p>在这个例子中，我们在类型声明文件中使用 <code>declare</code> 关键字来声明 <code>sayHello</code> 函数的类型，以便在 TypeScript 代码中使用它。然后，我们将其导出，以便其他模块可以使用它。</p>
+<p>现在，当我们在 TypeScript 代码中导入 <code>greeting.js</code> 模块时，TypeScript 将自动使用 <code>greeting.d.ts</code> 文件中的类型信息。例如，我们可以编写以下代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">&#x2F;&#x2F; index.ts
+
+import &#123; sayHello &#125; from &quot;.&#x2F;greeting&quot;;
+
+sayHello(&quot;John&quot;);</code></pre></div></figure>
+
+<p>在这个例子中，我们使用 <code>import</code> 关键字导入 <code>sayHello</code> 函数，并在 TypeScript 代码中使用它，而无需手动指定其类型。</p>
+<blockquote>
+<p>列举一下刚刚说的第3点，用代码举例</p>
+</blockquote>
+<p>好的，以下是可选链操作符的一个例子：</p>
+<p>假设我们有一个包含以下属性的 JavaScript 对象：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">const person &#x3D; &#123;
+  name: &quot;John&quot;,
+  address: &#123;
+    city: &quot;New York&quot;,
+    state: &quot;NY&quot;,
+  &#125;,
+&#125;;</code></pre></div></figure>
+
+<p>现在我们想访问 <code>person</code> 对象的 <code>address</code> 属性中的 <code>city</code> 属性。在 JavaScript 中，我们可能会使用以下代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">const city &#x3D; person.address &amp;&amp; person.address.city;</code></pre></div></figure>
+
+<p>这是因为如果 <code>person.address</code> 为 <code>undefined</code>，那么访问 <code>person.address.city</code> 将导致 <code>TypeError</code>。因此，我们使用 <code>&amp;&amp;</code> 运算符来检查 <code>person.address</code> 是否为 <code>undefined</code>，只有在 <code>person.address</code> 不为 <code>undefined</code> 时才访问 <code>person.address.city</code> 属性。</p>
+<p>在 TypeScript 中，我们可以使用可选链操作符（<code>?.</code>）来实现相同的行为：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const city &#x3D; person.address?.city;</code></pre></div></figure>
+
+<p>在这个例子中，我们使用可选链操作符（<code>?.</code>）来检查 <code>person.address</code> 是否为 <code>undefined</code>，只有在 <code>person.address</code> 不为 <code>undefined</code> 时才访问 <code>person.address.city</code> 属性。这样可以让我们更方便地访问可能不存在的属性，同时避免了运行时错误。</p>
+<blockquote>
+<p>列举一下刚刚说的第4点，用代码举例</p>
+</blockquote>
+<p>好的，以下是枚举的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用枚举来定义一组有限的命名常量。以下是一个定义颜色的枚举的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">enum Color &#123;
+  Red &#x3D; &quot;red&quot;,
+  Green &#x3D; &quot;green&quot;,
+  Blue &#x3D; &quot;blue&quot;,
+&#125;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个名为 <code>Color</code> 的枚举，它包含三个成员：<code>Red</code>、<code>Green</code> 和 <code>Blue</code>。每个成员都有一个与其关联的字符串值。例如，<code>Color.Red</code> 的值为 <code>&quot;red&quot;</code>。</p>
+<p>在 TypeScript 中，我们可以使用枚举成员来代替硬编码的字符串或数字。例如，我们可以编写以下代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const favoriteColor &#x3D; Color.Green;
+console.log(&#96;My favorite color is $&#123;favoriteColor&#125;.&#96;);</code></pre></div></figure>
+
+<p>在这个例子中，我们将 <code>favoriteColor</code> 设置为 <code>Color.Green</code>，这是一个枚举成员，它代表字符串值 <code>&quot;green&quot;</code>。然后，我们使用 <code>console.log</code> 函数输出一个字符串，其中包含 <code>favoriteColor</code> 的值。</p>
+<p>值得注意的是，在编译为 JavaScript 之后，枚举成员将被转换为相应的字符串或数字。例如，上面的枚举会被转换为以下 JavaScript 代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">var Color;
+(function (Color) &#123;
+  Color[&quot;Red&quot;] &#x3D; &quot;red&quot;;
+  Color[&quot;Green&quot;] &#x3D; &quot;green&quot;;
+  Color[&quot;Blue&quot;] &#x3D; &quot;blue&quot;;
+&#125;)(Color || (Color &#x3D; &#123;&#125;));</code></pre></div></figure>
+
+<p>在这个 JavaScript 代码中，枚举成员被转换为了字符串值。因此，我们可以在 TypeScript 中使用枚举，然后在编译为 JavaScript 之后，仍然可以得到预期的结果。</p>
+<blockquote>
+<p>列举一下刚刚说的第5点（泛型），用代码举例</p>
+</blockquote>
+<p>好的，以下是泛型的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用泛型来编写通用的代码，以便在不同的数据类型上工作。以下是一个定义一个简单的泛型函数的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">function identity&lt;T&gt;(arg: T): T &#123;
+  return arg;
+&#125;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个名为 <code>identity</code> 的函数，它接受一个类型为 <code>T</code> 的参数 <code>arg</code>，并返回一个类型为 <code>T</code> 的值。<code>&lt;T&gt;</code> 是一个类型参数，它允许我们在函数内部使用 <code>T</code> 来表示任意类型。</p>
+<p>我们可以将这个泛型函数用于不同的数据类型。例如，以下是使用 <code>identity</code> 函数处理不同数据类型的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const str &#x3D; identity&lt;string&gt;(&quot;hello&quot;);
+const num &#x3D; identity&lt;number&gt;(42);</code></pre></div></figure>
+
+<p>在这个例子中，我们分别使用 <code>identity</code> 函数处理了字符串和数字。我们通过在函数名后面使用尖括号和类型参数来指定要使用的类型。</p>
+<p>值得注意的是，TypeScript 通常可以根据上下文推断类型参数。因此，我们可以使用以下代码来调用 <code>identity</code> 函数，而不必显式指定类型参数：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const str &#x3D; identity(&quot;hello&quot;);
+const num &#x3D; identity(42);</code></pre></div></figure>
+
+<p>在这个例子中，TypeScript 可以根据 <code>str</code> 和 <code>num</code> 变量的类型推断出类型参数 <code>T</code> 的值。</p>
+<blockquote>
+<p>列举一下刚刚说的第6点（接口），用代码举例</p>
+</blockquote>
+<p>好的，以下是接口的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用接口来描述对象的形状。以下是一个定义一个简单接口的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">interface Person &#123;
+  name: string;
+  age: number;
+&#125;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个名为 <code>Person</code> 的接口，它描述了一个包含 <code>name</code> 和 <code>age</code> 两个属性的对象。<code>name</code> 属性是一个字符串，<code>age</code> 属性是一个数字。</p>
+<p>我们可以使用 <code>Person</code> 接口来声明一个符合其形状的对象。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const person: Person &#x3D; &#123;
+  name: &quot;Alice&quot;,
+  age: 30,
+&#125;;</code></pre></div></figure>
+
+<p>在这个例子中，我们声明了一个名为 <code>person</code> 的变量，并将其类型指定为 <code>Person</code> 接口。然后，我们将一个对象赋给这个变量，该对象符合 <code>Person</code> 接口的形状。</p>
+<p>值得注意的是，TypeScript 只会检查对象中是否存在所需的属性，并不要求对象具有其他属性。因此，以下代码也是合法的：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const person: Person &#x3D; &#123;
+  name: &quot;Bob&quot;,
+  age: 25,
+  occupation: &quot;Developer&quot;,
+&#125;;</code></pre></div></figure>
+
+<p>在这个例子中，我们声明了一个名为 <code>person</code> 的变量，并将其类型指定为 <code>Person</code> 接口。虽然这个对象有一个额外的 <code>occupation</code> 属性，但 TypeScript 仍然认为它符合 <code>Person</code> 接口的形状。</p>
+<blockquote>
+<p>列举一下刚刚说的第7点（类），用代码举例</p>
+</blockquote>
+<p>好的，以下是类的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用类来描述对象的行为和状态。以下是一个定义一个简单类的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">class Person &#123;
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) &#123;
+    this.name &#x3D; name;
+    this.age &#x3D; age;
+  &#125;
+
+  sayHello() &#123;
+    console.log(&#96;Hello, my name is $&#123;this.name&#125; and I&#39;m $&#123;this.age&#125; years old.&#96;);
+  &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个名为 <code>Person</code> 的类，它有两个属性 <code>name</code> 和 <code>age</code>，以及一个构造函数和一个方法 <code>sayHello()</code>。</p>
+<p>构造函数用于创建一个新的 <code>Person</code> 对象，它接受两个参数 <code>name</code> 和 <code>age</code>，并将它们分别赋给 <code>this.name</code> 和 <code>this.age</code> 属性。</p>
+<p>方法 <code>sayHello()</code> 用于输出一条问候语，其中包含 <code>this.name</code> 和 <code>this.age</code> 属性的值。</p>
+<p>我们可以使用 <code>new</code> 关键字来创建一个 <code>Person</code> 对象。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const person &#x3D; new Person(&quot;Alice&quot;, 30);
+person.sayHello();</code></pre></div></figure>
+
+<p>在这个例子中，我们创建了一个名为 <code>person</code> 的变量，并将其赋值为一个新的 <code>Person</code> 对象。然后，我们调用 <code>sayHello()</code> 方法输出问候语。</p>
+<blockquote>
+<p>列举一下刚刚说的第8点（可选类型），用代码举例</p>
+</blockquote>
+<p>好的，以下是可选类型的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用 <code>?</code> 符号来表示一个属性是可选的。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">interface Person &#123;
+  name: string;
+  age?: number;
+&#125;</code></pre></div></figure>
+
+<p>在这个例子中，我们将 <code>age</code> 属性定义为可选的。这意味着一个 <code>Person</code> 对象可以具有或者不具有 <code>age</code> 属性。</p>
+<p>我们可以像下面这样使用该接口：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">const person1: Person &#x3D; &#123;
+  name: &quot;Alice&quot;
+&#125;;
+
+const person2: Person &#x3D; &#123;
+  name: &quot;Bob&quot;,
+  age: 30
+&#125;;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了两个变量 <code>person1</code> 和 <code>person2</code>，它们都是符合 <code>Person</code> 接口的对象。但是，<code>person1</code> 没有 <code>age</code> 属性，而 <code>person2</code> 具有 <code>age</code> 属性。</p>
+<p>在这种情况下，如果我们尝试使用 <code>person1.age</code> 访问 <code>age</code> 属性，则 TypeScript 编译器将会给出一个编译时错误，因为 <code>age</code> 属性可能不存在。</p>
+<blockquote>
+<p>列举一下刚刚说的第9点（元组），用代码举例</p>
+</blockquote>
+<p>好的，以下是元组的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用元组来表示一个已知长度和类型的数组。元组中的每个元素可以具有不同的类型，但是它们的类型和顺序必须与元组类型中定义的类型和顺序相匹配。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">let person: [string, number];
+
+person &#x3D; [&quot;Alice&quot;, 30];
+
+console.log(person[0]); &#x2F;&#x2F; 输出 &quot;Alice&quot;
+console.log(person[1]); &#x2F;&#x2F; 输出 30</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个名为 <code>person</code> 的元组，它具有两个元素，第一个元素的类型为 <code>string</code>，第二个元素的类型为 <code>number</code>。然后，我们将一个由两个元素组成的数组赋值给该变量。</p>
+<p>我们可以使用下标访问元组中的元素，例如，<code>person[0]</code> 可以获取 <code>Alice</code>，<code>person[1]</code> 可以获取 <code>30</code>。</p>
+<p>需要注意的是，元组的长度必须与类型定义中的长度相同，否则 TypeScript 编译器将会给出一个编译时错误。另外，如果我们尝试访问一个不存在的元素，或者访问一个超出元组范围的元素，TypeScript 编译器也会给出一个编译时错误。</p>
+<blockquote>
+<p>列举一下刚刚说的第10点（访问修饰符），用代码举例</p>
+</blockquote>
+<p>好的，以下是访问修饰符的一个例子：</p>
+<p>在 TypeScript 中，我们可以使用访问修饰符来控制类中属性和方法的访问权限。有三种访问修饰符，分别是 <code>public</code>、<code>private</code> 和 <code>protected</code>。</p>
+<p><code>public</code> 修饰符表示公共的，可以在任何地方访问。默认情况下，类中的属性和方法都是公共的，也就是说，如果不指定访问修饰符，默认为 <code>public</code>。</p>
+<p><code>private</code> 修饰符表示私有的，只能在类中访问，不能在类的外部访问。</p>
+<p><code>protected</code> 修饰符表示受保护的，可以在类中和该类的子类中访问，但不能在类的外部访问。</p>
+<p>下面是一个使用访问修饰符的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">class Person &#123;
+  public name: string;
+  private age: number;
+  protected gender: string;
+
+  constructor(name: string, age: number, gender: string) &#123;
+    this.name &#x3D; name;
+    this.age &#x3D; age;
+    this.gender &#x3D; gender;
+  &#125;
+
+  public sayHi() &#123;
+    console.log(&#96;Hi, my name is $&#123;this.name&#125;, I&#39;m $&#123;this.age&#125; years old.&#96;);
+  &#125;
+
+  private getAge() &#123;
+    return this.age;
+  &#125;
+
+  protected getGender() &#123;
+    return this.gender;
+  &#125;
+&#125;
+
+class Student extends Person &#123;
+  constructor(name: string, age: number, gender: string, studentId: number) &#123;
+    super(name, age, gender);
+    this.studentId &#x3D; studentId;
+  &#125;
+
+  private studentId: number;
+
+  public sayHi() &#123;
+    super.sayHi();
+    console.log(&#96;I&#39;m a student, my student id is $&#123;this.studentId&#125;.&#96;);
+  &#125;
+
+  public getGenderAndAge() &#123;
+    console.log(&#96;My gender is $&#123;this.getGender()&#125;, and my age is $&#123;this.getAge()&#125;.&#96;);
+  &#125;
+&#125;
+
+const alice &#x3D; new Person(&quot;Alice&quot;, 30, &quot;female&quot;);
+alice.sayHi(); &#x2F;&#x2F; 输出 &quot;Hi, my name is Alice, I&#39;m 30 years old.&quot;
+
+const bob &#x3D; new Student(&quot;Bob&quot;, 20, &quot;male&quot;, 123456);
+bob.sayHi(); &#x2F;&#x2F; 输出 &quot;Hi, my name is Bob, I&#39;m 20 years old. I&#39;m a student, my student id is 123456.&quot;
+bob.getGenderAndAge(); &#x2F;&#x2F; 输出 &quot;My gender is male, and my age is not accessible outside the class.&quot;</code></pre></div></figure>
+
+<p>在这个例子中，我们定义了一个 <code>Person</code> 类和一个 <code>Student</code> 类。<code>Person</code> 类具有 <code>name</code>、<code>age</code> 和 <code>gender</code> 三个属性，分别使用了 <code>public</code>、<code>private</code> 和 <code>protected</code> 三种访问修饰符。<code>Person</code> 类中的 <code>sayHi()</code> 方法使用了 <code>public</code> 修饰符，可以在类的外部访问。<code>Person</code> 类中的 <code>getAge()</code> 方法使用了 <code>private</code> 修饰符，只能在类中访问。<code>Person</code> 类中的 <code>getGender()</code> 方法使用了 <code>protected</code> 修饰符，可以在类中和该类的子类中访问，但不能在类的外部访问。</p>
+<p><code>Student</code> 类继承了 <code>Person</code> 类并重新实现了 <code>sayHi()</code> ，内部进行了 <code>Person</code> 类的方法调用。</p>
+<blockquote>
+<p>除了这10点之外还有其他的不同嘛，用代码举例</p>
+</blockquote>
+<p>除了这10点之外，还有一些其他的不同之处，具体包括：</p>
+<ol start="11">
+<li>TS支持枚举类型</li>
+</ol>
+<p>枚举类型（Enum）是TS中新增的数据类型，用于定义一组有名字的常量。在JS中，可以使用对象字面量等方式实现类似的功能，但是在TS中，可以直接使用枚举类型，使代码更加清晰明了。</p>
+<p>以下是一个使用枚举类型的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">enum Color &#123;
+  Red,
+  Green,
+  Blue
+&#125;
+
+let c: Color &#x3D; Color.Green;
+console.log(c);  &#x2F;&#x2F; 输出 1</code></pre></div></figure>
+
+<ol start="12">
+<li>TS支持命名空间</li>
+</ol>
+<p>命名空间（Namespace）是TS中新增的一种语法，用于将代码组织到逻辑上的命名空间中，避免命名冲突。在JS中，可以使用对象字面量等方式实现类似的功能，但是在TS中，可以直接使用命名空间，使代码更加清晰明了。</p>
+<p>以下是一个使用命名空间的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">namespace MyNamespace &#123;
+  export function sayHello() &#123;
+    console.log(&quot;Hello World!&quot;);
+  &#125;
+&#125;
+
+MyNamespace.sayHello();  &#x2F;&#x2F; 输出 Hello World!</code></pre></div></figure>
+
+<ol start="13">
+<li>TS支持装饰器</li>
+</ol>
+<p>装饰器（Decorator）是TS中新增的一种语法，用于为类、方法、属性等添加元数据或修改行为。在JS中，可以使用函数等方式实现类似的功能，但是在TS中，可以直接使用装饰器，使代码更加简洁易读。</p>
+<p>以下是一个使用装饰器的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">function log(target: any, key: string, descriptor: PropertyDescriptor) &#123;
+  const originalMethod &#x3D; descriptor.value;
+
+  descriptor.value &#x3D; function(...args: any[]) &#123;
+    console.log(&#96;Call $&#123;key&#125; with arguments: $&#123;JSON.stringify(args)&#125;&#96;);
+    const result &#x3D; originalMethod.apply(this, args);
+    console.log(&#96;Return value: $&#123;JSON.stringify(result)&#125;&#96;);
+    return result;
+  &#125;;
+
+  return descriptor;
+&#125;
+
+class Calculator &#123;
+  @log
+  add(a: number, b: number): number &#123;
+    return a + b;
+  &#125;
+&#125;
+
+const calculator &#x3D; new Calculator();
+const result &#x3D; calculator.add(1, 2);
+console.log(&#96;Result: $&#123;result&#125;&#96;);  &#x2F;&#x2F; 输出 Result: 3</code></pre></div></figure>
+
+<p>这些是TS与JS语法上的一些不同点，当然还有其他的一些不同之处，如模块化、类型兼容性、类型推断等。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NodeJS/" class="category-chain-item">NodeJS</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/NodeJS/TS/" class="category-chain-item">TS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ChatGPT/" class="print-no-link">#ChatGPT</a>
+      
+        <a href="/tags/JS/" class="print-no-link">#JS</a>
+      
+        <a href="/tags/TS/" class="print-no-link">#TS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ChatGPT-TS与JS对比学习</div>
+      <div>https://blog.cikaros.top/doc/47aace24.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/c423ee.html" title="Aria2的介绍与使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Aria2的介绍与使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/f63f87f0.html" title="ChatGPT-神经网络咨询">
+                        <span class="hidden-mobile">ChatGPT-神经网络咨询</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

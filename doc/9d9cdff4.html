@@ -1,0 +1,1183 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="Collector&lt;T, A, R&gt; 是 Java Stream API 中用于自定义收集操作的核心接口。它允许开发者定义如何将流中的元素累积到一个可变容器中，并最终将容器转换为结果。Collector 的设计非常灵活，能够支持各种复杂的收集操作，例如分组、分区、连接字符串等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解Stream API-Collector收集器">
+<meta property="og:url" content="https://blog.cikaros.top/doc/9d9cdff4.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="Collector&lt;T, A, R&gt; 是 Java Stream API 中用于自定义收集操作的核心接口。它允许开发者定义如何将流中的元素累积到一个可变容器中，并最终将容器转换为结果。Collector 的设计非常灵活，能够支持各种复杂的收集操作，例如分组、分区、连接字符串等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-02-20T01:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.609Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="JDK">
+<meta property="article:tag" content="源码解析">
+<meta property="article:tag" content="Stream">
+<meta property="article:tag" content="Stream包">
+<meta property="article:tag" content="Collector">
+<meta property="article:tag" content="收集器">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>理解Stream API-Collector收集器 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="理解Stream API-Collector收集器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-20 09:00" pubdate>
+          2025年2月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">理解Stream API-Collector收集器</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p><code>Collector&lt;T, A, R&gt;</code> 是 Java Stream API 中用于<strong>自定义收集操作</strong>的核心接口。它允许开发者定义如何将流中的元素累积到一个可变容器中，并最终将容器转换为结果。<code>Collector</code> 的设计非常灵活，能够支持各种复杂的收集操作，例如分组、分区、连接字符串等。</p>
+<span id="more"></span>
+<p>接下来，我们将从 <strong>设计理念</strong> 和 <strong>底层原理</strong> 两个方面深入解析 <code>Collector</code>。</p>
+<hr>
+<h3 id="一、设计理念"><a href="#一、设计理念" class="headerlink" title="一、设计理念"></a>一、设计理念</h3><p><code>Collector</code> 的设计目标是<strong>解耦流的处理逻辑与结果生成逻辑</strong>，同时提供足够的灵活性来支持各种收集操作。它的设计理念可以概括为以下几点：</p>
+<ol>
+<li><p><strong>可变容器（Accumulator）</strong>：</p>
+<ul>
+<li>收集操作需要一个可变容器来临时存储流中的元素。</li>
+<li>容器类型可以是任意的（如 <code>List</code>、<code>Map</code>、<code>StringBuilder</code> 等）。</li>
+</ul>
+</li>
+<li><p><strong>累积操作（Accumulation）</strong>：</p>
+<ul>
+<li>定义如何将流中的元素逐个添加到可变容器中。</li>
+</ul>
+</li>
+<li><p><strong>结果转换（Finisher）</strong>：</p>
+<ul>
+<li>在流处理完成后，将可变容器转换为最终结果（如将 <code>List</code> 转换为不可变集合）。</li>
+</ul>
+</li>
+<li><p><strong>并行支持（Combiner）</strong>：</p>
+<ul>
+<li>在并行流中，多个线程会独立处理数据块，最终需要将这些部分结果合并。</li>
+</ul>
+</li>
+<li><p><strong>特性描述（Characteristics）</strong>：</p>
+<ul>
+<li>描述收集器的行为特性（如是否支持并行、是否有序等）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="二、Collector-接口定义"><a href="#二、Collector-接口定义" class="headerlink" title="二、Collector 接口定义"></a>二、<code>Collector</code> 接口定义</h3><p><code>Collector</code> 接口的定义如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public interface Collector&lt;T, A, R&gt; &#123;
+    &#x2F;&#x2F; 创建一个新的可变容器
+    Supplier&lt;A&gt; supplier();
+
+    &#x2F;&#x2F; 将元素累积到容器中
+    BiConsumer&lt;A, T&gt; accumulator();
+
+    &#x2F;&#x2F; 合并两个容器（用于并行流）
+    BinaryOperator&lt;A&gt; combiner();
+
+    &#x2F;&#x2F; 将容器转换为最终结果
+    Function&lt;A, R&gt; finisher();
+
+    &#x2F;&#x2F; 描述收集器的特性
+    Set&lt;Characteristics&gt; characteristics();
+&#125;</code></pre></div></figure>
+
+<h4 id="1-核心方法解析"><a href="#1-核心方法解析" class="headerlink" title="1. 核心方法解析"></a>1. <strong>核心方法解析</strong></h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Supplier&lt;A&gt; supplier()</code></td>
+<td>创建一个新的可变容器（如 <code>ArrayList::new</code>）。</td>
+</tr>
+<tr>
+<td><code>BiConsumer&lt;A, T&gt; accumulator()</code></td>
+<td>将元素累积到容器中（如 <code>List::add</code>）。</td>
+</tr>
+<tr>
+<td><code>BinaryOperator&lt;A&gt; combiner()</code></td>
+<td>合并两个容器（用于并行流，如 <code>List::addAll</code>）。</td>
+</tr>
+<tr>
+<td><code>Function&lt;A, R&gt; finisher()</code></td>
+<td>将容器转换为最终结果（如将 <code>List</code> 转换为不可变集合）。</td>
+</tr>
+<tr>
+<td><code>Set&lt;Characteristics&gt; characteristics()</code></td>
+<td>描述收集器的特性（如是否支持并行、是否有序等）。</td>
+</tr>
+</tbody></table>
+<h4 id="2-特性枚举（Characteristics）"><a href="#2-特性枚举（Characteristics）" class="headerlink" title="2. 特性枚举（Characteristics）"></a>2. <strong>特性枚举（Characteristics）</strong></h4><p><code>Characteristics</code> 是一个枚举类型，用于描述收集器的行为特性：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CONCURRENT</code></td>
+<td>表示收集器支持并行操作，多个线程可以共享同一个容器。</td>
+</tr>
+<tr>
+<td><code>UNORDERED</code></td>
+<td>表示收集器不保留元素的顺序。</td>
+</tr>
+<tr>
+<td><code>IDENTITY_FINISH</code></td>
+<td>表示 <code>finisher()</code> 方法是一个恒等函数，可以省略。</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="三、底层原理"><a href="#三、底层原理" class="headerlink" title="三、底层原理"></a>三、底层原理</h3><p><code>Collector</code> 的底层实现依赖于 Stream API 的流水线机制。以下是其工作原理的详细解析：</p>
+<h4 id="1-收集器的执行流程"><a href="#1-收集器的执行流程" class="headerlink" title="1. 收集器的执行流程"></a>1. <strong>收集器的执行流程</strong></h4><p>当调用 <code>collect(Collector)</code> 方法时，Stream API 会按照以下步骤执行收集操作：</p>
+<ol>
+<li><p><strong>创建容器</strong>：</p>
+<ul>
+<li>调用 <code>supplier()</code> 方法创建一个新的可变容器（如 <code>ArrayList</code>）。</li>
+</ul>
+</li>
+<li><p><strong>累积元素</strong>：</p>
+<ul>
+<li>对流中的每个元素调用 <code>accumulator()</code> 方法，将其添加到容器中。</li>
+</ul>
+</li>
+<li><p><strong>合并部分结果（并行流）</strong>：</p>
+<ul>
+<li>在并行流中，多个线程会独立处理数据块，生成多个部分结果。</li>
+<li>调用 <code>combiner()</code> 方法将这些部分结果合并。</li>
+</ul>
+</li>
+<li><p><strong>转换结果</strong>：</p>
+<ul>
+<li>调用 <code>finisher()</code> 方法将容器转换为最终结果（如将 <code>List</code> 转换为 <code>Set</code>）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="2-并行流的支持"><a href="#2-并行流的支持" class="headerlink" title="2. 并行流的支持"></a>2. <strong>并行流的支持</strong></h4><p>在并行流中，<code>Collector</code> 的执行流程如下：</p>
+<ol>
+<li><p><strong>分割数据</strong>：</p>
+<ul>
+<li>使用 <code>Spliterator</code> 将数据源分割为多个子任务。</li>
+</ul>
+</li>
+<li><p><strong>并行累积</strong>：</p>
+<ul>
+<li>每个子任务独立调用 <code>supplier()</code> 创建自己的容器，并使用 <code>accumulator()</code> 累积元素。</li>
+</ul>
+</li>
+<li><p><strong>合并结果</strong>：</p>
+<ul>
+<li>使用 <code>combiner()</code> 方法将各个子任务的结果合并。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="3-特性优化"><a href="#3-特性优化" class="headerlink" title="3. 特性优化"></a>3. <strong>特性优化</strong></h4><p><code>Collector</code> 的特性（<code>Characteristics</code>）会影响其执行方式：</p>
+<ul>
+<li><p>**<code>CONCURRENT</code>**：</p>
+<ul>
+<li>如果收集器是并发的，多个线程可以共享同一个容器，无需合并部分结果。</li>
+<li>例如，<code>Collectors.toConcurrentMap()</code> 是一个并发收集器。</li>
+</ul>
+</li>
+<li><p>**<code>IDENTITY_FINISH</code>**：</p>
+<ul>
+<li>如果 <code>finisher()</code> 是恒等函数，Stream API 会跳过此步骤，直接返回容器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="四、自定义-Collector-示例"><a href="#四、自定义-Collector-示例" class="headerlink" title="四、自定义 Collector 示例"></a>四、自定义 <code>Collector</code> 示例</h3><p>为了更好地理解 <code>Collector</code> 的工作原理，我们实现一个自定义收集器：将流中的字符串连接成一个用逗号分隔的字符串。</p>
+<h4 id="1-自定义收集器实现"><a href="#1-自定义收集器实现" class="headerlink" title="1. 自定义收集器实现"></a>1. <strong>自定义收集器实现</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class StringJoiningCollector implements Collector&lt;String, StringBuilder, String&gt; &#123;
+    private final String delimiter;
+
+    public StringJoiningCollector(String delimiter) &#123;
+        this.delimiter &#x3D; delimiter;
+    &#125;
+
+    @Override
+    public Supplier&lt;StringBuilder&gt; supplier() &#123;
+        return StringBuilder::new; &#x2F;&#x2F; 创建容器
+    &#125;
+
+    @Override
+    public BiConsumer&lt;StringBuilder, String&gt; accumulator() &#123;
+        return (sb, str) -&gt; &#123;
+            if (sb.length() &gt; 0) &#123;
+                sb.append(delimiter); &#x2F;&#x2F; 添加分隔符
+            &#125;
+            sb.append(str); &#x2F;&#x2F; 添加元素
+        &#125;;
+    &#125;
+
+    @Override
+    public BinaryOperator&lt;StringBuilder&gt; combiner() &#123;
+        return (sb1, sb2) -&gt; &#123;
+            if (sb1.length() &gt; 0 &amp;&amp; sb2.length() &gt; 0) &#123;
+                sb1.append(delimiter); &#x2F;&#x2F; 合并时添加分隔符
+            &#125;
+            sb1.append(sb2); &#x2F;&#x2F; 合并两个容器
+            return sb1;
+        &#125;;
+    &#125;
+
+    @Override
+    public Function&lt;StringBuilder, String&gt; finisher() &#123;
+        return StringBuilder::toString; &#x2F;&#x2F; 转换为最终结果
+    &#125;
+
+    @Override
+    public Set&lt;Characteristics&gt; characteristics() &#123;
+        return Set.of(); &#x2F;&#x2F; 无特殊特性
+    &#125;
+&#125;</code></pre></div></figure>
+
+<h4 id="2-使用自定义收集器"><a href="#2-使用自定义收集器" class="headerlink" title="2. 使用自定义收集器"></a>2. <strong>使用自定义收集器</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">List&lt;String&gt; words &#x3D; Arrays.asList(&quot;Hello&quot;, &quot;World&quot;, &quot;Java&quot;, &quot;Stream&quot;);
+String result &#x3D; words.stream().collect(new StringJoiningCollector(&quot;, &quot;));
+System.out.println(result); &#x2F;&#x2F; 输出: Hello, World, Java, Stream</code></pre></div></figure>
+
+<hr>
+<h3 id="五、JDK-内置收集器"><a href="#五、JDK-内置收集器" class="headerlink" title="五、JDK 内置收集器"></a>五、JDK 内置收集器</h3><p>JDK 提供了许多内置的收集器（位于 <code>java.util.stream.Collectors</code> 类中），例如：</p>
+<ul>
+<li>**<code>toList()</code>**：将元素收集到 <code>List</code> 中。</li>
+<li>**<code>toSet()</code>**：将元素收集到 <code>Set</code> 中。</li>
+<li>**<code>joining()</code>**：将字符串连接成一个字符串。</li>
+<li>**<code>groupingBy()</code>**：按条件分组。</li>
+<li>**<code>partitioningBy()</code>**：按条件分区。</li>
+</ul>
+<p>这些内置收集器都是基于 <code>Collector</code> 接口实现的。</p>
+<hr>
+<h3 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h3><p><code>Collector&lt;T, A, R&gt;</code> 的设计理念是通过<strong>解耦累积逻辑与结果生成逻辑</strong>，提供一种灵活且高效的方式来处理流中的元素。其底层原理基于以下核心机制：</p>
+<ol>
+<li><strong>可变容器</strong>：用于临时存储元素。</li>
+<li><strong>累积操作</strong>：将元素逐个添加到容器中。</li>
+<li><strong>结果转换</strong>：将容器转换为最终结果。</li>
+<li><strong>并行支持</strong>：通过 <code>combiner()</code> 方法合并部分结果。</li>
+</ol>
+<p>通过理解 <code>Collector</code> 的设计和实现，开发者可以更好地使用内置收集器，甚至实现自定义的收集操作以满足特定需求。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/JDK/" class="category-chain-item">JDK</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JDK/" class="print-no-link">#JDK</a>
+      
+        <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="print-no-link">#源码解析</a>
+      
+        <a href="/tags/Stream/" class="print-no-link">#Stream</a>
+      
+        <a href="/tags/Stream%E5%8C%85/" class="print-no-link">#Stream包</a>
+      
+        <a href="/tags/Collector/" class="print-no-link">#Collector</a>
+      
+        <a href="/tags/%E6%94%B6%E9%9B%86%E5%99%A8/" class="print-no-link">#收集器</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>理解Stream API-Collector收集器</div>
+      <div>https://blog.cikaros.top/doc/9d9cdff4.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/e3d392ec.html" title="Linux常用指令介绍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux常用指令介绍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/8f3b1cd9.html" title="理解Stream API-Sink的本质">
+                        <span class="hidden-mobile">理解Stream API-Sink的本质</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

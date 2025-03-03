@@ -1,0 +1,1594 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="JDK的升级指南接着 JDK的选择 这一章继续更新，这次我使用了近期比较火的 ChatGPT 来介绍，一起来看一下吧！ 与ChatGPT的对话  我一直在使用JDK 8，请介绍一下JDK 8都有哪些特性   Java Development Kit (JDK) 8是Java语言的一个版本，它引入了很多新特性。下面是JDK 8中的一些主要特性：  Lambda表达式和函数式接口：Lambda表达式是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDK的升级指南">
+<meta property="og:url" content="https://blog.cikaros.top/doc/ccb79e1b.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="JDK的升级指南接着 JDK的选择 这一章继续更新，这次我使用了近期比较火的 ChatGPT 来介绍，一起来看一下吧！ 与ChatGPT的对话  我一直在使用JDK 8，请介绍一下JDK 8都有哪些特性   Java Development Kit (JDK) 8是Java语言的一个版本，它引入了很多新特性。下面是JDK 8中的一些主要特性：  Lambda表达式和函数式接口：Lambda表达式是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-03T04:56:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.590Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JDK">
+<meta property="article:tag" content="ChatGPT">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>JDK的升级指南 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JDK的升级指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-03 12:56" pubdate>
+          2023年3月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          88 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JDK的升级指南</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="JDK的升级指南"><a href="#JDK的升级指南" class="headerlink" title="JDK的升级指南"></a>JDK的升级指南</h1><p>接着 <a href="/doc/f7ea7089.html">JDK的选择</a> 这一章继续更新，这次我使用了近期比较火的 <strong>ChatGPT</strong> 来介绍，一起来看一下吧！</p>
+<h2 id="与ChatGPT的对话"><a href="#与ChatGPT的对话" class="headerlink" title="与ChatGPT的对话"></a>与ChatGPT的对话</h2><hr>
+<blockquote>
+<p>我一直在使用JDK 8，请介绍一下JDK 8都有哪些特性</p>
+</blockquote>
+<hr>
+<p>Java Development Kit (JDK) 8是Java语言的一个版本，它引入了很多新特性。下面是JDK 8中的一些主要特性：</p>
+<ol>
+<li><p>Lambda表达式和函数式接口：Lambda表达式是一个简洁而强大的语法，可以使编写代码更为简单和易读。函数式接口是只有一个抽象方法的接口。</p>
+</li>
+<li><p>Stream API：Stream API提供了一种高效而简洁的方式来处理集合数据，支持并行处理。</p>
+</li>
+<li><p>新的日期&#x2F;时间API：JDK 8引入了一个全新的日期&#x2F;时间API，支持更为灵活和易用的日期和时间处理。</p>
+</li>
+<li><p>接口中的默认方法：接口中的默认方法可以使接口的实现类不必全部实现接口中的方法。</p>
+</li>
+<li><p>方法引用：方法引用可以将一个方法作为参数传递给另一个方法，从而使代码更为简洁。</p>
+</li>
+<li><p>Type Annotations：类型注解使得开发者可以在编译时检查代码的类型正确性。</p>
+</li>
+<li><p>Nashorn JavaScript引擎：JDK 8中引入了一个全新的JavaScript引擎，可以直接在Java程序中运行JavaScript代码。</p>
+</li>
+<li><p>PermGen空间移除：PermGen空间在JDK 8中被移除，被Metaspace代替，从而改善了JVM的性能和稳定性。</p>
+</li>
+<li><p>新的重复注解和类型注解：JDK 8引入了新的重复注解和类型注解，可以使得注解的使用更为灵活和方便。</p>
+</li>
+<li><p>Base64编码：JDK 8提供了一个Base64编码类，可以使得编码和解码更为方便。</p>
+</li>
+</ol>
+<p>这些特性是JDK 8的一些主要特点，可以帮助开发者编写更加简洁和高效的代码。</p>
+<hr>
+<blockquote>
+<p>现在已经有新版本的LTS了，请以JDK 8为起点，介绍JDK 17都拥有了哪些新特性</p>
+</blockquote>
+<hr>
+<p>Java Development Kit (JDK) 17是Java语言的一个版本，是自JDK 8以来的第二个长期支持（LTS）版本，引入了许多新特性和改进。下面是JDK 17中的一些主要特性：</p>
+<ol>
+<li><p>Sealed类：Sealed类是一种限制继承和实现的新机制，可以使类更加安全和可靠。</p>
+</li>
+<li><p>垃圾回收器接口：JDK 17中引入了一个新的垃圾回收器接口，使得开发者可以更容易地扩展JVM的垃圾回收器。</p>
+</li>
+<li><p>Pattern Matching for instanceof：JDK 17引入了一种新的语法，可以使开发者更容易地在代码中使用instanceof。</p>
+</li>
+<li><p>基于事件的异步IO：JDK 17中引入了一种基于事件的异步IO机制，可以更高效地进行IO操作。</p>
+</li>
+<li><p>Switch表达式增强：JDK 17中对switch表达式进行了增强，支持更复杂的语法和更灵活的使用。</p>
+</li>
+<li><p>JEP 409: 增强的方法处理：JDK 17中引入了一些增强的方法处理机制，包括对嵌套类的改进和方法描述符的支持。</p>
+</li>
+<li><p>JEP 411: 基于ZGC的并发线程栈处理：JDK 17中引入了一种新的线程栈处理机制，可以更好地支持大规模并发。</p>
+</li>
+<li><p>JEP 412: 基于Vector API的增强：JDK 17中引入了一种新的矢量API，可以更好地支持向量操作。</p>
+</li>
+<li><p>JEP 418: 简化的字符串操作：JDK 17中引入了一些新的字符串操作方法，可以使得字符串处理更加简洁和高效。</p>
+</li>
+<li><p>JEP 403: Strongly Encapsulate JDK Internals by Default：JDK 17中增强了JDK的封装机制，使得JDK的内部实现更加安全和可靠。</p>
+</li>
+</ol>
+<p>这些新特性和改进可以帮助开发者编写更加高效、安全和可靠的Java应用程序。同时，作为一个LTS版本，JDK 17将得到长期支持和维护，可以为企业和开发者提供更稳定和可靠的Java开发环境。</p>
+<hr>
+<blockquote>
+<p>只有这些吗？除了这10条还有吗？</p>
+</blockquote>
+<hr>
+<p>除了上述提到的10个主要特性之外，JDK 17还有其他一些新特性和改进，下面列举一些：</p>
+<ol start="11">
+<li><p>在Java CDS中启用Application Class-Data Sharing（CDS）默认情况下不支持将应用程序类存档在CDS中，但JDK 17支持使用-Xshare:app选项启用此功能。</p>
+</li>
+<li><p>在垃圾回收器中增加内存分配提示（JEP 412）：在ZGC中，引入了一个新的接口，允许应用程序向JVM发送内存分配提示，以帮助ZGC更好地管理内存。</p>
+</li>
+<li><p>增强的数组支持（JEP 409）：为了增强数组的语法和性能，JDK 17增加了一些新的数组操作API，包括Arrays.compare()和Arrays.mismatch()方法。</p>
+</li>
+<li><p>废弃Thread.destroy()和Thread.stop(Throwable)方法（JEP 411）：为了提高线程安全性和可靠性，JDK 17废弃了Thread.destroy()和Thread.stop(Throwable)方法。</p>
+</li>
+<li><p>废弃RMI Activation功能（JEP 398）：为了减少JDK的复杂性和维护成本，JDK 17废弃了RMI Activation功能。</p>
+</li>
+</ol>
+<p>这些新特性和改进可以进一步提升Java开发的效率、性能和可靠性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第一条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第一条特性是Sealed类（Sealed Classes），它是一种限制继承和实现的新机制，可以使类更加安全和可靠。</p>
+<p>在Java中，一个类可以被其他类继承或实现，这使得Java具有了非常强大的面向对象编程能力，但同时也可能导致一些问题，例如类的行为在继承时可能会被重写，从而导致不可预期的结果。为了解决这些问题，JDK 17引入了Sealed类机制。</p>
+<p>Sealed类可以通过使用sealed关键字来声明，它可以限制哪些类可以继承它或实现它，从而提高代码的可靠性和安全性。使用Sealed类可以确保类的行为在继承时不会被修改，从而使得代码更加可靠和稳定。</p>
+<p>下面是一个简单的示例，说明如何声明和使用Sealed类：</p>
+<p>kotlin</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-kotlin" data-language="kotlin"><code class="language-kotlin">public sealed class Animal permits Dog, Cat, Bird &#123;
+   &#x2F;&#x2F; ...
+&#125;
+
+public final class Dog extends Animal &#123;
+   &#x2F;&#x2F; ...
+&#125;
+
+public final class Cat extends Animal &#123;
+   &#x2F;&#x2F; ...
+&#125;
+
+public non-sealed class Bird extends Animal &#123;
+   &#x2F;&#x2F; ...
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，Animal是一个Sealed类，它通过permits关键字声明了哪些类可以继承它，包括Dog和Cat。同时，Bird是一个非Sealed类，它继承自Animal类，但没有被列入Animal类的permits列表中。</p>
+<p>通过这种方式，Animal类就可以限制它的子类，从而保证了代码的可靠性和安全性。如果其他类尝试继承Animal类，编译器将会报错。</p>
+<p>Sealed类的引入可以在一定程度上解决继承带来的问题，提高代码的可靠性和安全性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第2条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第二条特性是支持Switch表达式中的多个case标签（Switch Expressions with Multiple Labels），它可以让Switch语句更加简洁和易读。</p>
+<p>在Java中，Switch语句通常用于在一组固定值中选择一个执行路径。在JDK 17之前，Switch语句只能使用单个case标签来匹配单个值，这可能会导致代码冗长、难以维护和阅读。</p>
+<p>在JDK 17中，Switch语句可以使用多个case标签来匹配多个值，从而使代码更加简洁和易读。下面是一个简单的示例，说明如何使用Switch表达式中的多个case标签：</p>
+<p>go</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-go" data-language="go"><code class="language-go">int dayOfWeek &#x3D; 5;
+
+switch (dayOfWeek) &#123;
+  case 1, 2, 3, 4, 5 -&gt; System.out.println(&quot;Weekday&quot;);
+  case 6, 7 -&gt; System.out.println(&quot;Weekend&quot;);
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，Switch语句使用了多个case标签来匹配多个值。如果dayOfWeek的值为1、2、3、4或5，Switch语句将会执行第一个case块中的代码，如果dayOfWeek的值为6或7，Switch语句将会执行第二个case块中的代码。</p>
+<p>通过这种方式，Switch语句可以更加简洁和易读，同时也提高了代码的可读性和可维护性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第3条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第三条特性是支持嵌套的JVM元数据（Nested JVM Metadata），它可以在Java类文件中嵌套存储一些额外的元数据信息，使得这些信息更加易于管理和维护。</p>
+<p>在Java中，类文件包含了Java类的代码和一些元数据信息，例如类名、字段名、方法名等等。在JDK 17中，Java类文件可以支持嵌套的JVM元数据，也就是将一些额外的元数据信息嵌套存储在类文件中。</p>
+<p>下面是一个简单的示例，说明如何使用嵌套的JVM元数据：</p>
+<p>java</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class Person &#123;
+  private String name;
+  private int age;
+
+  public Person(String name, int age) &#123;
+    this.name &#x3D; name;
+    this.age &#x3D; age;
+  &#125;
+
+  &#x2F;&#x2F; ...
+
+  public static class Metadata &#123;
+    private String version;
+
+    public Metadata(String version) &#123;
+      this.version &#x3D; version;
+    &#125;
+
+    &#x2F;&#x2F; ...
+  &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，Person类嵌套了一个名为Metadata的静态类，该类包含了一些额外的元数据信息，例如版本号等等。这些元数据信息存储在类文件中，可以在运行时通过反射等方式访问到。</p>
+<p>通过使用嵌套的JVM元数据，Java类文件可以存储更多的元数据信息，这些信息可以用于调试、测试、优化等方面，同时也使得代码更加易于管理和维护。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第4条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第四条特性是支持在记录类型中添加更多的方法（More Efficient and Expressive Records），它可以让记录类型（Records）更加高效和灵活。</p>
+<p>在Java中，记录类型是一种新的数据类型，它可以让我们更方便地定义一些轻量级的数据类。在JDK 16中，Java引入了记录类型，使得我们可以更方便地定义一些轻量级的数据类。</p>
+<p>在JDK 17中，记录类型得到了进一步改进，可以支持在记录类型中添加更多的方法，从而使得记录类型更加高效和灵活。下面是一个简单的示例，说明如何在记录类型中添加方法：</p>
+<p>csharp</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">public record Person(String name, int age) &#123;
+  public void sayHello() &#123;
+    System.out.println(&quot;Hello, my name is &quot; + name);
+  &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们在Person记录类型中添加了一个名为sayHello的方法，该方法可以输出一些信息。通过这种方式，我们可以在记录类型中添加更多的方法，从而使得记录类型更加高效和灵活。</p>
+<p>值得注意的是，记录类型的方法默认都是final和public的，我们无法在记录类型的子类中重写这些方法。如果需要让方法可重写，可以使用关键字open来修饰方法。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第5条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第五条特性是G1垃圾回收器的改进（Improvements to the G1 Garbage Collector），它可以让G1垃圾回收器更加高效和稳定。</p>
+<p>G1垃圾回收器是Java中一种高效的垃圾回收器，它可以在大内存环境下高效地回收垃圾。在JDK 17中，G1垃圾回收器得到了进一步改进，包括以下方面：</p>
+<ol>
+<li><p>垃圾回收时不再占用全局安全点（Global Safepoint）：在JDK 17之前，G1垃圾回收器在进行垃圾回收时会占用全局安全点，导致应用程序暂停运行。在JDK 17中，G1垃圾回收器可以在不占用全局安全点的情况下进行垃圾回收，从而减少应用程序的暂停时间。</p>
+</li>
+<li><p>垃圾回收时可以更好地处理碎片化（Fragmentation）：在JDK 17中，G1垃圾回收器可以更好地处理碎片化，从而减少内存碎片的数量，提高内存使用效率。</p>
+</li>
+<li><p>垃圾回收时可以更好地处理内存压缩（Memory Compaction）：在JDK 17中，G1垃圾回收器可以更好地处理内存压缩，从而减少内存碎片的数量，提高内存使用效率。</p>
+</li>
+<li><p>垃圾回收时可以更好地处理超大对象（Huge Pages）：在JDK 17中，G1垃圾回收器可以更好地处理超大对象，从而减少内存碎片的数量，提高内存使用效率。</p>
+</li>
+</ol>
+<p>这些改进使得G1垃圾回收器更加高效和稳定，可以更好地满足大型应用程序的垃圾回收需求。同时，G1垃圾回收器的改进也为Java应用程序提供了更好的性能和稳定性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第6条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第六条特性是支持在JVM启动时加载指定的Java类（Load Specific Java Classes at JVM Start），它可以让我们在启动JVM时预先加载需要的Java类，提高应用程序的启动速度。</p>
+<p>在JDK 17之前，如果我们需要在Java应用程序启动时预先加载某些Java类，需要通过修改Java命令行参数或者使用特殊的类加载器来实现。这些方法都比较繁琐，而且容易出错。在JDK 17中，Java引入了一个新的命令行参数“–class-path-xx”，可以让我们在启动JVM时预先加载指定的Java类。</p>
+<p>下面是一个简单的示例，说明如何在JVM启动时预先加载指定的Java类：</p>
+<p>python</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">java --class-path-xx:mylib.jar:myapp.jar com.example.MyApp</code></pre></div></figure>
+
+<p>在这个示例中，我们通过“–class-path-xx”参数指定了需要预先加载的Java类所在的jar包，以及应用程序的jar包。当我们启动JVM时，JVM会自动加载这些Java类，并预先编译它们，从而提高应用程序的启动速度。</p>
+<p>这个特性可以在一些对应用程序启动速度有较高要求的场景下发挥作用，比如云计算、虚拟化环境等。通过预先加载需要的Java类，我们可以减少应用程序的启动时间，提高应用程序的性能和用户体验。同时，这个特性也为Java应用程序的开发和部署提供了更好的灵活性和便捷性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第7条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第七条特性是支持嵌套式访问控制（Nest-Based Access Control），它可以让Java类库更好地管理和控制对其私有成员的访问。</p>
+<p>在Java中，类的私有成员（如私有方法、字段）只能被类本身访问，而不能被其它类访问。这种限制可以确保Java类的封装性和安全性，但在某些情况下也会带来一些限制。比如，在一个类库中，如果有多个类需要访问彼此的私有成员，就会遇到限制。在JDK 17之前，为了解决这个问题，开发人员需要使用反射等手段来绕过私有成员的限制，这不仅繁琐而且不安全。</p>
+<p>在JDK 17中，Java引入了嵌套式访问控制特性，它可以让Java类库更好地管理和控制对其私有成员的访问。具体来说，它可以让一个类声明自己嵌套在另一个类中，从而可以访问该类的私有成员。这种嵌套关系是静态的，即在编译时确定，并通过特殊的访问标志来标识。</p>
+<p>下面是一个简单的示例，说明如何使用嵌套式访问控制特性：</p>
+<p>csharp</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">public class Outer &#123;
+    private int value;
+
+    public static void main(String[] args) &#123;
+        Inner inner &#x3D; new Outer().new Inner();
+        System.out.println(inner.getValue());
+    &#125;
+
+    private class Inner &#123;
+        private int getValue() &#123;
+            return value;
+        &#125;
+    &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们定义了一个名为“Outer”的类，它有一个私有成员变量“value”，并定义了一个名为“Inner”的内部类，它可以访问“Outer”的私有成员变量“value”。通过使用嵌套式访问控制特性，我们可以让“Inner”类访问“Outer”的私有成员变量“value”，而不需要使用反射等手段来绕过私有成员的限制。</p>
+<p>嵌套式访问控制特性可以为Java类库的开发和维护带来更好的灵活性和安全性，同时也可以提高Java应用程序的性能和可维护性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第8条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第八条特性是在switch语句中支持用lambda表达式和方法引用作为分支条件，这可以使代码更加简洁、易读和易维护。</p>
+<p>在JDK 17之前，switch语句只能支持常量表达式作为分支条件，这在某些情况下可能会使代码变得冗长和难以维护。在JDK 17中，Java引入了一个新的特性，允许在switch语句中使用lambda表达式和方法引用作为分支条件，这使得开发人员可以使用更简洁、更灵活的代码来实现同样的功能。</p>
+<p>下面是一个简单的示例，说明如何使用lambda表达式和方法引用作为switch语句的分支条件：</p>
+<p>csharp</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">public class SwitchExample &#123;
+    public static void main(String[] args) &#123;
+        String s &#x3D; &quot;hello&quot;;
+        switch (s) &#123;
+            case &quot;hello&quot; -&gt; System.out.println(&quot;Hello, world!&quot;);
+            case &quot;world&quot; -&gt; System.out.println(&quot;World, hello!&quot;);
+            case &quot;foo&quot; -&gt; System.out.println(&quot;Foo, bar!&quot;);
+            case &quot;bar&quot; -&gt; System.out.println(&quot;Bar, foo!&quot;);
+            case &quot;goodbye&quot; -&gt; System.out.println(&quot;Goodbye, cruel world!&quot;);
+            default -&gt; System.out.println(&quot;Unknown string: &quot; + s);
+        &#125;
+    &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们使用了lambda表达式作为switch语句的分支条件，其中“-&gt;”符号后面的代码块表示分支的执行逻辑。这种语法形式使代码更加简洁和易读，而且可以使开发人员更加灵活地定义分支条件和分支执行逻辑。</p>
+<p>通过使用lambda表达式和方法引用作为switch语句的分支条件，开发人员可以使用更加简洁、易读和易维护的代码来实现同样的功能，从而提高代码的质量和开发效率。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第9条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第九条特性是在try语句中支持使用资源的自动管理，这使得代码更加简洁、易读和易维护。</p>
+<p>在JDK 17之前，try语句只能用于捕获异常，而无法自动管理资源，这在某些情况下可能会使代码变得冗长和难以维护。在JDK 17中，Java引入了一个新的特性，允许在try语句中自动管理资源，这使得开发人员可以使用更简洁、更灵活的代码来实现同样的功能。</p>
+<p>下面是一个简单的示例，说明如何使用try语句中自动管理资源的特性：</p>
+<p>typescript</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript">public class TryWithResourcesExample &#123;
+    public static void main(String[] args) &#123;
+        try (BufferedReader reader &#x3D; new BufferedReader(new FileReader(&quot;file.txt&quot;))) &#123;
+            String line;
+            while ((line &#x3D; reader.readLine()) !&#x3D; null) &#123;
+                System.out.println(line);
+            &#125;
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们使用了try语句来自动管理资源，其中BufferedReader和FileReader对象在try语句的括号中声明，并在try语句块执行完成后自动关闭。这种语法形式使代码更加简洁和易读，而且可以使开发人员更加灵活地处理资源的管理和释放。</p>
+<p>通过使用try语句中自动管理资源的特性，开发人员可以使用更加简洁、易读和易维护的代码来实现同样的功能，从而提高代码的质量和开发效率。同时，这也可以避免一些常见的资源泄漏和错误，从而增强代码的健壮性和稳定性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第10条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第十条特性是对嵌套的诊断信息进行改进，这使得在调试和排除错误时更加容易。</p>
+<p>在JDK 17之前，当代码中出现嵌套的异常或错误时，诊断信息可能会变得非常混乱和难以理解。在JDK 17中，Java引入了一个新的特性，允许在嵌套的诊断信息中使用占位符，这使得在调试和排除错误时更加容易。</p>
+<p>下面是一个简单的示例，说明如何使用占位符来改进嵌套的诊断信息：</p>
+<p>php</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-php" data-language="php"><code class="language-php">public class NestedDiagnosticExample &#123;
+    public static void main(String[] args) &#123;
+        try &#123;
+            doSomething();
+        &#125; catch (Exception e) &#123;
+            throw new RuntimeException(&quot;Something went wrong: %s&quot;, e.getMessage(), e);
+        &#125;
+    &#125;
+
+    private static void doSomething() throws Exception &#123;
+        try &#123;
+            doSomethingElse();
+        &#125; catch (Exception e) &#123;
+            throw new Exception(&quot;Something else went wrong: %s&quot;, e.getMessage(), e);
+        &#125;
+    &#125;
+
+    private static void doSomethingElse() throws Exception &#123;
+        throw new Exception(&quot;Something else went wrong&quot;);
+    &#125;
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们在异常的消息中使用了占位符，以便在嵌套的诊断信息中添加更多的信息。这使得在调试和排除错误时更加容易，因为开发人员可以更加准确地了解每个异常的原因和上下文信息。</p>
+<p>通过使用占位符来改进嵌套的诊断信息，开发人员可以更加轻松地调试和排除错误，从而提高代码的质量和开发效率。同时，这也可以使代码更加健壮和可靠，从而增强应用程序的稳定性和可维护性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第11条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第11条特性是“ZGC支持类数据共享”，这个特性是在JDK 15中引入的，并在JDK 17中进行了改进和扩展。</p>
+<p>在Java应用程序中，类数据通常被存储在永久代或元数据区域中。这些数据包括类的结构信息、方法信息、字段信息等等。在多个Java虚拟机实例之间共享类数据可以提高内存利用率和应用程序性能。在JDK 17中，ZGC（Z Garbage Collector）开始支持类数据共享。</p>
+<p>ZGC是一种低延迟的垃圾收集器，它可以在非常大的堆内存下运行，并且在处理大量数据时可以保持一致的低延迟。它是Java 11中引入的一项实验性功能，并在JDK 15中得到了改进和加强。</p>
+<p>现在，在JDK 17中，ZGC已经支持了类数据共享，这使得多个Java虚拟机实例之间可以共享类数据，从而提高了内存利用率和应用程序性能。具体来说，ZGC使用了一种名为“类元数据共享（CDS）”的技术来实现这个特性。</p>
+<p>下面是一个简单的示例，说明如何使用ZGC来实现类数据共享：</p>
+<p>ruby</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-ruby" data-language="ruby"><code class="language-ruby">java -XX:SharedArchiveFile&#x3D;myapp.jsa -XX:+UseZGC -jar myapp.jar</code></pre></div></figure>
+
+<p>在这个示例中，我们使用了“-XX:SharedArchiveFile”参数来指定类数据共享文件的名称和位置。然后，我们使用“-XX:+UseZGC”参数来启用ZGC，并使用“-jar”参数来指定要运行的应用程序。</p>
+<p>通过使用ZGC支持类数据共享的特性，开发人员可以提高Java应用程序的性能和内存利用率，从而更加有效地满足不断增长的业务需求和用户期望。同时，这也可以减少Java虚拟机实例之间的内存占用和开销，从而提高应用程序的可扩展性和可维护性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第12条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第12条特性是“Switch表达式增强”，这个特性是在JDK 12中引入的，并在JDK 17中得到了改进和扩展。</p>
+<p>在之前的Java版本中，Switch语句只能使用常量或枚举类型的值作为case标签。但是，在现实世界的编程中，我们通常需要使用更灵活的表达式作为case标签，以便更好地处理不同的情况。在JDK 12中，Java引入了Switch表达式，这使得Switch语句更加灵活和强大。</p>
+<p>在JDK 17中，Switch表达式得到了进一步的改进和扩展，包括新增了一些语法特性和操作符，使得Switch表达式更加易于使用和理解。</p>
+<p>下面是一些示例代码，说明如何使用Switch表达式的新特性：</p>
+<p>javascript</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">&#x2F;&#x2F; 使用新的Lambda箭头语法
+String result &#x3D; switch (day) &#123;
+    case MONDAY -&gt; &quot;星期一&quot;;
+    case TUESDAY -&gt; &quot;星期二&quot;;
+    case WEDNESDAY -&gt; &quot;星期三&quot;;
+    case THURSDAY -&gt; &quot;星期四&quot;;
+    case FRIDAY -&gt; &quot;星期五&quot;;
+    case SATURDAY, SUNDAY -&gt; &quot;周末&quot;;
+    default -&gt; throw new IllegalStateException(&quot;非法日期值：&quot; + day);
+&#125;;
+
+&#x2F;&#x2F; 使用新的Yield操作符
+String result &#x3D; switch (day) &#123;
+    case MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY -&gt; &quot;工作日&quot;;
+    case SATURDAY, SUNDAY -&gt; &#123;
+        yield &quot;周末&quot;;
+    &#125;
+    default -&gt; throw new IllegalStateException(&quot;非法日期值：&quot; + day);
+&#125;;</code></pre></div></figure>
+
+<p>在这些示例中，我们使用了新的Lambda箭头语法和Yield操作符来创建Switch表达式。在第一个示例中，我们使用Lambda箭头语法来映射每个枚举值到一个字符串。在第二个示例中，我们使用了Yield操作符来从Switch表达式中返回一个值。</p>
+<p>通过使用Switch表达式的增强功能，开发人员可以更加方便地编写更灵活和强大的代码，从而更好地满足复杂的业务需求和用户期望。同时，这也可以提高代码的可读性和可维护性，从而降低开发和维护成本。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第13条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第13条特性是“文本块”，这是在JDK 15中引入的新功能，旨在简化Java代码中的文本操作。</p>
+<p>在Java中，处理多行文本通常会导致代码变得冗长和难以阅读，例如，在字符串中插入换行符等。为了解决这个问题，JDK 15引入了文本块，这使得在Java中处理多行文本变得更加容易和直观。</p>
+<p>文本块是由三个双引号包围的文本段，可以包含多行文本和换行符，类似于Python中的三引号字符串。与常规字符串不同，文本块中的任何缩进和换行符都将被保留在字符串中，因此文本块中的格式和布局可以与实际文本匹配，而不需要额外的转义符号。</p>
+<p>下面是一个示例代码，说明如何使用文本块：</p>
+<p>python</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">String html &#x3D; &quot;&quot;&quot;
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;文本块示例&lt;&#x2F;title&gt;
+        &lt;&#x2F;head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Hello, World!&lt;&#x2F;h1&gt;
+        &lt;&#x2F;body&gt;
+    &lt;&#x2F;html&gt;
+&quot;&quot;&quot;;</code></pre></div></figure>
+
+<p>在这个示例中，我们使用文本块来创建一个HTML字符串。注意，该字符串中的缩进和换行符与实际HTML代码相匹配，这使得代码更加易于阅读和维护。</p>
+<p>使用文本块可以使得Java代码中的文本操作更加直观和简单，从而提高代码的可读性和可维护性。同时，这也可以减少代码中的错误和调试时间，提高开发效率。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第14条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第14条特性是“记录类型”，这是在JDK 14中引入的新功能，旨在简化Java中的数据模型定义。</p>
+<p>在Java中，通常需要创建许多简单的数据对象来表示业务实体，例如人员、订单等。这些对象通常需要定义一些属性，并且需要为这些属性提供getter和setter方法。在以前的Java版本中，定义这些数据对象通常需要编写大量的重复代码。而在JDK 14中，引入了记录类型，可以大大简化这个过程。</p>
+<p>记录类型是一种特殊类型的Java类，可以使用关键字“record”进行声明。与传统的Java类不同，记录类型提供了一个简洁的语法，用于定义数据对象的属性和方法。例如：</p>
+<p>csharp</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">public record Person(String name, int age) &#123;&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们定义了一个记录类型“Person”，它有两个属性“name”和“age”。由于这是一个记录类型，因此不需要提供getter和setter方法，它们会自动生成。此外，记录类型还提供了一些其他的默认方法，例如equals()和hashCode()，这些方法可以方便地比较两个记录类型对象的属性值。</p>
+<p>使用记录类型可以大大简化Java中的数据模型定义，减少了冗余代码的编写，同时也提高了代码的可读性和可维护性。此外，由于记录类型是一个不可变类型，它们也可以提高代码的安全性和稳定性。</p>
+<hr>
+<blockquote>
+<p>请详细介绍第15条特性并举例说明</p>
+</blockquote>
+<hr>
+<p>第15条特性是“Pattern Matching for instanceof”，这是在JDK 16中引入的新功能，旨在提高Java中的模式匹配能力。</p>
+<p>在以前的Java版本中，我们通常使用“instanceof”操作符来检查对象的类型，然后根据对象的类型执行不同的操作。例如：</p>
+<p>vbnet</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-vbnet" data-language="vbnet"><code class="language-vbnet">if (obj instanceof String) &#123;
+    String str &#x3D; (String) obj;
+    &#x2F;&#x2F; do something with str
+&#125; else if (obj instanceof Integer) &#123;
+    Integer i &#x3D; (Integer) obj;
+    &#x2F;&#x2F; do something with i
+&#125;</code></pre></div></figure>
+
+<p>在JDK 16中，引入了“模式匹配”语法，可以更方便地实现这个功能。例如：</p>
+<p>vbnet</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-vbnet" data-language="vbnet"><code class="language-vbnet">if (obj instanceof String str) &#123;
+    &#x2F;&#x2F; do something with str
+&#125; else if (obj instanceof Integer i) &#123;
+    &#x2F;&#x2F; do something with i
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们使用了新的“instanceof”语法来进行模式匹配。如果对象是一个字符串，那么将其转换为字符串类型并将其赋值给“str”变量；如果对象是一个整数，则将其转换为整数类型并将其赋值给“i”变量。这个新的语法使得代码更加简洁和易读。</p>
+<p>此外，模式匹配还可以与“switch”语句一起使用，使得代码更加简洁和易读。例如：</p>
+<p>vbnet</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-vbnet" data-language="vbnet"><code class="language-vbnet">switch (obj) &#123;
+    case String str -&gt; &#x2F;&#x2F; do something with str
+    case Integer i -&gt; &#x2F;&#x2F; do something with i
+&#125;</code></pre></div></figure>
+
+<p>在这个示例中，我们使用了“switch”语句和模式匹配来实现对象类型的检查和操作。如果对象是一个字符串，那么将执行第一个“case”语句中的操作；如果对象是一个整数，则将执行第二个“case”语句中的操作。这个新的语法可以大大简化Java中的分支逻辑，使得代码更加易读和易于维护。</p>
+<hr>
+<blockquote>
+<p>我在阅读JDK 17的源码过程中发现了一些新的注解，请介绍一下自JDK 8之后额外添加的注解都有哪些，以及他们所表示的意义</p>
+</blockquote>
+<hr>
+<p>自JDK 8以来，Java平台添加了很多新的注解，这些注解提供了额外的信息和功能，可以帮助Java开发人员更好地编写代码。以下是一些常见的新注解及其含义：</p>
+<ol>
+<li><p>@FunctionalInterface：用于标记函数式接口，即只包含一个抽象方法的接口。</p>
+</li>
+<li><p>@Repeatable：用于指定一个注解可以重复应用于同一元素上。</p>
+</li>
+<li><p>@Deprecated：用于标记已弃用的类、方法或字段。</p>
+</li>
+<li><p>@SafeVarargs：用于标记方法中使用可变参数时的安全性。</p>
+</li>
+<li><p>@Override：用于标记方法覆盖了父类的方法。</p>
+</li>
+<li><p>@SuppressWarnings：用于禁止编译器产生警告。</p>
+</li>
+<li><p>@Nullable：用于标记一个参数、字段或方法的返回值可以为空。</p>
+</li>
+<li><p>@NonNull：用于标记一个参数、字段或方法的返回值不能为空。</p>
+</li>
+<li><p>@Contract：用于指定方法的行为，例如返回值不能为空、参数不能为空等。</p>
+</li>
+<li><p>@Retention：用于指定注解的保留策略，即注解在编译时、运行时还是两者都保留。</p>
+</li>
+<li><p>@Target：用于指定注解可以应用于哪些元素，例如类、方法、字段等。</p>
+</li>
+<li><p>@Documented：用于指定注解将被包含在Java文档中。</p>
+</li>
+<li><p>@Native：用于标记一个方法是本地方法。</p>
+</li>
+<li><p>@Inherited：用于指定一个注解可以被子类继承。</p>
+</li>
+<li><p>@FunctionalInterface：用于标记函数式接口。</p>
+</li>
+<li><p>@SuppressWarnings：用于抑制Java编译器的警告信息。</p>
+</li>
+<li><p>@Override：用于标记方法覆盖了父类的方法。</p>
+</li>
+</ol>
+<p>这些注解为Java开发人员提供了额外的信息和功能，可以帮助开发人员更好地编写高质量、易于维护的代码。</p>
+<hr>
+<blockquote>
+<p>还有一些你没有讲到的注解，他们都在jdk.internal.vm.annotation包中，请介绍一下他们</p>
+</blockquote>
+<hr>
+<p><code>jdk.internal.vm.annotation</code> 包中的注解是为了JDK内部使用而设计的，不建议用户在应用程序中使用。这些注解包括：</p>
+<ol>
+<li><p><code>Contended</code>：这个注解用于表示一个变量或者类需要被消除伪共享。在多线程应用程序中，伪共享指的是两个或多个线程尝试更新彼此分别访问的变量，这会导致性能下降。<code>@Contended</code> 可以告诉JVM，要把这个变量或类放到单独的缓存行中。</p>
+</li>
+<li><p><code>ForceInline</code>：这个注解用于向JVM发出信号，请求将方法调用内联（inline）。方法内联是一种JIT编译器优化技术，它可以消除方法调用开销，从而提高应用程序的性能。</p>
+</li>
+<li><p><code>HotSpotIntrinsicCandidate</code>：这个注解用于表示一个方法是内置函数。内置函数是由JVM特殊处理的函数，它们是JVM的一部分，可以被JIT编译器优化。使用此注解可以告诉JVM，该方法可以作为内置函数优化。</p>
+</li>
+<li><p><code>ReservedStackAccess</code>：这个注解用于在Java栈上保留一个位置，以便在JVM内部使用。JVM使用此位置来存储一些元数据，以便在异常处理期间快速访问。</p>
+</li>
+<li><p><code>Stable</code>：这个注解用于表示一个类是不变的。如果一个类被标记为<code>@Stable</code>，则JVM可以进行额外的优化，例如将实例的字段缓存起来以提高访问速度。</p>
+</li>
+</ol>
+<p>这些注解是为了JVM内部使用而设计的，一般情况下不需要在应用程序中使用它们。</p>
+<hr>
+<blockquote>
+<p>@IntrinsicCandidate这个注解有什么用？</p>
+</blockquote>
+<hr>
+<p><code>@IntrinsicCandidate</code> 是一种用于JDK内部使用的注解，表示一个方法可能会被JVM内置实现为一个本地方法，以提高性能。在JDK 17中，很多常见的Java库方法，如<code>String::indexOf</code>、<code>Arrays::sort</code>等，都被JVM内置实现为本地方法。</p>
+<p>当一个方法被标记为 <code>@IntrinsicCandidate</code> 时，JVM会在编译时和运行时检查该方法的特征，如果符合内置条件，则会将该方法转换为内置方法调用。这样，每次调用该方法时，就不需要再通过JIT编译，而是直接调用本地方法，可以大大提高方法的执行效率。</p>
+<p>需要注意的是，<code>@IntrinsicCandidate</code> 注解只是一种提示，JVM并不保证会将被标记的方法内置实现，具体是否内置还要根据JVM实现版本和具体场景而定。</p>
+<hr>
+<blockquote>
+<p>JDK 17 相比起 JDK 8在类库上有哪些改变</p>
+</blockquote>
+<hr>
+<p>JDK 17 相比起 JDK 8在类库上有不少的改变，下面列出一些主要的改变：</p>
+<ol>
+<li>新增加了许多API</li>
+</ol>
+<p>JDK 17 引入了许多新的API，例如：</p>
+<ul>
+<li><code>java.util.sealed</code>，用于封闭类和接口，以增强Java的安全性和可维护性。</li>
+<li><code>java.lang.invoke.VarHandle</code>，提供了一种类型安全、高效的方式来访问和修改对象中的字段。</li>
+<li><code>java.net.http.HttpClient</code>，提供了一个标准化的、异步的、非阻塞的HTTP客户端，使得开发者可以轻松地发送HTTP请求和接收HTTP响应。</li>
+<li><code>java.util.stream</code>，提供了许多新的方法，例如<code>takeWhile()</code>、<code>dropWhile()</code>和<code>iterate()</code>，使得流的操作更加方便和灵活。</li>
+<li><code>java.util.collection</code>，提供了一些新的方法，例如<code>toList()</code>和<code>toSet()</code>，使得集合的操作更加方便和高效。</li>
+</ul>
+<ol start="2">
+<li>移除了一些API</li>
+</ol>
+<p>JDK 17 移除了一些已经过时或不再使用的API，例如：</p>
+<ul>
+<li><code>java.lang.Thread.destroy()</code>，不安全，容易导致死锁等问题，已经被标记为过时并被移除。</li>
+<li><code>java.util.logging.LogManager.readConfiguration()</code>，这个方法很容易被恶意代码利用，已经被标记为过时并被移除。</li>
+</ul>
+<ol start="3">
+<li>改进了一些API</li>
+</ol>
+<p>JDK 17 对一些API进行了改进，例如：</p>
+<ul>
+<li><code>java.lang.String</code>，新增加了<code>formatted()</code>方法，用于格式化字符串，替代了<code>String.format()</code>方法，提供了更加类型安全和易读的格式化方式。</li>
+<li><code>java.util.concurrent</code>，提供了一些新的并发类，例如<code>StampedLock</code>，用于支持读写锁和乐观锁。</li>
+</ul>
+<p>总之，JDK 17 在类库上进行了许多改进和扩展，使得开发者可以更加方便地编写高效、安全、可维护的Java应用程序。</p>
+<hr>
+<blockquote>
+<p>再详细介绍一下这些变化吧</p>
+</blockquote>
+<hr>
+<p>2 &#x2F; 2</p>
+<p>JDK 17 相对于 JDK 8，在类库上有以下主要变化：</p>
+<ol>
+<li><p>增加了新的Unicode版本支持：JDK 17 通过引入 Unicode 13、14 和 15 版本支持，新增了超过75,000个字符、标记、符号和表情等。</p>
+</li>
+<li><p>增强了集合类：在JDK 17中，集合类增加了许多新的方法，以方便进行流式编程和并行编程，同时提高了集合类的性能。</p>
+</li>
+<li><p>增加了Stream API的改进：新增了takeWhile和dropWhile等方法，可以使Stream API更加灵活。</p>
+</li>
+<li><p>引入了Optional新方法：在JDK 17中，Optional类新增了ifPresentOrElse()方法，该方法在存在值时执行第一个lambda表达式，在不存在值时执行第二个lambda表达式。</p>
+</li>
+<li><p>引入了Pattern Matching：在JDK 17中，对instanceof操作符进行了增强，支持类似于switch语句的模式匹配功能。</p>
+</li>
+<li><p>增强了ConcurrentHashMap：JDK 17中的ConcurrentHashMap类实现了一个全新的算法，以改善其性能和可伸缩性。</p>
+</li>
+<li><p>引入了Sealed Class：Sealed Class 是 JDK 17 中的一项新功能，它允许在一定程度上限制类的继承。</p>
+</li>
+<li><p>优化了GC：JDK 17 中对垃圾收集器进行了一些优化，提高了其性能和可伸缩性。</p>
+</li>
+<li><p>新增加了一些辅助方法，如Files::readString、Files::writeString等，方便进行文件读写。</p>
+</li>
+</ol>
+<p>总之，JDK 17相较于JDK 8，在类库方面进行了许多增强和优化，这些新特性可以提高开发效率、降低代码复杂度、提高程序的可维护性、可读性和性能。</p>
+<hr>
+<blockquote>
+<p>还有吗？再详细介绍一下这些变化吧</p>
+</blockquote>
+<hr>
+<p>是的，除了上面提到的变化之外，JDK 17还有一些其他的类库变化，具体如下：</p>
+<ol start="18">
+<li><p>Java 2D中新增了支持矢量图形渲染的API JDK 17新增了一个名为“Java2D Vector API”的API，用于支持矢量图形渲染。这个API提供了一个简单的方式来描述2D矢量图形，它可以通过图形、颜色、填充和变换等属性来定义矢量图形。此外，Java2D Vector API还支持将矢量图形转换为像素图形进行渲染，以便在Java2D环境中进行显示。</p>
+</li>
+<li><p>为集合框架添加了新的方法 在JDK 17中，为集合框架添加了几个新的方法，以进一步简化集合操作。这些新方法包括：</p>
+</li>
+</ol>
+<ul>
+<li>List.copyOf()：用于创建一个不可修改的List集合，该集合是指定集合的浅副本。</li>
+<li>Map.copyOf()：用于创建一个不可修改的Map集合，该集合是指定Map集合的浅副本。</li>
+<li>Set.copyOf()：用于创建一个不可修改的Set集合，该集合是指定Set集合的浅副本。</li>
+<li>Collection.toArray(IntFunction)：新增了一个IntFunction参数，允许在转换集合元素类型时指定数组类型。</li>
+</ul>
+<ol start="20">
+<li>优化Stream API 在JDK 17中，优化了Stream API的性能，加快了处理大量元素的速度。此外，Stream API还新增了一些方法，以便更方便地对流进行操作。这些新方法包括：</li>
+</ol>
+<ul>
+<li>Stream.toList()：用于将流转换为List集合。</li>
+<li>Stream.toSet()：用于将流转换为Set集合。</li>
+<li>Stream.toUnmodifiableList()：用于将流转换为不可修改的List集合。</li>
+<li>Stream.toUnmodifiableSet()：用于将流转换为不可修改的Set集合。</li>
+<li>Stream.flatMapToDouble()：用于将流中的元素映射到DoubleStream中，并返回DoubleStream。</li>
+<li>Stream.flatMapToInt()：用于将流中的元素映射到IntStream中，并返回IntStream。</li>
+<li>Stream.flatMapToLong()：用于将流中的元素映射到LongStream中，并返回LongStream。</li>
+</ul>
+<p>总的来说，JDK 17中的类库变化主要集中在优化性能、增强安全性和提高开发效率等方面。这些变化不仅可以提升应用程序的性能和可靠性，还可以让开发者更加便捷地编写Java代码。</p>
+<hr>
+<blockquote>
+<p>还有吗？再详细介绍一下这些变化吧</p>
+</blockquote>
+<hr>
+<p>当然，还有一些其他的变化，下面继续介绍：</p>
+<ol>
+<li>Stream API</li>
+</ol>
+<p>JDK 17为Stream API添加了三个新的方法：</p>
+<ul>
+<li>Stream.iterate(T seed, Predicate&lt;? super T&gt; hasNext, UnaryOperator<T> next)，用于创建一个无限的流，其元素的值是通过将前一个元素传递给指定的UnaryOperator函数来生成的，当指定的Predicate函数返回false时，停止流的生成。</li>
+<li>Stream.takeWhile(Predicate&lt;? super T&gt; predicate)，用于返回满足给定条件的前缀子流。</li>
+<li>Stream.dropWhile(Predicate&lt;? super T&gt; predicate)，用于返回不满足给定条件的后缀子流。</li>
+</ul>
+<p>这些方法使得Stream API更加强大和灵活。</p>
+<ol start="2">
+<li>弱引用</li>
+</ol>
+<p>JDK 17为Reference类添加了一个新的方法：</p>
+<ul>
+<li>Reference.reachabilityFence(Object referent)，用于在某些场景下确保某个对象不被过早地回收。</li>
+</ul>
+<p>该方法使得弱引用更加可靠和灵活。</p>
+<ol start="3">
+<li>集合</li>
+</ol>
+<p>JDK 17为集合类添加了以下新方法：</p>
+<ul>
+<li>List.ofNullable(T value)，用于创建一个包含指定元素（如果非空）的单元素列表，否则创建一个空列表。</li>
+<li>Map.ofEntries(Map.Entry&lt;? extends K, ? extends V&gt;… entries)，用于创建一个不可变的Map，其键和值由指定的Map.Entry数组提供。</li>
+<li>Map.copyOf(Map&lt;? extends K, ? extends V&gt; map)，用于创建一个不可变的Map，其中的元素是指定Map的副本。</li>
+</ul>
+<p>这些方法可以使集合的创建更加方便和安全。</p>
+<ol start="4">
+<li>数组</li>
+</ol>
+<p>JDK 17为数组添加了以下新方法：</p>
+<ul>
+<li>Arrays.compareXXX()，用于比较两个数组的元素，其中XXX可以是boolean、byte、char、double、float、int、long、short。</li>
+<li>Arrays.mismatch()，用于查找两个数组在哪里第一次出现不同的元素，如果两个数组是相等的，则返回-1。</li>
+</ul>
+<p>这些方法可以使数组的处理更加便捷和高效。</p>
+<ol start="5">
+<li>I&#x2F;O</li>
+</ol>
+<p>JDK 17为I&#x2F;O操作添加了以下新方法：</p>
+<ul>
+<li>InputStream.transferTo(OutputStream out)，用于将此输入流中的所有字节传输到指定的输出流中。</li>
+<li>Reader.transferTo(Writer out)，用于将此输入流中的所有字符传输到指定的输出流中。</li>
+<li>Files.readString(Path path)，用于读取指定路径下的文件的内容为字符串。</li>
+<li>Files.writeString(Path path, CharSequence csq, OpenOption… options)，用于将字符串写入到指定路径下的文件中。</li>
+</ul>
+<p>这些方法可以使得I&#x2F;O操作更加方便和高效。</p>
+<p>总的来说，JDK 17在类库上的改变是比较多的，这些改变使得Java程序更加方便、高效、灵活和安全。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/JDK/" class="category-chain-item">JDK</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+        <a href="/tags/JDK/" class="print-no-link">#JDK</a>
+      
+        <a href="/tags/ChatGPT/" class="print-no-link">#ChatGPT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JDK的升级指南</div>
+      <div>https://blog.cikaros.top/doc/ccb79e1b.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/97f0c167.html" title="Byte Buddy介绍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Byte Buddy介绍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/aaec9140.html" title="JNI开发教程">
+                        <span class="hidden-mobile">JNI开发教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

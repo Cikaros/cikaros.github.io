@@ -1,0 +1,1336 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="多重密码（MultiPass）是一款开源工具，用于在本地计算机上创建和管理虚拟机。使用 MultiPass，您可以快速创建 Ubuntu 虚拟机并在其上运行各种应用程序和服务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MultiPass使用介绍">
+<meta property="og:url" content="https://blog.cikaros.top/doc/c9a14894.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="多重密码（MultiPass）是一款开源工具，用于在本地计算机上创建和管理虚拟机。使用 MultiPass，您可以快速创建 Ubuntu 虚拟机并在其上运行各种应用程序和服务。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-11T05:25:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.620Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="虚拟机">
+<meta property="article:tag" content="MultiPass">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>MultiPass使用介绍 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MultiPass使用介绍"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-11 13:25" pubdate>
+          2023年3月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          4.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MultiPass使用介绍</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>多重密码（MultiPass）是一款开源工具，用于在本地计算机上创建和管理虚拟机。使用 MultiPass，您可以快速创建 Ubuntu 虚拟机并在其上运行各种应用程序和服务。</p>
+<span id="more"></span>
+<h2 id="常见命令"><a href="#常见命令" class="headerlink" title="常见命令"></a>常见命令</h2><p>以下是 MultiPass 常用的命令列表：</p>
+<ul>
+<li><code>multipass launch</code>：启动一个新的虚拟机。</li>
+<li><code>multipass list</code>：列出当前所有的虚拟机。</li>
+<li><code>multipass start</code>：启动已经创建但是处于关闭状态的虚拟机。</li>
+<li><code>multipass stop</code>：关闭运行中的虚拟机。</li>
+<li><code>multipass delete</code>：删除指定的虚拟机。</li>
+<li><code>multipass shell</code>：连接到虚拟机的命令行终端。</li>
+<li><code>multipass exec</code>：在虚拟机中执行指定的命令。</li>
+<li><code>multipass mount</code>：将本地文件系统挂载到虚拟机中。</li>
+<li><code>multipass umount</code>：卸载已经挂载到虚拟机的本地文件系统。</li>
+<li><code>multipass info</code>：获取有关虚拟机的详细信息。</li>
+<li><code>multipass purge</code>：删除 MultiPass 系统中所有的虚拟机。</li>
+<li><code>multipass version</code>：查看当前安装的 MultiPass 版本。</li>
+</ul>
+<p>以上是 MultiPass 的一些常用命令，还有其他更高级的命令和选项可供使用，您可以通过运行 <code>multipass help</code> 命令来了解所有可用的命令和选项。</p>
+<hr>
+<p>下面是一些常用的 MultiPass 命令及其示例：</p>
+<ol>
+<li><p><code>multipass launch</code>：启动一个新的虚拟机。</p>
+<p> 示例：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass launch --name my-vm</code></pre></div></figure>
+
+<p> 该命令会创建一个名为 <code>my-vm</code> 的新虚拟机。</p>
+</li>
+<li><p><code>multipass list</code>：列出当前所有的虚拟机。</p>
+<p> 示例：</p>
+<p> <code>multipass list</code></p>
+<p> 该命令会列出当前 MultiPass 系统中的所有虚拟机。</p>
+</li>
+<li><p><code>multipass start</code>：启动已经创建但是处于关闭状态的虚拟机。</p>
+<p> 示例：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start my-vm</code></pre></div></figure>
+
+<p> 该命令会启动名为 <code>my-vm</code> 的虚拟机。</p>
+</li>
+<li><p><code>multipass stop</code>：关闭运行中的虚拟机。</p>
+<p> 示例：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass stop my-vm</code></pre></div></figure>
+
+<p> 该命令会关闭名为 <code>my-vm</code> 的虚拟机。</p>
+</li>
+<li><p><code>multipass delete</code>：删除指定的虚拟机。</p>
+<p> 示例：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass delete my-vm</code></pre></div></figure>
+
+<p> 该命令会删除名为 <code>my-vm</code> 的虚拟机。</p>
+</li>
+<li><p><code>multipass shell</code>：连接到虚拟机的命令行终端。</p>
+<p> 示例：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass shell my-vm</code></pre></div></figure>
+
+<p> 该命令会连接到名为 <code>my-vm</code> 的虚拟机的命令行终端。</p>
+</li>
+<li><p><code>multipass exec</code>：在虚拟机中执行命令，类似于在本地计算机上使用终端窗口。例如，以下命令将在名为 <code>vm1</code> 的虚拟机上执行 <code>ls</code> 命令：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec vm1 ls</code></pre></div></figure>
+<p> 如果您需要在虚拟机中使用 <code>sudo</code> 或者 <code>su</code> 命令，可以使用 <code>--</code> 参数来将命令传递给虚拟机。例如，以下命令将在名为 <code>vm1</code> 的虚拟机上执行 <code>apt update</code> 命令：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec vm1 -- sudo apt update</code></pre></div></figure>
+<p> 如果您需要在虚拟机中交互式地执行命令，可以使用 <code>-t</code> 参数来分配一个伪终端。例如，以下命令将在名为 <code>vm1</code> 的虚拟机上打开一个 Bash shell：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec vm1 -t -- bash</code></pre></div></figure>
+<p> 这将在虚拟机中打开一个交互式的 Bash shell，允许您执行任意命令。要退出虚拟机，请使用 <code>exit</code> 命令。</p>
+</li>
+<li><p><code>multipass mount</code>：将主机目录挂载到虚拟机中。例如，以下命令将在名为 <code>vm1</code> 的虚拟机上将主机目录 <code>/home/user/data</code> 挂载到虚拟机目录 <code>/mnt/data</code>：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass mount &#x2F;home&#x2F;user&#x2F;data vm1:&#x2F;mnt&#x2F;data</code></pre></div></figure>
+
+<p> 这将在虚拟机中创建 <code>/mnt/data</code> 目录，并将主机目录 <code>/home/user/data</code> 挂载到该目录中。要卸载目录，请使用 <code>multipass umount</code> 命令。</p>
+</li>
+<li><p><code>multipass umount</code>：卸载虚拟机中的挂载点。例如，以下命令将卸载名为 <code>vm1</code> 的虚拟机中的 <code>/mnt/data</code> 目录：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass umount vm1:&#x2F;mnt&#x2F;data</code></pre></div></figure>
+</li>
+<li><p><code>multipass info</code>：显示有关虚拟机的信息，如虚拟机的 IP 地址、CPU 和内存使用情况等。例如，以下命令将显示名为 <code>vm1</code> 的虚拟机的信息：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass info vm1</code></pre></div></figure>
+</li>
+<li><p><code>multipass purge</code>：删除不再使用的虚拟机和镜像。例如，以下命令将删除不再使用的所有虚拟机和镜像：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass purge</code></pre></div></figure>
+</li>
+<li><p><code>multipass version</code>：显示 <code>multipass</code> 的版本信息。例如，以下命令将显示当前 <code>multipass</code> 版本的信息：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass version</code></pre></div></figure></li>
+</ol>
+<h2 id="指令详解"><a href="#指令详解" class="headerlink" title="指令详解"></a>指令详解</h2><h3 id="launch指令"><a href="#launch指令" class="headerlink" title="launch指令"></a><code>launch</code>指令</h3><p><code>launch</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于创建并启动新的虚拟机。以下是 <code>launch</code> 指令的可用参数：</p>
+<ul>
+<li><code>&lt;name&gt;</code>: 虚拟机名称，必须是一个不包含空格的字符串，不指定则随机生成。</li>
+<li><code>-c, --cpus &lt;count&gt;</code>: 虚拟机使用的 CPU 核心数量。</li>
+<li><code>-d, --disk &lt;size&gt;</code>: 虚拟机磁盘的大小，格式为 <code>&lt;size&gt;[G|g|M|m|K|k]</code>，默认为 <code>5G</code>。</li>
+<li><code>-m, --mem &lt;size&gt;</code>: 虚拟机内存的大小，格式为 <code>&lt;size&gt;[G|g|M|m|K|k]</code>，默认为 <code>1G</code>。</li>
+<li><code>-n, --network</code>: 启用虚拟机的网络功能。</li>
+<li><code>-i, --cloud-init &lt;file&gt;</code>: 指定 Cloud-init 配置文件的路径，以初始化虚拟机。</li>
+<li><code>--cloud-init-data &lt;data&gt;</code>: 直接指定 Cloud-init 配置文件的内容，以初始化虚拟机。</li>
+<li><code>--cloud-init-user-data &lt;data&gt;</code>: 指定 Cloud-init 用户数据的内容，以初始化虚拟机。</li>
+<li><code>--no-gui</code>: 禁用虚拟机的图形用户界面。</li>
+<li><code>--no-autostart</code>: 不自动启动虚拟机。</li>
+<li><code>--cpuset &lt;cores&gt;</code>: 指定使用的 CPU 核心编号列表，以逗号分隔。</li>
+<li><code>--priority &lt;level&gt;</code>: 指定虚拟机的调度优先级，可选值为 <code>low</code>、<code>normal</code> 和 <code>high</code>。</li>
+<li><code>--tag &lt;tag&gt;</code>: 给虚拟机打上标签，用于方便地进行分类和筛选。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>创建一个名为 <code>test-vm</code> 的虚拟机，使用默认配置：</p>
+<p><code>multipass launch test-vm</code></p>
+</li>
+<li><p>创建一个名为 <code>test-vm</code> 的虚拟机，使用 2 个 CPU 核心，2GB 内存，20GB 磁盘大小，启用网络，指定 Cloud-init 配置文件并关闭图形用户界面：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass launch test-vm -c 2 -m 2G -d 20G -n -i cloud-config.yaml --no-gui</code></pre></div></figure>
+</li>
+<li><p>创建一个名为 <code>test-vm</code> 的虚拟机，使用 1 个 CPU 核心，1GB 内存，5GB 磁盘大小，启用网络，指定 Cloud-init 用户数据，并不自动启动虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass launch test-vm -c 1 -m 1G -d 5G -n --cloud-init-user-data &quot;#cloud-config\n\npassword: mypassword\nssh_authorized_keys:\n  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDT8Xqa7dPyH+I....&quot; --no-autostart</code></pre></div></figure>
+</li>
+<li><p>创建：可以使用 <code>multipass launch</code> 命令创建新的虚拟机。在创建虚拟机时，您可以指定虚拟机的名称、操作系统镜像、磁盘空间大小等参数。例如，以下命令将创建一个名为 <code>vm1</code> 的 Ubuntu 20.04 LTS 虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass launch --name vm1 --image ubuntu-20.04 --disk 10G --cpus 2 --mem 2G</code></pre></div></figure>
+
+<p>这将创建一个具有 10GB 硬盘空间、2个 CPU 核心和 2GB RAM 的虚拟机，并安装 Ubuntu 20.04 LTS 操作系统。</p>
+</li>
+</ol>
+<h3 id="list指令"><a href="#list指令" class="headerlink" title="list指令"></a><code>list</code>指令</h3><p><code>list</code> 指令是 <code>multipass</code> 命令中的一个子命令，它用于列出所有正在运行的虚拟机和镜像，以及它们的状态。以下是 <code>list</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>-a</code> 或 <code>--all</code>: 显示所有虚拟机和镜像，包括未运行的虚拟机和下载的镜像。</li>
+<li><code>-f</code> 或 <code>--format</code>: 以指定格式输出结果。可用格式包括 <code>table</code>（默认）、<code>json</code>、<code>yaml</code> 和 <code>csv</code>。</li>
+<li><code>--format-columns</code>: 可用于在指定格式中选择要包含的列。</li>
+<li><code>-v</code> 或 <code>--verbose</code>: 显示更详细的信息，例如虚拟机的 IP 地址和 RAM&#x2F;CPU 利用率。</li>
+<li><code>--cached</code>: 只显示缓存的镜像列表。</li>
+<li><code>--refresh</code>: 刷新镜像列表并显示结果。</li>
+<li><code>--json</code>: 以 JSON 格式输出结果。</li>
+<li><code>--yaml</code>: 以 YAML 格式输出结果。</li>
+<li><code>--csv</code>: 以 CSV 格式输出结果。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>列出所有正在运行的虚拟机和镜像：</p>
+<p><code>multipass list</code></p>
+</li>
+<li><p>列出所有虚拟机和镜像，包括未运行的虚拟机和下载的镜像：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass list -a</code></pre></div></figure>
+</li>
+<li><p>以 YAML 格式列出所有正在运行的虚拟机和镜像：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass list --yaml</code></pre></div></figure>
+</li>
+<li><p>列出所有正在运行的虚拟机和镜像，并显示更详细的信息：</p>
+<p><code>multipass list -v</code></p>
+</li>
+<li><p>列出缓存的镜像列表：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass list --cached</code></pre></div></figure>
+</li>
+<li><p>刷新镜像列表并列出结果：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass list --refresh</code></pre></div></figure>
+</li>
+<li><p>以 JSON 格式列出所有正在运行的虚拟机和镜像：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass list --json</code></pre></div></figure></li>
+</ol>
+<p><code>list</code> 指令是 <code>multipass</code> 命令中一个非常有用的子命令，可以帮助您快速查看您的虚拟机和镜像的状态。</p>
+<h3 id="start指令"><a href="#start指令" class="headerlink" title="start指令"></a><code>start</code>指令</h3><p><code>start</code> 指令是 <code>multipass</code> 命令中的一个子命令，它用于启动一个之前创建的、处于停止状态的虚拟机。以下是 <code>start</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要启动的虚拟机的名称或 ID。</li>
+<li><code>-d</code> 或 <code>--daemon</code>: 以守护进程模式启动虚拟机。</li>
+<li><code>-i</code> 或 <code>--ip</code>: 指定虚拟机的 IP 地址。</li>
+<li><code>-n</code> 或 <code>--network</code>: 指定要连接的网络名称。</li>
+<li><code>-m</code> 或 <code>--mem</code>: 指定虚拟机的内存大小（以 MB 为单位）。</li>
+<li><code>-c</code> 或 <code>--cpus</code>: 指定虚拟机可用的 CPU 数量。</li>
+<li><code>-s</code> 或 <code>--size</code>: 指定虚拟磁盘的大小（以 GB 为单位）。</li>
+<li><code>-v</code> 或 <code>--verbose</code>: 显示更详细的信息，例如虚拟机的 IP 地址和 RAM&#x2F;CPU 利用率。</li>
+<li><code>-r</code> 或 <code>--show-logs</code>: 显示虚拟机的日志输出。</li>
+<li><code>--no-ipv6</code>: 禁用 IPv6 支持。</li>
+<li><code>--cloud-init</code>: 指定 Cloud-init 配置文件的路径。</li>
+<li><code>--config</code>: 指定自定义的虚拟机配置文件的路径。</li>
+<li><code>--force</code>: 强制启动一个已停止的虚拟机。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>启动一个之前创建的、处于停止状态的虚拟机：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt;</code></pre></div></figure>
+</li>
+<li><p>以守护进程模式启动一个虚拟机：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --daemon</code></pre></div></figure>
+</li>
+<li><p>指定虚拟机的 IP 地址：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --ip &lt;ip_address&gt;</code></pre></div></figure>
+</li>
+<li><p>指定要连接的网络名称：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --network &lt;network_name&gt;</code></pre></div></figure>
+</li>
+<li><p>指定虚拟机的内存大小：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --mem &lt;memory_size&gt;</code></pre></div></figure>
+</li>
+<li><p>指定虚拟机可用的 CPU 数量：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --cpus &lt;cpu_count&gt;</code></pre></div></figure>
+</li>
+<li><p>指定虚拟磁盘的大小：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --size &lt;disk_size&gt;</code></pre></div></figure>
+</li>
+<li><p>显示更详细的信息，例如虚拟机的 IP 地址和 RAM&#x2F;CPU 利用率：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --verbose</code></pre></div></figure>
+</li>
+<li><p>显示虚拟机的日志输出：</p>
+ <figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --show-logs</code></pre></div></figure>
+</li>
+<li><p>禁用 IPv6 支持：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass start &lt;instance&gt; --no-ipv6</code></pre></div></figure>
+</li>
+<li><p>指定 Cloud-init 配置文件的路径：</p>
+<p>当创建虚拟机时，您可以使用 <code>--cloud-init</code> 选项来指定包含 Cloud-init 配置文件的路径。Cloud-init 配置文件是一个 YAML 文件，其中包含有关如何初始化虚拟机的信息。在配置文件中，您可以指定用户帐户、SSH 密钥、软件包安装、文件创建等等。以下是一个示例 Cloud-init 配置文件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">#cloud-config
+users:
+  - name: username
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxrpA...
+    sudo: [&#39;ALL&#x3D;(ALL) NOPASSWD:ALL&#39;]</code></pre></div></figure>
+
+<p>使用 <code>--cloud-init</code> 选项创建虚拟机时，指定配置文件的路径：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass launch --name vmname --cloud-init &#x2F;path&#x2F;to&#x2F;cloud-init-file.yaml</code></pre></div></figure>
+
+<p>这将使用指定的 Cloud-init 配置文件来初始化虚拟机。</p>
+</li>
+</ol>
+<h3 id="stop指令"><a href="#stop指令" class="headerlink" title="stop指令"></a><code>stop</code>指令</h3><p><code>stop</code> 指令是 <code>multipass</code> 命令中的一个子命令，它用于停止运行中的虚拟机。以下是 <code>stop</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要停止的虚拟机的名称或 ID。</li>
+<li><code>-d</code> 或 <code>--daemon</code>: 以守护进程模式停止虚拟机。</li>
+<li><code>-w</code> 或 <code>--wait</code>: 等待虚拟机完全停止后再返回。</li>
+<li><code>-t</code> 或 <code>--timeout</code>: 指定等待虚拟机停止的最长时间（以秒为单位）。</li>
+<li><code>-r</code> 或 <code>--show-logs</code>: 显示虚拟机的日志输出。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>停止一个运行中的虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass stop &lt;instance&gt;</code></pre></div></figure>
+</li>
+<li><p>以守护进程模式停止一个运行中的虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass stop &lt;instance&gt; --daemon</code></pre></div></figure>
+</li>
+<li><p>等待虚拟机完全停止后再返回：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass stop &lt;instance&gt; --wait</code></pre></div></figure>
+</li>
+<li><p>指定等待虚拟机停止的最长时间：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass stop &lt;instance&gt; --timeout &lt;timeout_in_seconds&gt;</code></pre></div></figure>
+</li>
+<li><p>显示虚拟机的日志输出：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass stop &lt;instance&gt; --show-logs</code></pre></div></figure></li>
+</ol>
+<p>注意：在停止虚拟机之前，请确保您已经保存了其中的所有数据。</p>
+<h3 id="delete指令"><a href="#delete指令" class="headerlink" title="delete指令"></a><code>delete</code>指令</h3><p><code>delete</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于删除虚拟机。以下是 <code>delete</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要删除的虚拟机的名称或 ID。</li>
+<li><code>-p</code> 或 <code>--purge</code>: 删除虚拟机时删除所有相关数据（包括磁盘映像、云初始化等）。</li>
+<li><code>-f</code> 或 <code>--force</code>: 不要提示确认，直接删除虚拟机。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>删除一个虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass delete &lt;instance&gt;</code></pre></div></figure>
+</li>
+<li><p>删除虚拟机时删除所有相关数据（包括磁盘映像、云初始化等）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass delete &lt;instance&gt; --purge</code></pre></div></figure>
+</li>
+<li><p>不要提示确认，直接删除虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass delete &lt;instance&gt; --force</code></pre></div></figure></li>
+</ol>
+<p>注意：删除虚拟机时，请确保您已经保存了其中的所有数据。删除后无法恢复。</p>
+<h3 id="shell指令"><a href="#shell指令" class="headerlink" title="shell指令"></a><code>shell</code>指令</h3><p><code>shell</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于在虚拟机中运行一个 shell。以下是 <code>shell</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要运行 shell 的虚拟机的名称或 ID。</li>
+<li><code>command</code>: 要在虚拟机中运行的 shell 命令。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>进入虚拟机中的默认 shell：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass shell &lt;instance&gt;</code></pre></div></figure>
+</li>
+<li><p>运行指定的 shell 命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass shell &lt;instance&gt; &lt;command&gt;</code></pre></div></figure>
+
+<p>例如，运行 <code>ls</code> 命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass shell &lt;instance&gt; ls</code></pre></div></figure>
+</li>
+<li><p>在虚拟机中以交互式模式启动一个 shell：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass shell &lt;instance&gt; -i</code></pre></div></figure>
+</li>
+<li><p>以 root 用户身份进入虚拟机中的默认 shell：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass shell &lt;instance&gt; --user root</code></pre></div></figure></li>
+</ol>
+<p>注意：要使用 <code>shell</code> 指令，虚拟机必须处于运行状态。另外，如果您在虚拟机中使用了 <code>sudo</code> 或其他特权命令，请小心操作，以避免意外损坏虚拟机。</p>
+<h3 id="exec指令"><a href="#exec指令" class="headerlink" title="exec指令"></a><code>exec</code>指令</h3><p><code>exec</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于在虚拟机中执行一个命令。相比于 <code>shell</code> 指令，<code>exec</code> 指令不需要进入虚拟机的 shell 环境。以下是 <code>exec</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要执行命令的虚拟机的名称或 ID。</li>
+<li><code>command</code>: 要在虚拟机中执行的命令。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>在虚拟机中执行指定的命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec &lt;instance&gt; &lt;command&gt;</code></pre></div></figure>
+
+<p>例如，运行 <code>ls</code> 命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec &lt;instance&gt; ls</code></pre></div></figure>
+</li>
+<li><p>在虚拟机中执行一个长时间运行的命令，并将输出保存到本地文件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec &lt;instance&gt; &lt;command&gt; &gt; &lt;local_file&gt;</code></pre></div></figure>
+
+<p>例如，将虚拟机中的 <code>tar</code> 命令输出保存到本地文件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec &lt;instance&gt; tar -cvzf - &#x2F;path&#x2F;to&#x2F;directory &gt; local_file.tar.gz</code></pre></div></figure>
+</li>
+<li><p>在虚拟机中以特权用户身份执行命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec &lt;instance&gt; sudo &lt;command&gt;</code></pre></div></figure>
+
+<p>例如，以特权用户身份更新虚拟机中的软件包：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass exec &lt;instance&gt; sudo apt-get update</code></pre></div></figure></li>
+</ol>
+<p>注意：要使用 <code>exec</code> 指令，虚拟机必须处于运行状态。另外，请小心操作，以避免意外损坏虚拟机。</p>
+<h3 id="mount指令"><a href="#mount指令" class="headerlink" title="mount指令"></a><code>mount</code>指令</h3><p><code>mount</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于将本地文件系统中的目录挂载到虚拟机的文件系统中。以下是 <code>mount</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要挂载文件系统的虚拟机的名称或 ID。</li>
+<li><code>&lt;host_dir&gt;</code>: 本地文件系统中要挂载的目录路径。</li>
+<li><code>&lt;guest_dir&gt;</code>: 虚拟机文件系统中要将目录挂载到的路径。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>将本地文件系统中的目录挂载到虚拟机的 <code>/mnt</code> 目录：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass mount &lt;instance&gt; &lt;host_dir&gt; &#x2F;mnt</code></pre></div></figure>
+</li>
+<li><p>将本地文件系统中的目录挂载到虚拟机的 <code>/mnt</code> 目录，并在挂载时将目录设置为只读：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass mount &lt;instance&gt; &lt;host_dir&gt; &#x2F;mnt --read-only</code></pre></div></figure>
+</li>
+<li><p>将本地文件系统中的目录挂载到虚拟机的 <code>/mnt</code> 目录，并在挂载时将目录设置为可写：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass mount &lt;instance&gt; &lt;host_dir&gt; &#x2F;mnt --writable</code></pre></div></figure></li>
+</ol>
+<p>注意：要使用 <code>mount</code> 指令，虚拟机必须处于运行状态。另外，如果您在虚拟机中使用了 <code>sudo</code> 或其他特权命令，请小心操作，以避免意外损坏虚拟机。</p>
+<h3 id="umount指令"><a href="#umount指令" class="headerlink" title="umount指令"></a><code>umount</code>指令</h3><p><code>umount</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于卸载虚拟机中挂载的文件系统。以下是 <code>umount</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要卸载文件系统的虚拟机的名称或 ID。</li>
+<li><code>&lt;guest_dir&gt;</code>: 虚拟机文件系统中要卸载的目录路径。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>卸载虚拟机中 <code>/mnt</code> 目录的文件系统：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass umount &lt;instance&gt; &#x2F;mnt</code></pre></div></figure></li>
+</ol>
+<p>注意：在卸载文件系统之前，请确保虚拟机中没有正在使用该文件系统的进程或应用程序。在卸载文件系统之后，挂载的目录将不再在虚拟机中可用。</p>
+<h3 id="info指令"><a href="#info指令" class="headerlink" title="info指令"></a><code>info</code>指令</h3><p><code>info</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于显示有关虚拟机的信息，例如虚拟机的名称、状态、IP 地址、磁盘使用情况等。以下是 <code>info</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>&lt;instance&gt;</code>: 要显示信息的虚拟机的名称或 ID。</li>
+<li><code>--all</code>: 显示所有虚拟机的信息。</li>
+<li><code>--json</code>: 以 JSON 格式输出信息。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>显示名为 <code>vm1</code> 的虚拟机的信息：</p>
+<p><code>multipass info vm1</code></p>
+</li>
+<li><p>显示所有虚拟机的信息：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass info --all</code></pre></div></figure>
+</li>
+<li><p>以 JSON 格式显示名为 <code>vm1</code> 的虚拟机的信息：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass info vm1 --json</code></pre></div></figure></li>
+</ol>
+<p>注意：<code>info</code> 指令可以用来查看虚拟机的状态和 IP 地址等信息，以便于管理虚拟机。在查看虚拟机信息时，可以通过 <code>--json</code> 参数以 JSON 格式输出信息，以便于其他脚本或程序进行处理。</p>
+<h3 id="purge指令"><a href="#purge指令" class="headerlink" title="purge指令"></a><code>purge</code>指令</h3><p><code>purge</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于删除所有已停止的虚拟机及其磁盘映像文件。以下是 <code>purge</code> 指令的一些常用参数：</p>
+<ul>
+<li><code>--all</code>: 删除所有虚拟机及其磁盘映像文件，包括正在运行的虚拟机。</li>
+<li><code>--storage</code>: 仅删除磁盘映像文件，不删除虚拟机。</li>
+<li><code>--verbose</code>: 显示详细输出。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>删除所有已停止的虚拟机及其磁盘映像文件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass purge --all</code></pre></div></figure>
+</li>
+<li><p>仅删除磁盘映像文件，不删除虚拟机：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass purge --storage</code></pre></div></figure>
+</li>
+<li><p>显示详细输出：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass purge --verbose</code></pre></div></figure></li>
+</ol>
+<p>注意：在使用 <code>purge</code> 指令之前，请确保已备份虚拟机中重要的数据。此指令会将所有已停止的虚拟机及其磁盘映像文件永久删除，不能恢复。因此，谨慎使用此指令。</p>
+<h3 id="version指令"><a href="#version指令" class="headerlink" title="version指令"></a><code>version</code>指令</h3><p><code>version</code> 指令是 <code>multipass</code> 命令中的一个子命令，用于显示当前 <code>multipass</code> 的版本信息。以下是 <code>version</code> 指令的可用参数：</p>
+<ul>
+<li><code>--format</code>: 指定输出格式，支持 <code>json</code> 和 <code>yaml</code> 两种格式。</li>
+</ul>
+<p>以下是一些使用示例：</p>
+<ol>
+<li><p>显示当前 <code>multipass</code> 的版本信息：</p>
+<p><code>multipass version</code></p>
+<p>输出类似于以下内容：</p>
+<p><code>multipass 1.7.0+mac</code></p>
+</li>
+<li><p>将版本信息以 JSON 格式输出：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass version --format json</code></pre></div></figure>
+
+<p>输出类似于以下内容：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;version&quot;: &quot;1.7.0+mac&quot;&#125;</code></pre></div></figure>
+</li>
+<li><p>将版本信息以 YAML 格式输出：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">multipass version --format yaml</code></pre></div></figure>
+
+<p>输出类似于以下内容：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">version: 1.7.0+mac</code></pre></div></figure></li>
+</ol>
+<p>注意：<code>version</code> 指令没有删除或修改任何虚拟机或磁盘映像文件，是只读操作。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Middleware/" class="category-chain-item">Middleware</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Middleware/VM/" class="category-chain-item">VM</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" class="print-no-link">#虚拟机</a>
+      
+        <a href="/tags/MultiPass/" class="print-no-link">#MultiPass</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MultiPass使用介绍</div>
+      <div>https://blog.cikaros.top/doc/c9a14894.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/b3570cee.html" title="MultiPass Cloud-init文件介绍.md">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MultiPass Cloud-init文件介绍.md</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/4d4e1716.html" title="MultiPass环境搭建">
+                        <span class="hidden-mobile">MultiPass环境搭建</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

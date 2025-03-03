@@ -1,0 +1,1344 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="我们使用两种方式，去生成二维码，但是其实，二维码的生成基础，都是zxing包，这是Google开源的一个包，第一种是使用原始的zxing方式去实现，第二种是使用hutool来实现，hutool其实也是对于zxing的一个封装，但是封装前后，确实比较简单了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot整合二维码生成器">
+<meta property="og:url" content="https://blog.cikaros.top/doc/2eb205b2.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="我们使用两种方式，去生成二维码，但是其实，二维码的生成基础，都是zxing包，这是Google开源的一个包，第一种是使用原始的zxing方式去实现，第二种是使用hutool来实现，hutool其实也是对于zxing的一个封装，但是封装前后，确实比较简单了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-30T00:43:38.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.592Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="QrCode">
+<meta property="article:tag" content="二维码">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>SpringBoot整合二维码生成器 - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SpringBoot整合二维码生成器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-04-30 08:43" pubdate>
+          2021年4月30日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SpringBoot整合二维码生成器</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>我们使用两种方式，去生成二维码，但是其实，二维码的生成基础，都是zxing包，这是Google开源的一个包，第一种是使用原始的zxing方式去实现，<br>第二种是使用hutool来实现，hutool其实也是对于zxing的一个封装，但是封装前后，确实比较简单了。</p>
+<span id="more"></span>
+<h2 id="Zxing原生方式"><a href="#Zxing原生方式" class="headerlink" title="Zxing原生方式"></a>Zxing原生方式</h2><h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.google.zxing&lt;&#x2F;groupId&gt;
+        &lt;artifactId&gt;core&lt;&#x2F;artifactId&gt;
+        &lt;version&gt;3.3.3&lt;&#x2F;version&gt;
+    &lt;&#x2F;dependency&gt;
+    
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.google.zxing&lt;&#x2F;groupId&gt;
+        &lt;artifactId&gt;javase&lt;&#x2F;artifactId&gt;
+        &lt;version&gt;3.3.3&lt;&#x2F;version&gt;
+    &lt;&#x2F;dependency&gt;
+&lt;&#x2F;dependencies&gt;</code></pre></div></figure>
+<h3 id="新增二维码工具类"><a href="#新增二维码工具类" class="headerlink" title="新增二维码工具类"></a>新增二维码工具类</h3><p>下面是把生成二维码的方法，封装到了QRCodeUtil的类之中，这个方法看起来还是比较多的，但是也谈不上太复杂，主要是对于BufferedImage生成图片，<br>然后就是ImageIO.write()方法，write的位置，可以是普通的磁盘文件，也可以是web的流，我们使用web流的时候，就需要添加com.google.zxing-javase的依赖。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">@Component
+@Slf4j
+public class QRCodeUtil &#123;
+    &#x2F;**
+     * CODE_WIDTH：二维码宽度，单位像素
+     * CODE_HEIGHT：二维码高度，单位像素
+     * FRONT_COLOR：二维码前景色，0x000000 表示黑色
+     * BACKGROUND_COLOR：二维码背景色，0xFFFFFF 表示白色
+     * 演示用 16 进制表示，和前端页面 CSS 的取色是一样的，注意前后景颜色应该对比明显，如常见的黑白
+     *&#x2F;
+    private static final int CODE_WIDTH &#x3D; 400;
+    private static final int CODE_HEIGHT &#x3D; 400;
+    private static final int FRONT_COLOR &#x3D; 0x000000;
+    private static final int BACKGROUND_COLOR &#x3D; 0xFFFFFF;
+
+
+    &#x2F;**
+     * @param codeContent        二维码参数内容，如果是一个网页地址，如 https:&#x2F;&#x2F;www.baidu.com&#x2F; 则 微信扫一扫会直接进入此地址， 如果是一些参数，如
+     *                           1541656080837，则微信扫一扫会直接回显这些参数值
+     * @param codeImgFileSaveDir 二维码图片保存的目录,如 D:&#x2F;codes
+     * @param fileName           二维码图片文件名称，带格式,如 123.png
+     *&#x2F;
+    public static void createCodeToFile(String codeContent, File codeImgFileSaveDir, String fileName) &#123;
+        try &#123;
+            if (codeContent &#x3D;&#x3D; null || &quot;&quot;.equals(codeContent)) &#123;
+                log.info(&quot;二维码内容为空，不进行操作...&quot;);
+                return;
+            &#125;
+            codeContent &#x3D; codeContent.trim();
+            if (codeImgFileSaveDir &#x3D;&#x3D; null || codeImgFileSaveDir.isFile()) &#123;
+                codeImgFileSaveDir &#x3D; FileSystemView.getFileSystemView().getHomeDirectory();
+                log.info(&quot;二维码图片存在目录为空，默认放在桌面...&quot;);
+            &#125;
+            if (!codeImgFileSaveDir.exists()) &#123;
+                codeImgFileSaveDir.mkdirs();
+                log.info(&quot;二维码图片存在目录不存在，开始创建...&quot;);
+            &#125;
+            if (fileName &#x3D;&#x3D; null || &quot;&quot;.equals(fileName)) &#123;
+                fileName &#x3D; new Date().getTime() + &quot;.png&quot;;
+                log.info(&quot;二维码图片文件名为空，随机生成 png 格式图片...&quot;);
+            &#125;
+
+            BufferedImage bufferedImage &#x3D; getBufferedImage(codeContent);
+
+            &#x2F;*
+             * javax.imageio.ImageIO：java扩展的图像IO
+             * write(RenderedImage im, String formatName, File output)
+             *       im：待写入的图像， formatName：图像写入的格式，output：写入的图像文件，文件不存在时会自动创建
+             *&#x2F;
+            File codeImgFile &#x3D; new File(codeImgFileSaveDir, fileName);
+            ImageIO.write(bufferedImage, &quot;png&quot;, codeImgFile);
+
+            log.info(&quot;二维码图片生成成功：&quot; + codeImgFile.getPath());
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+
+    &#x2F;**
+     * 生成二维码并输出到输出流, 通常用于输出到网页上进行显示
+     * 输出到网页与输出到磁盘上的文件中，区别在于最后一句 ImageIO.write
+     * write(RenderedImage im,String formatName,File output)：写到文件中
+     * write(RenderedImage im,String formatName,OutputStream output)：输出到输出流中
+     *
+     * @param codeContent  ：二维码内容
+     * @param outputStream ：输出流，比如 HttpServletResponse 的 getOutputStream
+     *&#x2F;
+    public static void createCodeToOutputStream(String codeContent, OutputStream outputStream) &#123;
+        try &#123;
+            if (codeContent &#x3D;&#x3D; null || &quot;&quot;.equals(codeContent.trim())) &#123;
+                log.info(&quot;二维码内容为空，不进行操作...&quot;);
+                return;
+            &#125;
+            codeContent &#x3D; codeContent.trim();
+
+            BufferedImage bufferedImage &#x3D; getBufferedImage(codeContent);
+            &#x2F;*
+             * 区别就是以一句，输出到输出流中，如果第三个参数是 File，则输出到文件中
+             *&#x2F;
+            ImageIO.write(bufferedImage, &quot;png&quot;, outputStream);
+            log.info(&quot;二维码图片生成到输出流成功...&quot;);
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+            log.error(&quot;发生错误: &#123;&#125;!&quot;, e.getMessage());
+        &#125;
+    &#125;
+
+
+    private static BufferedImage getBufferedImage(String codeContent) throws WriterException &#123;
+        &#x2F;*
+         * com.google.zxing.EncodeHintType：编码提示类型,枚举类型
+         * EncodeHintType.CHARACTER_SET：设置字符编码类型
+         * EncodeHintType.ERROR_CORRECTION：设置误差校正
+         * ErrorCorrectionLevel：误差校正等级，L &#x3D; ~7% correction、M &#x3D; ~15% correction、Q &#x3D; ~25% correction、H &#x3D; ~30% correction
+         *   不设置时，默认为 L 等级，等级不一样，生成的图案不同，但扫描的结果是一样的
+         * EncodeHintType.MARGIN：设置二维码边距，单位像素，值越小，二维码距离四周越近
+         *&#x2F;
+        Map&lt;EncodeHintType, Object&gt; hints &#x3D; new HashMap();
+        hints.put(EncodeHintType.CHARACTER_SET, &quot;UTF-8&quot;);
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+        hints.put(EncodeHintType.MARGIN, 1);
+
+        &#x2F;*
+         * MultiFormatWriter:多格式写入，这是一个工厂类，里面重载了两个 encode 方法，用于写入条形码或二维码
+         *      encode(String contents,BarcodeFormat format,int width, int height,Map&lt;EncodeHintType,?&gt; hints)
+         *      contents:条形码&#x2F;二维码内容
+         *      format：编码类型，如 条形码，二维码 等
+         *      width：码的宽度
+         *      height：码的高度
+         *      hints：码内容的编码类型
+         * BarcodeFormat：枚举该程序包已知的条形码格式，即创建何种码，如 1 维的条形码，2 维的二维码 等
+         * BitMatrix：位(比特)矩阵或叫2D矩阵，也就是需要的二维码
+         *&#x2F;
+        MultiFormatWriter multiFormatWriter &#x3D; new MultiFormatWriter();
+        BitMatrix bitMatrix &#x3D; multiFormatWriter.encode(codeContent, BarcodeFormat.QR_CODE, CODE_WIDTH, CODE_HEIGHT, hints);
+
+        &#x2F;*
+         * java.awt.image.BufferedImage：具有图像数据的可访问缓冲图像，实现了 RenderedImage 接口
+         * BitMatrix 的 get(int x, int y) 获取比特矩阵内容，指定位置有值，则返回true，将其设置为前景色，否则设置为背景色
+         * BufferedImage 的 setRGB(int x, int y, int rgb) 方法设置图像像素
+         *      x：像素位置的横坐标，即列
+         *      y：像素位置的纵坐标，即行
+         *      rgb：像素的值，采用 16 进制,如 0xFFFFFF 白色
+         *&#x2F;
+        BufferedImage bufferedImage &#x3D; new BufferedImage(CODE_WIDTH, CODE_HEIGHT, BufferedImage.TYPE_INT_BGR);
+        for (int x &#x3D; 0; x &lt; CODE_WIDTH; x++) &#123;
+            for (int y &#x3D; 0; y &lt; CODE_HEIGHT; y++) &#123;
+                bufferedImage.setRGB(x, y, bitMatrix.get(x, y) ? FRONT_COLOR : BACKGROUND_COLOR);
+            &#125;
+        &#125;
+        return bufferedImage;
+    &#125;
+
+
+    &#x2F;**
+     * 根据本地二维码图片解析二维码内容 注：图片必须是二维码图片，但也可以是微信用户二维码名片，上面有名称、头像也是可以的）
+     *
+     * @param file 本地二维码图片文件,如 E:\\logs\\2.jpg
+     * @return
+     * @throws Exception
+     *&#x2F;
+    public static String parseQRCodeByFile(File file) &#123;
+        String resultStr &#x3D; null;
+        if (file &#x3D;&#x3D; null || file.isDirectory() || !file.exists()) &#123;
+            return resultStr;
+        &#125;
+        try &#123;
+            &#x2F;*
+             * ImageIO的BufferedImage read(URL input)方法用于读取网络图片文件转为内存缓冲图像
+             * 同理还有：read(File input)、read(InputStream input)、、read(ImageInputStream stream)
+             *&#x2F;
+            BufferedImage bufferedImage &#x3D; ImageIO.read(file);
+            &#x2F;*
+             * com.google.zxing.client.j2se.BufferedImageLuminanceSource：缓冲图像亮度源
+             * 将 java.awt.image.BufferedImage 转为 zxing 的 缓冲图像亮度源
+             * 关键就是下面这几句：HybridBinarizer 用于读取二维码图像数据，BinaryBitmap 二进制位图
+             *&#x2F;
+            BufferedImageLuminanceSource source &#x3D; new BufferedImageLuminanceSource(bufferedImage);
+            BinaryBitmap bitmap &#x3D; new BinaryBitmap(new HybridBinarizer(source));
+            Hashtable hints &#x3D; new Hashtable();
+            hints.put(DecodeHintType.CHARACTER_SET, &quot;UTF-8&quot;);
+            &#x2F;*
+             * 如果图片不是二维码图片，则 decode 抛异常：com.google.zxing.NotFoundException
+             * MultiFormatWriter 的 encode 用于对内容进行编码成 2D 矩阵
+             * MultiFormatReader 的 decode 用于读取二进制位图数据
+             *&#x2F;
+            Result result &#x3D; new MultiFormatReader().decode(bitmap, hints);
+            resultStr &#x3D; result.getText();
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+        &#125; catch (NotFoundException e) &#123;
+            e.printStackTrace();
+            log.error(&quot;图片非二维码图片, 路径是: &#123;&#125;!&quot;, file.getPath());
+        &#125;
+        return resultStr;
+    &#125;
+
+
+    &#x2F;**
+     * 根据网络二维码图片解析二维码内容, 区别仅仅在于 ImageIO.read(url); 这一个重载的方法）
+     *
+     * @param url 二维码图片网络地址，如 https:&#x2F;&#x2F;res.wx.qq.com&#x2F;mpres&#x2F;htmledition&#x2F;images&#x2F;mp_qrcode3a7b38.gif
+     * @return
+     * @throws Exception
+     *&#x2F;
+    public static String parseQRCodeByUrl(URL url) &#123;
+        String resultStr &#x3D; null;
+        if (url &#x3D;&#x3D; null) &#123;
+            return resultStr;
+        &#125;
+        try &#123;
+            &#x2F;*
+             * ImageIO 的 BufferedImage read(URL input) 方法用于读取网络图片文件转为内存缓冲图像
+             * 同理还有：read(File input)、read(InputStream input)、、read(ImageInputStream stream)
+             * 如果图片网络地址错误，比如不能访问，则 read 抛异常：javax.imageio.IIOException: Can&#39;t get input stream from URL!
+             *&#x2F;
+            BufferedImage bufferedImage &#x3D; ImageIO.read(url);
+            &#x2F;*
+             * com.google.zxing.client.j2se.BufferedImageLuminanceSource：缓冲图像亮度源
+             * 将 java.awt.image.BufferedImage 转为 zxing 的 缓冲图像亮度源
+             * 关键就是下面这几句：HybridBinarizer 用于读取二维码图像数据，BinaryBitmap 二进制位图
+             *&#x2F;
+            BufferedImageLuminanceSource source &#x3D; new BufferedImageLuminanceSource(bufferedImage);
+            BinaryBitmap bitmap &#x3D; new BinaryBitmap(new HybridBinarizer(source));
+            Hashtable hints &#x3D; new Hashtable();
+            &#x2F;*
+             * 如果内容包含中文，则解码的字符集格式应该和编码时一致
+             *&#x2F;
+            hints.put(DecodeHintType.CHARACTER_SET, &quot;UTF-8&quot;);
+            &#x2F;*
+             * 如果图片不是二维码图片，则 decode 抛异常：com.google.zxing.NotFoundException
+             * MultiFormatWriter 的 encode 用于对内容进行编码成 2D 矩阵
+             * MultiFormatReader 的 decode 用于读取二进制位图数据
+             *&#x2F;
+            Result result &#x3D; new MultiFormatReader().decode(bitmap, hints);
+            resultStr &#x3D; result.getText();
+        &#125; catch (IOException e) &#123;
+            e.printStackTrace();
+            log.error(&quot;二维码图片地址错误, 地址是: &#123;&#125;!&quot;, url);
+        &#125; catch (NotFoundException e) &#123;
+            e.printStackTrace();
+            log.error(&quot;图片非二维码图片, 地址是: &#123;&#125;!&quot;, url);
+        &#125;
+        return resultStr;
+    &#125;
+&#125;</code></pre></div></figure>
+
+<h3 id="添加控制层"><a href="#添加控制层" class="headerlink" title="添加控制层"></a>添加控制层</h3><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">public class QRCodeController &#123;
+
+    @GetMapping(&quot;qrCode&quot;)
+    public void getQRCode(String codeContent, HttpServletResponse response) &#123;
+        System.out.println(&quot;codeContent&#x3D;&quot; + codeContent);
+        try &#123;
+            &#x2F;*
+             * 调用工具类生成二维码并输出到输出流中
+             *&#x2F;
+            QRCodeUtil.createCodeToOutputStream(codeContent, response.getOutputStream());
+            log.info(&quot;成功生成二维码!&quot;);
+        &#125; catch (IOException e) &#123;
+            log.error(&quot;发生错误， 错误信息是：&#123;&#125;！&quot;, e.getMessage());
+        &#125;
+    &#125;
+
+&#125;</code></pre></div></figure>
+
+<h3 id="添加测试页面"><a href="#添加测试页面" class="headerlink" title="添加测试页面"></a>添加测试页面</h3><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang&#x3D;&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;
+        &lt;title&gt;二维码生成器&lt;&#x2F;title&gt;
+        &lt;style type&#x3D;&quot;text&#x2F;css&quot;&gt;
+            textarea &#123;
+                font-size: 16px;
+                width: 300px;
+                height: 100px;
+            &#125;
+
+            .hint &#123;
+                color: red;
+                display: none;
+            &#125;
+
+            .qrCodeDiv &#123;
+                width: 200px;
+                height: 200px;
+                border: 2px solid sandybrown;
+            &#125;
+
+            .qrCodeDiv img &#123;
+                max-height: 100%;
+                max-width: 100%;
+            &#125;
+        &lt;&#x2F;style&gt;
+        &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.bootcss.com&#x2F;jquery&#x2F;2.1.1&#x2F;jquery.min.js&quot;&gt;&lt;&#x2F;script&gt;
+
+        &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;
+            $(function () &#123;
+                $(&quot;button&quot;).click(function () &#123;
+                    var codeContent &#x3D; $(&quot;textarea&quot;).val();
+                    console.log(codeContent);
+                    if (codeContent.trim() &#x3D;&#x3D; &quot;&quot;) &#123;
+                        $(&quot;.hint&quot;).text(&quot;二维码内容不能为空&quot;).fadeIn(500);
+                    &#125; else &#123;
+                        $(&quot;.hint&quot;).text(&quot;&quot;).fadeOut(500);
+                        $(&quot;#codeImg&quot;).attr(&quot;src&quot;, &quot;&#x2F;qrCode?codeContent&#x3D;&quot; + codeContent);
+                    &#125;
+                &#125;);
+            &#125;);
+        &lt;&#x2F;script&gt;
+    &lt;&#x2F;head&gt;
+    &lt;body&gt;
+        &lt;textarea placeholder&#x3D;&quot;二维码内容...&quot;&gt;&lt;&#x2F;textarea&gt;&lt;br&gt;
+        &lt;button&gt;生成二维码&lt;&#x2F;button&gt;
+        &lt;span class&#x3D;&quot;hint&quot;&gt;&lt;&#x2F;span&gt;
+        &lt;div class&#x3D;&quot;qrCodeDiv&quot;&gt;
+            &lt;img src&#x3D;&quot;&quot; id&#x3D;&quot;codeImg&quot;&gt;
+        &lt;&#x2F;div&gt;
+    &lt;&#x2F;body&gt;
+&lt;&#x2F;html&gt;</code></pre></div></figure>
+<h2 id="Hutool工具"><a href="#Hutool工具" class="headerlink" title="Hutool工具"></a>Hutool工具</h2><p>Hutool的是非强制依赖性，因此zxing需要用户自行引入，我们需要加入依赖。使用hutool的时候，com.google.zxing-javase的依赖可以不需要。</p>
+<h3 id="添加依赖-1"><a href="#添加依赖-1" class="headerlink" title="添加依赖"></a>添加依赖</h3><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;cn.hutool&lt;&#x2F;groupId&gt;
+        &lt;artifactId&gt;hutool-all&lt;&#x2F;artifactId&gt;
+        &lt;version&gt;5.3.10&lt;&#x2F;version&gt;
+    &lt;&#x2F;dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.google.zxing&lt;&#x2F;groupId&gt;
+        &lt;artifactId&gt;core&lt;&#x2F;artifactId&gt;
+        &lt;version&gt;3.3.3&lt;&#x2F;version&gt;
+    &lt;&#x2F;dependency&gt;
+&lt;&#x2F;dependencies&gt;</code></pre></div></figure>
+
+<h3 id="创建QRCodeService"><a href="#创建QRCodeService" class="headerlink" title="创建QRCodeService"></a>创建QRCodeService</h3><p>QRCodeService其实就是对QrCodeUtil的功能的封装，QrCodeUtil此处的类是hutool工具提供的，和我们在上面与自己与自己提供的QRCodeUtil类，不是同一个，这个需要注意一下。QrCodeUtil的功能此处主要使用到了的是生成二维码，到文件或者流之中，QrConfig是Hutool工具QrCodeUtil的配置类。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">@Service
+@Slf4j
+public class QRCodeService &#123;
+    &#x2F;&#x2F; 自定义参数，这部分是Hutool工具封装的
+    private static QrConfig initQrConfig() &#123;
+        QrConfig config &#x3D; new QrConfig(300, 300);
+        &#x2F;&#x2F; 设置边距，既二维码和背景之间的边距
+        config.setMargin(3);
+        &#x2F;&#x2F; 设置前景色，既二维码颜色（青色）
+        config.setForeColor(Color.CYAN.getRGB());
+        &#x2F;&#x2F; 设置背景色（灰色）
+        config.setBackColor(Color.GRAY.getRGB());
+        return config;
+    &#125;
+
+    &#x2F;**
+     * 生成到文件
+     *
+     * @param content
+     * @param filepath
+     *&#x2F;
+    public void createQRCode2File(String content, String filepath) &#123;
+        try &#123;
+            QrCodeUtil.generate(content, initQrConfig(), FileUtil.file(filepath));
+            log.info(&quot;生成二维码成功, 位置在：&#123;&#125;！&quot;, filepath);
+        &#125; catch (QrCodeException e) &#123;
+            log.error(&quot;发生错误！ &#123;&#125;！&quot;, e.getMessage());
+        &#125;
+    &#125;
+
+    &#x2F;**
+     * 生成到流
+     *
+     * @param content
+     * @param response
+     *&#x2F;
+    public void createQRCode2Stream(String content, HttpServletResponse response) &#123;
+        try &#123;
+            QrCodeUtil.generate(content, initQrConfig(), &quot;png&quot;, response.getOutputStream());
+            log.info(&quot;生成二维码成功!&quot;);
+        &#125; catch (QrCodeException | IOException e) &#123;
+            log.error(&quot;发生错误！ &#123;&#125;！&quot;, e.getMessage());
+        &#125;
+    &#125;
+&#125;</code></pre></div></figure>
+
+<h3 id="添加Controller"><a href="#添加Controller" class="headerlink" title="添加Controller"></a>添加Controller</h3><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java">@RestController
+@Slf4j
+public class QRCodeController &#123;
+    @Autowired
+    private QRCodeService qrCodeService;
+
+    @GetMapping(&quot;qrCode&quot;)
+    public void getQRCode(String codeContent, HttpServletResponse response) &#123;
+        try &#123;
+            qrCodeService.createQRCode2Stream(codeContent, response);
+            log.info(&quot;成功生成二维码！&quot;);
+        &#125; catch (Exception e) &#123;
+            log.error(&quot;发生错误， 错误信息是：&#123;&#125;！&quot;, e.getMessage());
+        &#125;
+    &#125;
+
+&#125;</code></pre></div></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>综合来说，还是使用hutool的这种方式吧，更加方便简洁。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Spring/" class="category-chain-item">Spring</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Spring/Boot/" class="category-chain-item">Boot</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/QrCode/" class="print-no-link">#QrCode</a>
+      
+        <a href="/tags/%E4%BA%8C%E7%BB%B4%E7%A0%81/" class="print-no-link">#二维码</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SpringBoot整合二维码生成器</div>
+      <div>https://blog.cikaros.top/doc/2eb205b2.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年4月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/9b0527d8.html" title="Docker-Ubuntu扩展/dev/mapper/ubuntu--vg-ubuntu--lv空间">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Docker-Ubuntu扩展/dev/mapper/ubuntu--vg-ubuntu--lv空间</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/c3ab6d87.html" title="SpringBoot对接支付宝支付沙盒">
+                        <span class="hidden-mobile">SpringBoot对接支付宝支付沙盒</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>

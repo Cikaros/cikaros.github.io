@@ -1,0 +1,1150 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/ci.png">
+  <link rel="icon" href="/img/ci.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Cikaros">
+  <meta name="keywords" content="个人博客,Cikaros,博客,ikaros,java,Java,Spring,spring,WTF,王天福,Cikaros`s space">
+  
+    <meta name="description" content="最近在研究DevOps，小计一下！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DevOps-Drone">
+<meta property="og:url" content="https://blog.cikaros.top/doc/b0c5cd20.html">
+<meta property="og:site_name" content="Cikaros,一个无名的小站~">
+<meta property="og:description" content="最近在研究DevOps，小计一下！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.cikaros.top/doc/b0c5cd20/introduction.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/b0c5cd20/comparative_analysis.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/b0c5cd20/rendering_01.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/b0c5cd20/rendering_02.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/b0c5cd20/rendering_03.png">
+<meta property="og:image" content="https://blog.cikaros.top/doc/b0c5cd20/rendering_04.png">
+<meta property="article:published_time" content="2022-02-26T09:53:55.000Z">
+<meta property="article:modified_time" content="2025-03-03T13:37:40.609Z">
+<meta property="article:author" content="Cikaros">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="敏捷开发">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.cikaros.top/doc/b0c5cd20/introduction.png">
+  
+  
+  
+    <meta name="google-site-verification" content="RaCa-4GkAi8EznP5oa39oSQtZP5EVOWgnM_1OTMF_no" />
+  
+  <title>DevOps-Drone - Cikaros,一个无名的小站~</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/hint.css/3.0.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.cikaros.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":null},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":"G-1NCZJW9QCG","woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cikaros&#39;s space</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-th-large"></i>
+                <span>OS专题</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/28e04973.html" target="_self">
+                    
+                    <span>引言</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/168b0cd8.html" target="_self">
+                    
+                    <span>环境搭建</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/ddfee3ec.html" target="_self">
+                    
+                    <span>了解MBR引导过程</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/8f901e2d.html" target="_self">
+                    
+                    <span>了解如何输出文本</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/4cd4de27.html" target="_self">
+                    
+                    <span>了解CPU</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/47db40c6.html" target="_self">
+                    
+                    <span>了解内存组成规则</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/7fb90e78.html" target="_self">
+                    
+                    <span>了解栈</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/93fdb9ff.html" target="_self">
+                    
+                    <span>了解函数和字符串</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/26508ea8.html" target="_self">
+                    
+                    <span>了解16位实模式下的内存编制</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b5315bfb.html" target="_self">
+                    
+                    <span>开始引导磁盘</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/44b6e221.html" target="_self">
+                    
+                    <span>开始编写32位打印函数</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/cb82816a.html" target="_self">
+                    
+                    <span>开始编写GDT</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/doc/b4d9c09.html" target="_self">
+                    
+                    <span>运行32位程序</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/anime" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>看个图</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" 
+     style="background: url('/static/img/index.html') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DevOps-Drone"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cikaros
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-26 17:53" pubdate>
+          2022年2月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">DevOps-Drone</h1>
+            
+              <p id="updated-time" class="note note-info" style="display: none">
+                
+                  
+                    <!-- compatible with older versions-->
+                    本文最后更新于：2025-03-03T21:37:40+08:00
+                  
+                  
+
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>最近在研究DevOps，小计一下！</p>
+<span id="more"></span>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>DevOps(Dev + Ops),即为开发人员与维护人员的一个平台。</p>
+<img src="/doc/b0c5cd20/introduction.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>事实上，DevOps 包含了三个部分：开发、测试和运维。换句话 DevOps 希望做到的是软件产品交付过程中IT工具链的打通，使得各个团队减少时间损耗，更加高效地协同工作。</p>
+<img src="/doc/b0c5cd20/comparative_analysis.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>这几年云计算技术突飞猛进, 虚拟化、容器、微服务等等, 都为DevOps提供了很好的前提条件.<br>开发环境和部署环境都可以更好地隔离了，减小了相互之间的影响。</p>
+<ul>
+<li><p>微服务:<br>  就是将原来黑盒化的一个整体产品进行拆分（解耦），从一个提供多种服务的整体，拆成各自提供不同服务的多个个体.</p>
+</li>
+<li><p>虚拟化:<br>  它从硬件上，将一个系统“划分”为多个系统，系统之间相互隔离，为微服务提供便利。</p>
+</li>
+<li><p>容器:<br>  在操作系统上划分为不同的“运行环境”（Container），占用资源更少，部署速度更快。</p>
+</li>
+</ul>
+<h3 id="CICD"><a href="#CICD" class="headerlink" title="CICD"></a>CICD</h3><p>这种开发模式下带来的新问题是, 如何确保运维上线的即时, 那就是CI和CD。</p>
+<ul>
+<li>CI（持续集成）:<ul>
+<li>是指多名开发者在开发不同功能代码的过程当中，可以频繁的将代码行合并到一起并切相互不影响工作。</li>
+</ul>
+</li>
+<li>CD（持续交付与持续部署）:<ul>
+<li>基于某种工具或平台实现代码自动化的构建、测试和部署到线上环境以实现交付高质量的产品。</li>
+<li>持续部署在某种程度上代表了一个开发团队的更新迭代速率。</li>
+</ul>
+</li>
+</ul>
+<p>开发只需要关注代码, 业务逻辑, 测试脚本, 然后提交到代码仓库。<br>后续测试, 发布, 部署都由自动化脚本完成, 减少运维工作量, 避免人为失误。</p>
+<h3 id="DevOps平台"><a href="#DevOps平台" class="headerlink" title="DevOps平台"></a>DevOps平台</h3><p>DevOps平台的搭建可通过如下工具进行实现:</p>
+<ul>
+<li>项目管理（PM）：Jira</li>
+<li>代码管理：GitLab</li>
+<li>持续集成（CI）：GitLab CI</li>
+<li>镜像仓库：VMware Harbor 私服nexus</li>
+<li>容器：Docker</li>
+<li>容器平台： Rancher</li>
+<li>镜像扫描：Clairctl</li>
+<li>编排：Kubernetes</li>
+<li>服务注册与发现：etcd</li>
+<li>脚本语言：python</li>
+<li>日志管理：EFK</li>
+<li>系统监控：prometheus</li>
+<li>Web服务器：Nginx</li>
+<li>数据库：MySQL redis</li>
+<li>负载均衡：Nginx。</li>
+<li>产品和UI图：蓝湖</li>
+<li>公司内部文档：Confluence。</li>
+<li>报警：推送到工作群 企业微信 钉钉</li>
+</ul>
+<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>初期采取: gogs + drone + docker-compose<br>后期可采用: gitlab + Jenkins</p>
+<h2 id="Gogs-Drone"><a href="#Gogs-Drone" class="headerlink" title="Gogs + Drone"></a>Gogs + Drone</h2><h3 id="Gogs-介绍"><a href="#Gogs-介绍" class="headerlink" title="Gogs 介绍"></a>Gogs 介绍</h3><p>Gogs 的目标是打造一个最简单、最快速和最轻松的方式搭建自助 Git 服务。<br>使用 Go 语言开发使得 Gogs 能够通过独立的二进制分发，并且支持 Go 语言支持的 所有平台，<br>包括 Linux、Mac OS X、Windows 以及 ARM 平台。</p>
+<h3 id="Drone-介绍"><a href="#Drone-介绍" class="headerlink" title="Drone 介绍"></a>Drone 介绍</h3><p>Drone 是一个基于Docker容器技术的可扩展的持续集成引擎，用于自动化测试、构建、发布。<br>每个构建都在一个临时的Docker容器中执行，使开发人员能够完全控制其构建环境并保证隔离。<br>开发者只需在项目中包含 .drone.yml文件，将代码推送到 git 仓库，Drone就能够自动化的进行编译、测试、发布。<br>它可以与docker完美集成, 相对于Jenkins来说更加轻量, 可以配合 Gogs 来实现持续集成。</p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h3><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">version: &quot;3.6&quot;
+services:
+  # gogs 服务镜像
+  gogs:
+    image: gogs&#x2F;gogs:latest
+    container_name: gogs
+    restart: always
+    ports:
+      - &quot;10022:22&quot; # ssh 端口
+      - &quot;3000:3000&quot; # gogs仓库
+    volumes:
+      - &#x2F;data&#x2F;docker_test&#x2F;gogs:&#x2F;data # gogs 挂载卷
+    networks:
+      - drone-net
+  # drone server 端
+  drone:
+    image: drone&#x2F;drone:latest
+    container_name: drone
+    ports:
+      - &quot;8080:80&quot; # drone 服务：HTTP
+      - &quot;8443:443&quot; # drone 服务：HTTPS
+    volumes:
+      - &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock # 本地docker
+      - &#x2F;data&#x2F;docker_test&#x2F;drone:&#x2F;var&#x2F;lib&#x2F;drone&#x2F; # 挂载卷
+    restart: always
+    environment:
+      - TZ&#x3D;Asia&#x2F;Shanghai
+      - DRONE_AGENTS_ENABLED&#x3D;true
+      - DRONE_GOGS_SERVER&#x3D;http:&#x2F;&#x2F;gogs:3000 # 不同的代码仓库对应不同的key, v: 服务器仓库地址
+      - DRONE_GOGS_SKIP_VERIFY&#x3D;true
+      - DRONE_SERVER_HOST&#x3D;192.168.99.102:8080 # drone 的server端地址
+      - DRONE_SERVER_PROTO&#x3D;http
+      - DRONE_LOGS_TRACE&#x3D;true
+      - DRONE_LOGS_DEBUG&#x3D;true
+      - DRONE_RPC_SECRET&#x3D;2cbdaab90813f3743dc700816a322c62  # 秘钥与runner一致
+      - DRONE_USER_CREATE&#x3D;username:Cikaros,admin:true
+    networks:
+      - drone-net
+  # drone runner 端, 用于执行pipeline
+  drone-runner:
+    image: drone&#x2F;drone-runner-docker:latest
+    container_name: drone-runner # docker 与 ssh 有不同的runner
+    restart: always
+    ports:
+      - &quot;10082:3000&quot; # 端口映射
+    depends_on:
+      - drone # server端先构建启动
+    volumes:
+      - &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock # 本机docker
+    environment:
+      - TZ&#x3D;Asia&#x2F;Shanghai
+      - DRONE_DEBUG&#x3D;true
+      - DRONE_RPC_SECRET&#x3D;2cbdaab90813f3743dc700816a322c62 # 秘钥与server端一致
+      - DRONE_RPC_HOST&#x3D;drone # server端
+      - DRONE_RPC_PROTO&#x3D;http
+      - DRONE_RUNNER_CAPACITY&#x3D;2
+      - DRONE_RUNNER_NAME&#x3D;drone-runner
+    networks:
+      - drone-net
+  # Mysql数据库用于存放数据
+  gogs_mysql:
+    image: mysql:5.7
+    restart: always
+    container_name: gogs_mysql
+    ports:
+      - &quot;3306:3306&quot;
+    volumes:
+      # - &#x2F;data&#x2F;docker_test&#x2F;mysql&#x2F;conf:&#x2F;etc&#x2F;mysql
+      - &#x2F;data&#x2F;docker_test&#x2F;mysql&#x2F;logs:&#x2F;var&#x2F;log&#x2F;mysql
+      - &#x2F;data&#x2F;docker_test&#x2F;mysql&#x2F;data:&#x2F;var&#x2F;lib&#x2F;mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD&#x3D;root
+      - MYSQL_DATABASE&#x3D;gogs
+      - MYSQL_USER&#x3D;gogs
+      - MYSQL_PASSWORD&#x3D;123456
+      - TZ&#x3D;Asia&#x2F;Shanghai
+    networks:
+      - drone-net
+  registry:
+    image: registry
+    container_name: registry
+    ports:
+      - &#39;5000:5000&#39;
+    restart: unless-stopped
+    networks:
+      - drone-net
+#定义统一网络
+networks:
+  drone-net:
+    driver: bridge</code></pre></div></figure>
+
+<blockquote>
+<p>drone runner 端也可直接使用 docker 指令来部署，假设我有一个域名或者公网IP（只要双方可以通信即可）</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker run --detach \
+  --volume&#x3D;&#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \
+  --env&#x3D;DRONE_RPC_PROTO&#x3D;https \
+  --env&#x3D;DRONE_RPC_HOST&#x3D;example.com \
+  --env&#x3D;DRONE_RPC_SECRET&#x3D;2cbdaab90813f3743dc700816a322c62 \
+  --env&#x3D;DRONE_RUNNER_CAPACITY&#x3D;2 \
+  --env&#x3D;DRONE_RUNNER_NAME&#x3D;runner1 \
+  --publish&#x3D;3000:3000 \
+  --restart&#x3D;always \
+  --name&#x3D;runner \
+  drone&#x2F;drone-runner-docker</code></pre></div></figure>
+</blockquote>
+<h3 id="编写drone-yml文件"><a href="#编写drone-yml文件" class="headerlink" title="编写drone.yml文件"></a>编写drone.yml文件</h3><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">kind: pipeline
+type: docker
+name: hello
+
+steps:
+  - name: build
+    image: plugins&#x2F;docker
+    settings:
+      repo: 192.168.99.102:5000&#x2F;drone&#x2F;hello
+      tags: latest
+      registry: 192.168.99.102:5000
+      purge: true
+      insecure: true # http
+      mirror: https:&#x2F;&#x2F;docker.mirrors.ustc.edu.cn
+  - name: run
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: &#x2F;var&#x2F;run&#x2F;docker.sock
+    commands:
+      - docker pull 192.168.99.102:5000&#x2F;drone&#x2F;hello:latest
+      - docker run --name hello -p 80:80 192.168.99.102:5000&#x2F;drone&#x2F;hello:latest
+      - docker rm hello
+      - docker rmi 192.168.99.102:5000&#x2F;drone&#x2F;hello:latest
+volumes:
+  - name: dockersock
+    host:
+      path: &#x2F;var&#x2F;run&#x2F;docker.sock</code></pre></div></figure>
+
+<h2 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h2><img src="/doc/b0c5cd20/rendering_01.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/doc/b0c5cd20/rendering_02.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/doc/b0c5cd20/rendering_03.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/doc/b0c5cd20/rendering_04.png" srcset="/img/loading.gif" lazyload class="">
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Middleware/" class="category-chain-item">Middleware</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Middleware/DevOps/" class="category-chain-item">DevOps</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Docker/" class="print-no-link">#Docker</a>
+      
+        <a href="/tags/DevOps/" class="print-no-link">#DevOps</a>
+      
+        <a href="/tags/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/" class="print-no-link">#敏捷开发</a>
+      
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="print-no-link">#软件工程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DevOps-Drone</div>
+      <div>https://blog.cikaros.top/doc/b0c5cd20.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cikaros</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年2月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/doc/eac2dcda.html" title="CAS协议">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CAS协议</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/doc/d98af7ae.html" title="Python.zip的安装">
+                        <span class="hidden-mobile">Python.zip的安装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments">
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.staticfile.net/valine/1.4.14/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appKey":"uLqClWuRHNwvKmIQC8gKnx92","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":true,"serverURLs":"https://3cyejpcm.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false,"appid":"3cYeJPCmBzloJAiih22BpOwC-gzGzoHsz","appkey":"uLqClWuRHNwvKmIQC8gKnx92"},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/mermaid/10.7.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- Custom -->
+  <div class="col-lg-7 mx-auto nopadding-x-md">
+    <div class="container custom post-custom mx-auto">
+      <img src="/img/admire.png" class="rounded mx-auto d-block mt-5" style="width:400px; height:400px;">
+    </div>
+  </div>
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.net/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.net/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.net/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  var relativeDate = function() {
+    var updatedTime = document.getElementById('updated-time');
+    if (updatedTime) {
+      var text = updatedTime.textContent;
+      var reg = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})/;
+      var matchs = text.match(reg);
+      if (matchs) {
+        var relativeTime = moment(matchs[0]).fromNow();
+        updatedTime.textContent = text.replace(reg, relativeTime);
+      }
+      updatedTime.style.display = '';
+    }
+  };
+  Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/moment.min.js', function() {
+    if (!'zh-cn'.startsWith('en')) {
+      Fluid.utils.createScript('https://lib.baomitu.com/moment.js/2.29.4/locale/zh-cn.min.js', function() {
+        relativeDate();
+      });
+    } else {
+      relativeDate();
+    }
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/tocbot/4.11.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/components/prism-core.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.net/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.staticfile.net/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.net/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.staticfile.net/mathjax/3.0.5/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start -->
+  <div id="a-player"></div>
+  <link defer rel="stylesheet" href="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.css" />
+  <script src="https://cdn.staticfile.net/aplayer/1.10.1/APlayer.min.js"></script>
+  <script defer src="/js/aplayer.js"></script>
+  <script defer src="/js/custom_banner_img.js"></script>
+<!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"01/assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/01/assets/assets/haru02.model.json"},"display":{"position":"right","width":150,"height":350},"mobile":{"show":true},"react":{"opacity":1},"log":false});</script></body>
+</html>
